@@ -74,6 +74,21 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .action{min-height:70px;border-radius:18px;flex-direction:column;font-size:13px}
 .action span{font-size:24px}
 .footer{text-align:center;color:#4c7187;font-size:12px;padding:5px 0 10px}
+.intel{background:linear-gradient(135deg,#f7fbff,#f4f0ff);border-color:#c9d9ff}
+.intel-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.intel-badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:1000;background:#e9f4fb;color:#386278}
+.intel-badge.watch{background:#fff5cf;color:#7b5d00}
+.intel-badge.high{background:#ffe2e7;color:#a32235}
+.intel-badge.severe{background:#ef3852;color:#fff}
+.intel-summary{font-size:17px;font-weight:1000;margin:9px 0;color:#234f6a}
+.intel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+@media(max-width:560px){.intel-grid{grid-template-columns:repeat(2,1fr)}}
+.intel-metric{background:#fff;border:1px solid #dceafb;border-radius:15px;padding:9px;text-align:center}
+.intel-metric b{display:block;font-size:18px;margin-top:3px}
+.intel-districts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}
+@media(max-width:560px){.intel-districts{grid-template-columns:repeat(2,1fr)}}
+.intel-chip{border-radius:13px;padding:7px;background:#fff;border:1px solid #e2eaf7;font-size:12px}
+.intel-source{font-size:11px;color:#6d8291;margin-top:8px;line-height:1.45}
 @media(prefers-reduced-motion:reduce){.speech,.drop{animation:none!important}}
 </style>
 </head>
@@ -135,6 +150,22 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
         </div>
       </div>
 
+      <div class="card intel" id="intelCard">
+        <div class="intel-top">
+          <div style="font-size:20px;font-weight:1000">🧠 Radar Intelligence — วิเคราะห์ก้อนฝนอัตโนมัติ</div>
+          <span id="intelBadge" class="intel-badge">กำลังรอข้อมูล…</span>
+        </div>
+        <div id="intelSummary" class="intel-summary">กำลังอ่านผลวิเคราะห์จากเรดาร์ TMD หลายเฟรม…</div>
+        <div class="intel-grid">
+          <div class="intel-metric">⏱️ ฝนอาจถึง<b id="intelEta">—</b></div>
+          <div class="intel-metric">🧭 ทิศทาง<b id="intelDir">—</b></div>
+          <div class="intel-metric">🌧️ ความแรง<b id="intelSeverity">—</b></div>
+          <div class="intel-metric">🎯 ความมั่นใจ<b id="intelConfidence">—</b></div>
+        </div>
+        <div id="intelDistricts" class="intel-districts"></div>
+        <div id="intelSource" class="intel-source">ใช้ TMD Radar Composite หลายเฟรม + การเคลื่อนตัวของกลุ่มฝน + พยากรณ์ฝนรายจุดประกอบ</div>
+      </div>
+
       <div class="card">
         <div style="font-size:19px;font-weight:1000;margin-bottom:8px">🔔 แนวโน้ม 2 ชั่วโมงข้างหน้า</div>
         <div id="forecast" class="forecast"></div>
@@ -164,7 +195,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
         <button class="action teal" id="settingsBtn"><span>⚙️</span>ตั้งค่า</button>
       </div>
 
-      <div class="footer">ข้อมูลเรดาร์: กรมอุตุนิยมวิทยา (TMD) • แนวโน้มฝนรายจุด: Open-Meteo • v6 พัฒนาโดย ภก.จีรภัทร พลายงาม 26 AUG 2026</div>
+      <div class="footer">ข้อมูลเรดาร์: กรมอุตุนิยมวิทยา (TMD) • พยากรณ์รายจุด: Open-Meteo • Radar Intelligence v8 • พัฒนาโดย ภก.จีรภัทร พลายงาม 26 AUG 2026</div>
     </section>
   </div>
 </div>
@@ -182,9 +213,10 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
   </div>
 </div>
 
+<script src="push-config.js"></script>
 <script>
 const DISTRICTS=[{"name": "เมืองสมุทรปราการ", "short": "เมืองฯ", "lat": 13.60056, "lon": 100.59667}, {"name": "บางพลี", "short": "บางพลี", "lat": 13.60711, "lon": 100.70795}, {"name": "บางบ่อ", "short": "บางบ่อ", "lat": 13.58513, "lon": 100.8647}, {"name": "พระประแดง", "short": "พระประแดง", "lat": 13.65833, "lon": 100.53389}, {"name": "พระสมุทรเจดีย์", "short": "พระสมุทรเจดีย์", "lat": 13.56861, "lon": 100.56167}, {"name": "บางเสาธง", "short": "บางเสาธง", "lat": 13.59472, "lon": 100.83}];
-let selected=0, radarMode='latest', cache=[];
+let selected=0, radarMode='latest', cache=[], radarIntel=null, oneSignalReady=null;
 
 const api=d=>`https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,precipitation,rain,showers,weather_code&hourly=precipitation_probability,precipitation&forecast_days=2&timezone=Asia%2FBangkok`;
 
@@ -208,7 +240,7 @@ function fx(){
 function tabs(){
  const el=document.getElementById('districtTabs');
  el.innerHTML=DISTRICTS.map((d,i)=>`<button class="dbtn ${i===selected?'active':''}" data-i="${i}">${d.short}</button>`).join('');
- el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=Number(b.dataset.i);tabs();renderSelected();}));
+ el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=Number(b.dataset.i);tabs();renderSelected();renderIntelSelected();}));
 }
 
 function cls(r){return (r.current>=.1||r.maxP>=70||r.sum>=1.5)?'high':(r.maxP>=40||r.sum>=.3)?'mid':'low';}
@@ -244,10 +276,101 @@ function renderProvince(){
  provinceGrid.innerHTML=cache.map(r=>`<div class="riskcard ${cls(r)==='low'?'':cls(r)}" style="padding:8px"><b>${r.short}</b><div style="font-size:20px;font-weight:1000">${r.maxP}%</div><div style="font-size:11px">${label(cls(r))}</div></div>`).join('');
 }
 
+
+function levelThai(level){
+  return level==='severe'?'เตือนสูง':level==='high'?'มีแนวโน้มสูง':level==='watch'?'เฝ้าระวัง':'ปกติ';
+}
+function severityThai(s){
+  return s==='very_heavy'?'หนักมาก':s==='heavy'?'หนัก':s==='moderate'?'ปานกลาง':s==='light'?'เบา':'ยังไม่พบ';
+}
+function etaThai(v){
+  if(v===0) return 'มีฝนแล้ว';
+  if(v===null || v===undefined) return '>120 นาที';
+  return `~${v} นาที`;
+}
+function renderIntelSelected(){
+  if(!radarIntel || !Array.isArray(radarIntel.districts)) return;
+  const d=radarIntel.districts.find(x=>x.name===DISTRICTS[selected].name) || radarIntel.districts[0];
+  if(!d) return;
+  intelEta.textContent=etaThai(d.eta_min);
+  intelSeverity.textContent=severityThai(d.severity);
+  intelConfidence.textContent=`${Math.round(d.confidence||0)}%`;
+}
+function renderRadarIntel(){
+  if(!radarIntel) return;
+  const p=radarIntel.province || {};
+  intelBadge.className='intel-badge '+(p.level||'normal');
+  intelBadge.textContent=`${levelThai(p.level)} • ${Math.round(p.risk||0)}/100`;
+  intelSummary.textContent=p.summary || 'ยังไม่พบแนวฝนเด่น';
+  intelDir.textContent=radarIntel.motion?.available
+    ? `${radarIntel.motion.direction} ~${Math.round(radarIntel.motion.speed_kmh||0)} กม./ชม.`
+    : 'ยังประเมินไม่ได้';
+  intelDistricts.innerHTML=(radarIntel.districts||[]).map(d=>{
+    const icon=d.level==='severe'?'🚨':d.level==='high'?'⚠️':d.level==='watch'?'🌦️':'✅';
+    return `<div class="intel-chip"><b>${icon} ${d.short||d.name}</b><br>ความเสี่ยง ${Math.round(d.risk||0)}% • ${etaThai(d.eta_min)}</div>`;
+  }).join('');
+  const rt=radarIntel.radar_time ? new Date(radarIntel.radar_time).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'}) : '—';
+  intelSource.textContent=`เรดาร์ TMD ล่าสุดที่ใช้: ${rt} • วิเคราะห์ซ้ำด้วย GitHub Actions ทุกประมาณ 10 นาที • เวอร์ชัน ${radarIntel.version||'8'}`;
+  renderIntelSelected();
+}
+async function loadRadarIntelligence(){
+  try{
+    const r=await fetch(`./data/radar_status.json?t=${Date.now()}`,{cache:'no-store'});
+    if(!r.ok) throw new Error('status');
+    radarIntel=await r.json();
+    renderRadarIntel();
+    maybeLocalRadarAlert();
+  }catch(e){
+    intelBadge.className='intel-badge watch';
+    intelBadge.textContent='รอเครื่องวิเคราะห์';
+    intelSummary.textContent='ยังไม่มีผล Radar Intelligence — ให้ GitHub Actions ทำงานครั้งแรกก่อนค่ะ';
+  }
+}
+function maybeLocalRadarAlert(){
+  if(!radarIntel || !('Notification' in window) || Notification.permission!=='granted') return;
+  const p=radarIntel.province||{};
+  if((p.risk||0)<70) return;
+  const key=radarIntel.event_key||`${p.level}-${p.risk}-${radarIntel.radar_time||''}`;
+  if(localStorage.getItem('nongfon-last-local-alert')===key) return;
+  const top=(radarIntel.districts||[]).slice().sort((a,b)=>(b.risk||0)-(a.risk||0))[0];
+  if(!top) return;
+  const title='☔ เฝ้าน้องฝน: มีแนวฝน';
+  const body=`${top.name} • ${etaThai(top.eta_min)} • ${severityThai(top.severity)} • มั่นใจ ${Math.round(top.confidence||0)}%`;
+  if(swReg?.showNotification) swReg.showNotification(title,{body,icon:'./icon-192.png',tag:'nongfon-radar'});
+  else new Notification(title,{body,icon:'./icon-192.png'});
+  localStorage.setItem('nongfon-last-local-alert',key);
+}
+async function initOneSignal(){
+  const appId=(window.NONGFON_PUSH_CONFIG||{}).onesignalAppId||'';
+  if(!appId) return false;
+  if(oneSignalReady) return oneSignalReady;
+  oneSignalReady=new Promise((resolve)=>{
+    const s=document.createElement('script');
+    s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
+    s.defer=true;
+    s.onload=()=>{
+      window.OneSignalDeferred=window.OneSignalDeferred||[];
+      window.OneSignalDeferred.push(async function(OneSignal){
+        try{
+          await OneSignal.init({appId,serviceWorkerPath:'sw.js',serviceWorkerParam:{scope:'./'}});
+          window.NongFonOneSignal=OneSignal;
+          resolve(true);
+        }catch(e){resolve(false);}
+      });
+    };
+    s.onerror=()=>resolve(false);
+    document.head.appendChild(s);
+  });
+  return oneSignalReady;
+}
+
 async function refresh(){
  refreshBtn.disabled=true; refreshBtn.textContent='กำลังตรวจ…';
  radarImg.src=radarUrl();
- try{cache=await Promise.all(DISTRICTS.map(load));renderSelected();renderProvince();}
+ try{
+   const results=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence()]);
+   cache=results[0];renderSelected();renderProvince();
+ }
  catch(e){provinceText.textContent='อ่านข้อมูลบางพื้นที่ไม่ได้ ลองรีเฟรชใหม่';}
  finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>เรดาร์';}
 }
@@ -311,11 +434,20 @@ async function enableNotification(){
     showToast('การแจ้งเตือนต้องเปิดผ่าน HTTPS เช่น GitHub Pages ก่อนค่ะ');
     return;
   }
-  if(!('Notification' in window)){
-    showToast('เบราว์เซอร์นี้ยังไม่รองรับ Web Notification ค่ะ');
-    return;
-  }
   try{
+    const osReady=await initOneSignal();
+    if(osReady && window.NongFonOneSignal){
+      await window.NongFonOneSignal.Notifications.requestPermission();
+      updateNotifyUI();
+      showToast(Notification.permission==='granted'
+        ? 'เปิด Push แจ้งเตือนฝนเบื้องหลังแล้วค่ะ ✅'
+        : 'ยังไม่ได้อนุญาต Push Notification ค่ะ');
+      return;
+    }
+    if(!('Notification' in window)){
+      showToast('เบราว์เซอร์นี้ยังไม่รองรับ Web Notification ค่ะ');
+      return;
+    }
     const permission=await Notification.requestPermission();
     updateNotifyUI();
     if(permission!=='granted'){
@@ -324,23 +456,12 @@ async function enableNotification(){
         : 'ยังไม่ได้อนุญาตการแจ้งเตือนค่ะ');
       return;
     }
-
-    const title='เฝ้าน้องฝน สมุทรปราการ ☔💗';
-    const options={
-      body:'ทดสอบสำเร็จค่ะ น้องฝนพร้อมเตือนเมื่อมีฝนมา 🌧️',
-      icon:'./icon-192.png',
-      badge:'./icon-192.png',
-      tag:'nongfon-test'
-    };
-
-    if(swReg && swReg.showNotification){
-      await swReg.showNotification(title,options);
-    }else{
-      new Notification(title,options);
-    }
-    showToast('เปิดแจ้งเตือนสำเร็จ และส่งข้อความทดสอบแล้วค่ะ ✅');
+    const options={body:'เปิดแจ้งเตือนบนเครื่องแล้วค่ะ • Push ตอนปิดแอปจะทำงานเมื่อเชื่อม OneSignal',icon:'./icon-192.png',badge:'./icon-192.png',tag:'nongfon-test'};
+    if(swReg && swReg.showNotification) await swReg.showNotification('เฝ้าน้องฝน สมุทรปราการ ☔💗',options);
+    else new Notification('เฝ้าน้องฝน สมุทรปราการ ☔💗',options);
+    showToast('เปิด Notification แล้วค่ะ ✅');
   }catch(e){
-    showToast('เปิดแจ้งเตือนไม่สำเร็จ ลองเปิดผ่าน GitHub Pages แล้วกดใหม่ค่ะ');
+    showToast('เปิดแจ้งเตือนไม่สำเร็จ ลองรีเฟรชแล้วกดใหม่ค่ะ');
   }
 }
 
@@ -401,7 +522,7 @@ document.getElementById('installModal').addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeInstallHelp();
 });
-settingsBtn.addEventListener('click',()=>showToast('ตรวจข้อมูล 6 อำเภอทุก 10 นาทีขณะเปิดแอปค่ะ'));
+settingsBtn.addEventListener('click',()=>showToast('v8 วิเคราะห์ TMD Radar Composite หลายเฟรมเบื้องหลังทุกประมาณ 10 นาทีค่ะ'));
 
 (async()=>{
   if('serviceWorker' in navigator){
@@ -413,7 +534,7 @@ settingsBtn.addEventListener('click',()=>showToast('ตรวจข้อมู�
   updateNotifyUI();
 })();
 
-fx();tabs();radarImg.src=radarUrl();refresh();setInterval(refresh,10*60*1000);
+fx();tabs();radarImg.src=radarUrl();refresh();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,5*60*1000);initOneSignal();
 </script>
 
 </body>

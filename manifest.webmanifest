@@ -1,7 +1,9 @@
 {
   "name": "เฝ้าน้องฝน สมุทรปราการ",
   "short_name": "น้องฝน SPK",
+  "description": "ติดตามและวิเคราะห์แนวฝนในจังหวัดสมุทรปราการจากเรดาร์ TMD และข้อมูลพยากรณ์",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#c7ecff",
   "theme_color": "#48b9f6",

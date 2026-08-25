@@ -1,0 +1,75 @@
+{
+  "version": "8.0",
+  "generated_at": "2026-08-25T00:00:00+00:00",
+  "radar_time": null,
+  "event_key": "pending",
+  "province": {
+    "risk": 0,
+    "level": "normal",
+    "summary": "รอ GitHub Actions วิเคราะห์เรดาร์ครั้งแรกค่ะ",
+    "top_district": null
+  },
+  "motion": {
+    "available": false,
+    "direction": "ยังประเมินไม่ได้",
+    "speed_kmh": 0,
+    "correlation": 0
+  },
+  "districts": [
+    {
+      "name": "เมืองสมุทรปราการ",
+      "short": "เมืองฯ",
+      "risk": 0,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 0
+    },
+    {
+      "name": "บางพลี",
+      "short": "บางพลี",
+      "risk": 0,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 0
+    },
+    {
+      "name": "บางบ่อ",
+      "short": "บางบ่อ",
+      "risk": 0,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 0
+    },
+    {
+      "name": "พระประแดง",
+      "short": "พระประแดง",
+      "risk": 0,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 0
+    },
+    {
+      "name": "พระสมุทรเจดีย์",
+      "short": "พระสมุทรเจดีย์",
+      "risk": 0,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 0
+    },
+    {
+      "name": "บางเสาธง",
+      "short": "บางเสาธง",
+      "risk": 0,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 0
+    }
+  ],
+  "note": "Pending first GitHub Actions run."
+}
