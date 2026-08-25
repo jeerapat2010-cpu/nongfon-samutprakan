@@ -1,20 +1,20 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-25T23:04:33.839198+00:00",
-  "radar_time": "2026-08-25T22:45:00+00:00",
-  "radar_age_min": 19.5,
-  "event_key": "f53d9b8b0a3f07",
+  "generated_at": "2026-08-25T23:39:42.893731+00:00",
+  "radar_time": "2026-08-25T23:15:00+00:00",
+  "radar_age_min": 24.7,
+  "event_key": "5c6e203e0590c3",
   "province": {
-    "risk": 54,
-    "level": "normal",
-    "summary": "ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงใน 0–120 นาที",
+    "risk": 58,
+    "level": "watch",
+    "summary": "จับตา เมืองสมุทรปราการ • พบสัญญาณฝนบางส่วน แต่ยังต้องติดตามทิศทาง",
     "top_district": "เมืองสมุทรปราการ"
   },
   "motion": {
     "available": true,
     "direction": "ตะวันออก",
     "speed_kmh": 0.0,
-    "correlation": 0.8
+    "correlation": 0.81
   },
   "districts": [
     {
@@ -22,14 +22,14 @@
       "short": "เมืองฯ",
       "lat": 13.60056,
       "lon": 100.59667,
-      "risk": 54,
-      "level": "normal",
-      "eta_min": 15,
+      "risk": 58,
+      "level": "watch",
+      "eta_min": 0,
       "severity": "light",
-      "confidence": 62,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.8,
-      "forecast_probability": 4,
+      "confidence": 72,
+      "radar_persistence_frames": 3,
+      "motion_correlation": 0.81,
+      "forecast_probability": 20,
       "forecast_2h_mm": 0.0
     },
     {
@@ -37,14 +37,14 @@
       "short": "บางพลี",
       "lat": 13.60711,
       "lon": 100.70795,
-      "risk": 18,
-      "level": "normal",
-      "eta_min": null,
-      "severity": "none",
-      "confidence": 50,
-      "radar_persistence_frames": 0,
-      "motion_correlation": 0.8,
-      "forecast_probability": 11,
+      "risk": 58,
+      "level": "watch",
+      "eta_min": 0,
+      "severity": "light",
+      "confidence": 72,
+      "radar_persistence_frames": 2,
+      "motion_correlation": 0.81,
+      "forecast_probability": 19,
       "forecast_2h_mm": 0.0
     },
     {
@@ -58,8 +58,8 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.8,
-      "forecast_probability": 17,
+      "motion_correlation": 0.81,
+      "forecast_probability": 26,
       "forecast_2h_mm": 0.0
     },
     {
@@ -67,14 +67,14 @@
       "short": "พระประแดง",
       "lat": 13.65833,
       "lon": 100.53389,
-      "risk": 54,
-      "level": "normal",
-      "eta_min": 15,
+      "risk": 58,
+      "level": "watch",
+      "eta_min": 0,
       "severity": "light",
-      "confidence": 62,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.8,
-      "forecast_probability": 4,
+      "confidence": 72,
+      "radar_persistence_frames": 3,
+      "motion_correlation": 0.81,
+      "forecast_probability": 20,
       "forecast_2h_mm": 0.0
     },
     {
@@ -82,14 +82,14 @@
       "short": "พระสมุทรเจดีย์",
       "lat": 13.56861,
       "lon": 100.56167,
-      "risk": 54,
-      "level": "normal",
-      "eta_min": 15,
+      "risk": 58,
+      "level": "watch",
+      "eta_min": 0,
       "severity": "light",
-      "confidence": 62,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.8,
-      "forecast_probability": 4,
+      "confidence": 72,
+      "radar_persistence_frames": 3,
+      "motion_correlation": 0.81,
+      "forecast_probability": 20,
       "forecast_2h_mm": 0.0
     },
     {
@@ -103,14 +103,14 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.8,
-      "forecast_probability": 11,
+      "motion_correlation": 0.81,
+      "forecast_probability": 19,
       "forecast_2h_mm": 0.0
     }
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260545.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260615.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
