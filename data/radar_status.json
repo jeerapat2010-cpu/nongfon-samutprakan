@@ -1,11 +1,11 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-25T22:38:45.765669+00:00",
-  "radar_time": "2026-08-25T22:15:00+00:00",
-  "radar_age_min": 23.7,
-  "event_key": "f8acbffb6398da",
+  "generated_at": "2026-08-25T23:04:33.839198+00:00",
+  "radar_time": "2026-08-25T22:45:00+00:00",
+  "radar_age_min": 19.5,
+  "event_key": "f53d9b8b0a3f07",
   "province": {
-    "risk": 18,
+    "risk": 54,
     "level": "normal",
     "summary": "ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงใน 0–120 นาที",
     "top_district": "เมืองสมุทรปราการ"
@@ -14,7 +14,7 @@
     "available": true,
     "direction": "ตะวันออก",
     "speed_kmh": 0.0,
-    "correlation": 0.78
+    "correlation": 0.8
   },
   "districts": [
     {
@@ -22,13 +22,13 @@
       "short": "เมืองฯ",
       "lat": 13.60056,
       "lon": 100.59667,
-      "risk": 18,
+      "risk": 54,
       "level": "normal",
-      "eta_min": null,
-      "severity": "none",
-      "confidence": 50,
-      "radar_persistence_frames": 0,
-      "motion_correlation": 0.78,
+      "eta_min": 15,
+      "severity": "light",
+      "confidence": 62,
+      "radar_persistence_frames": 1,
+      "motion_correlation": 0.8,
       "forecast_probability": 4,
       "forecast_2h_mm": 0.0
     },
@@ -43,7 +43,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.78,
+      "motion_correlation": 0.8,
       "forecast_probability": 11,
       "forecast_2h_mm": 0.0
     },
@@ -58,7 +58,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.78,
+      "motion_correlation": 0.8,
       "forecast_probability": 17,
       "forecast_2h_mm": 0.0
     },
@@ -67,13 +67,13 @@
       "short": "พระประแดง",
       "lat": 13.65833,
       "lon": 100.53389,
-      "risk": 18,
+      "risk": 54,
       "level": "normal",
-      "eta_min": null,
-      "severity": "none",
-      "confidence": 50,
-      "radar_persistence_frames": 0,
-      "motion_correlation": 0.78,
+      "eta_min": 15,
+      "severity": "light",
+      "confidence": 62,
+      "radar_persistence_frames": 1,
+      "motion_correlation": 0.8,
       "forecast_probability": 4,
       "forecast_2h_mm": 0.0
     },
@@ -82,13 +82,13 @@
       "short": "พระสมุทรเจดีย์",
       "lat": 13.56861,
       "lon": 100.56167,
-      "risk": 18,
+      "risk": 54,
       "level": "normal",
-      "eta_min": null,
-      "severity": "none",
-      "confidence": 50,
-      "radar_persistence_frames": 0,
-      "motion_correlation": 0.78,
+      "eta_min": 15,
+      "severity": "light",
+      "confidence": 62,
+      "radar_persistence_frames": 1,
+      "motion_correlation": 0.8,
       "forecast_probability": 4,
       "forecast_2h_mm": 0.0
     },
@@ -103,14 +103,14 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.78,
+      "motion_correlation": 0.8,
       "forecast_probability": 11,
       "forecast_2h_mm": 0.0
     }
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260515.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260545.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
