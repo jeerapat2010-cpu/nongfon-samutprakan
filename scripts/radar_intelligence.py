@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# NongFon Samut Prakan - Radar Intelligence v8.1
+# NongFon Samut Prakan - Radar Intelligence v8.2
 # Automated nowcast aid; official warnings should be checked with TMD.
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ STATUS_PATH = DATA / "radar_status.json"
 STATE_PATH = DATA / "radar_state.json"
 
 SATDA = "https://satda.tmd.go.th/"
-UA = {"User-Agent":"NongFon-SamutPrakan/8.1"}
+UA = {"User-Agent":"NongFon-SamutPrakan/8.2"}
 
 DISTRICTS = [
  {"name":"เมืองสมุทรปราการ","short":"เมืองฯ","lat":13.60056,"lon":100.59667},
@@ -272,7 +272,7 @@ def send_onesignal(status,state):
     sev={"light":"เบา","moderate":"ปานกลาง","heavy":"หนัก","very_heavy":"หนักมาก","none":"ไม่ชัด"}[top["severity"]]
     title=f"☔ เฝ้าน้องฝน: {top['name']}"
     body=f"แนวฝน {eta} • {sev} • ไปทาง{status['motion'].get('direction','ไม่ชัด')} • มั่นใจ {top['confidence']}%"
-    payload={"app_id":app,"included_segments":["Subscribed Users"],"headings":{"en":title,"th":title},
+    payload={"app_id":app,"target_channel":"push","included_segments":["Subscribed Users"],"headings":{"en":title,"th":title},
              "contents":{"en":body,"th":body},"url":site,"data":{"event_key":event}}
     r=requests.post("https://api.onesignal.com/notifications",
                     headers={"Authorization":f"Key {key}","Content-Type":"application/json"},
@@ -319,7 +319,7 @@ def main():
     elif top["risk"]>=55:summary=f"จับตา {top['name']} • พบสัญญาณฝนบางส่วน แต่ยังต้องติดตามทิศทาง"
     else:summary="ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงใน 0–120 นาที"
     seed=f"{top['name']}|{level}|{top['eta_min']}|{top['severity']}|{motion.get('direction')}|{radar_dt:%Y%m%d%H}"
-    status={"version":"8.1","generated_at":datetime.now(timezone.utc).isoformat(),
+    status={"version":"8.2","generated_at":datetime.now(timezone.utc).isoformat(),
             "radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),
             "event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
             "province":{"risk":top["risk"],"level":level,"summary":summary,"top_district":top["name"]},

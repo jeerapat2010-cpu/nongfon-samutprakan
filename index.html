@@ -111,7 +111,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     <section class="panel">
       <div class="headbar">
         <h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-        <div class="sub">เลือกอำเภอเพื่อดูสถานการณ์ • ภาพรวมทั้งจังหวัดยังเฝ้าครบ 6 อำเภอ • <b>Radar Intelligence v8.1</b></div>
+        <div class="sub">เลือกอำเภอเพื่อดูสถานการณ์ • ภาพรวมทั้งจังหวัดยังเฝ้าครบ 6 อำเภอ • <b>Radar Intelligence v8.2</b></div>
       </div>
 
       <div class="card">
@@ -195,7 +195,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
         <button class="action teal" id="settingsBtn"><span>⚙️</span>ตั้งค่า</button>
       </div>
 
-      <div class="footer">ข้อมูลเรดาร์: กรมอุตุนิยมวิทยา (TMD) • พยากรณ์รายจุด: Open-Meteo • Radar Intelligence v8.1 • พัฒนาโดย ภก.จีรภัทร พลายงาม 26 AUG 2026</div>
+      <div class="footer">ข้อมูลเรดาร์: กรมอุตุนิยมวิทยา (TMD) • พยากรณ์รายจุด: Open-Meteo • Radar Intelligence v8.2 • พัฒนาโดย ภก.จีรภัทร พลายงาม 26 AUG 2026</div>
     </section>
   </div>
 </div>
@@ -310,7 +310,7 @@ function renderRadarIntel(){
     return `<div class="intel-chip"><b>${icon} ${d.short||d.name}</b><br>ความเสี่ยง ${Math.round(d.risk||0)}% • ${etaThai(d.eta_min)}</div>`;
   }).join('');
   const rt=radarIntel.radar_time ? new Date(radarIntel.radar_time).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'}) : '—';
-  intelSource.textContent=`เรดาร์ TMD ล่าสุดที่ใช้: ${rt} • วิเคราะห์ซ้ำด้วย GitHub Actions ทุกประมาณ 10 นาที • เวอร์ชัน ${radarIntel.version||'8.1'}`;
+  intelSource.textContent=`เรดาร์ TMD ล่าสุดที่ใช้: ${rt} • วิเคราะห์ซ้ำด้วย GitHub Actions ทุกประมาณ 10 นาที • เวอร์ชัน ${radarIntel.version||'8.2'}`;
   renderIntelSelected();
 }
 async function loadRadarIntelligence(){
@@ -352,7 +352,14 @@ async function initOneSignal(){
       window.OneSignalDeferred=window.OneSignalDeferred||[];
       window.OneSignalDeferred.push(async function(OneSignal){
         try{
-          await OneSignal.init({appId,serviceWorkerPath:'sw.js',serviceWorkerParam:{scope:'./'}});
+          const appBase=new URL('./',location.href).pathname;
+          const swPath=(appBase.replace(/^\//,'')+'sw.js');
+          await OneSignal.init({
+            appId,
+            serviceWorkerPath:swPath,
+            serviceWorkerParam:{scope:appBase},
+            autoResubscribe:true
+          });
           window.NongFonOneSignal=OneSignal;
           resolve(true);
         }catch(e){resolve(false);}
@@ -522,7 +529,7 @@ document.getElementById('installModal').addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeInstallHelp();
 });
-settingsBtn.addEventListener('click',()=>showToast('v8.1 จูนความแม่นของ Radar Intelligence และตรวจอัปเดตแอปอัตโนมัติค่ะ'));
+settingsBtn.addEventListener('click',()=>showToast('v8.2 พร้อม OneSignal Push สำหรับ GitHub Pages และยังคงจูนความแม่น v8.1 ค่ะ'));
 
 (async()=>{
   if('serviceWorker' in navigator){

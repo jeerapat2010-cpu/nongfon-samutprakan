@@ -1,4 +1,4 @@
-const C='nongfon-spk-v8-1';
+const C='nongfon-spk-v8-2';
 const STATIC=['./','./index.html','./manifest.webmanifest','./scene.jpg','./icon-192.png','./icon-512.png','./push-config.js'];
 try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(e){}
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(STATIC)));self.skipWaiting();});
@@ -33,9 +33,3 @@ self.addEventListener('fetch',e=>{
     }))
   );
 });
-self.addEventListener('push',e=>{
-  let d={title:'เฝ้าน้องฝน สมุทรปราการ ☔💗',body:'มีการอัปเดตสถานการณ์ฝน'};
-  try{if(e.data)d=e.data.json()}catch(x){}
-  e.waitUntil(self.registration.showNotification(d.title||'เฝ้าน้องฝน สมุทรปราการ',{body:d.body||'มีการอัปเดตสถานการณ์ฝน',icon:'./icon-192.png',badge:'./icon-192.png',tag:d.tag||'nongfon-spk',data:{url:d.url||'./'}}));
-});
-self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(clients.openWindow(e.notification?.data?.url||'./'));});
