@@ -1,9 +1,9 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-25T20:52:59.336723+00:00",
-  "radar_time": "2026-08-25T20:30:00+00:00",
-  "radar_age_min": 22.9,
-  "event_key": "9329e2a1784cce",
+  "generated_at": "2026-08-25T21:27:46.102749+00:00",
+  "radar_time": "2026-08-25T21:00:00+00:00",
+  "radar_age_min": 27.7,
+  "event_key": "7210a3007aa989",
   "province": {
     "risk": 18,
     "level": "normal",
@@ -14,7 +14,7 @@
     "available": true,
     "direction": "ตะวันออก",
     "speed_kmh": 0.0,
-    "correlation": 0.77
+    "correlation": 0.76
   },
   "districts": [
     {
@@ -28,7 +28,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.77,
+      "motion_correlation": 0.76,
       "forecast_probability": 4,
       "forecast_2h_mm": 0.0
     },
@@ -43,7 +43,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.77,
+      "motion_correlation": 0.76,
       "forecast_probability": 11,
       "forecast_2h_mm": 0.0
     },
@@ -57,8 +57,8 @@
       "eta_min": null,
       "severity": "none",
       "confidence": 50,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.77,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.76,
       "forecast_probability": 17,
       "forecast_2h_mm": 0.0
     },
@@ -73,7 +73,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.77,
+      "motion_correlation": 0.76,
       "forecast_probability": 4,
       "forecast_2h_mm": 0.0
     },
@@ -88,7 +88,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.77,
+      "motion_correlation": 0.76,
       "forecast_probability": 4,
       "forecast_2h_mm": 0.0
     },
@@ -102,15 +102,15 @@
       "eta_min": null,
       "severity": "none",
       "confidence": 50,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.77,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.76,
       "forecast_probability": 11,
       "forecast_2h_mm": 0.0
     }
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260330.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260400.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
