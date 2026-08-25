@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# NongFon Samut Prakan - Radar Intelligence v8
+# NongFon Samut Prakan - Radar Intelligence v8.1
 # Automated nowcast aid; official warnings should be checked with TMD.
 
 from __future__ import annotations
@@ -21,7 +21,7 @@ STATUS_PATH = DATA / "radar_status.json"
 STATE_PATH = DATA / "radar_state.json"
 
 SATDA = "https://satda.tmd.go.th/"
-UA = {"User-Agent":"NongFon-SamutPrakan/8.0"}
+UA = {"User-Agent":"NongFon-SamutPrakan/8.1"}
 
 DISTRICTS = [
  {"name":"เมืองสมุทรปราการ","short":"เมืองฯ","lat":13.60056,"lon":100.59667},
@@ -119,10 +119,11 @@ def estimate_motion(images,masks,stamps):
             for dx in range(-12,13):
                 sc=shifted_overlap(p,c,dx,dy)
                 if sc>best[0]:best=(sc,dx,dy)
-        if best[0]>=0.18:
+        if best[0]>=0.30:
             dt=max(5,(parse_stamp(stamps[i])-parse_stamp(stamps[i-1])).total_seconds()/60)
             vectors.append((best[0],best[1],best[2],dt))
-    if not vectors:return {"available":False,"dx":0,"dy":0,"score":0.0,"direction":"ยังประเมินไม่ได้","speed_kmh":0}
+    # v8.1: ต้องมีอย่างน้อย 2 คู่เฟรมที่สอดคล้องกัน เพื่อลดการตีความ noise เป็นการเคลื่อนตัว
+    if len(vectors)<2:return {"available":False,"dx":0,"dy":0,"score":0.0,"direction":"ยังประเมินไม่ได้","speed_kmh":0}
     weights=np.array([v[0] for v in vectors])
     dx=float(np.average([v[1] for v in vectors],weights=weights))
     dy=float(np.average([v[2] for v in vectors],weights=weights))
@@ -166,32 +167,92 @@ def risk_level(r):
     if r>=55:return "watch"
     return "normal"
 
-def analyze_district(img,mask,motion,d,meteo):
-    x,y=plot_xy(img,d["lat"],d["lon"]);now=sample(mask,x,y,6)
-    eta=None;best=now["strength"]
-    if now["density"]>=0.045 and now["strength"]>0:eta=0
-    elif motion["available"]:
+def analyze_district(img,masks,motion,d,meteo):
+    """
+    v8.1 calibration:
+    - Current rain requires persistence in >=2 of latest 3 radar frames, except strong echo.
+    - Light echo alone can no longer become 'severe'.
+    - Projected ETA is used only when motion correlation is reasonably strong.
+    - Forecast is supporting evidence, not a replacement for radar.
+    """
+    latest=masks[-1]
+    x,y=plot_xy(img,d["lat"],d["lon"])
+
+    recent=[]
+    for m in masks[-3:]:
+        recent.append(sample(m,x,y,6))
+    now=recent[-1]
+
+    wet_frames=sum(1 for q in recent if q["density"]>=0.045 and q["strength"]>0)
+    persistent = wet_frames >= 2
+    strong_now = now["strength"] >= 3 and now["density"] >= 0.035
+
+    eta=None
+    best=now["strength"] if (persistent or strong_now) else 0
+
+    if (persistent or strong_now) and best>0:
+        eta=0
+    elif motion["available"] and motion.get("score",0)>=0.38:
         frame=max(5,float(motion.get("frame_minutes",15)))
+        hits=[]
         for lead in range(15,121,15):
             n=lead/frame
-            q=sample(mask,x-motion["dx"]*n,y-motion["dy"]*n,7)
-            if q["density"]>=0.045 and q["strength"]>0:
-                eta=lead;best=max(best,q["strength"]);break
-    if eta==0:risk=82+best*3
-    elif eta is not None and eta<=30:risk=76+best*2
-    elif eta is not None and eta<=60:risk=68+best*2
-    elif eta is not None:risk=57+best*2
-    else:risk=20
-    if meteo["max_prob"]>=70:risk+=8
-    elif meteo["max_prob"]>=45:risk+=4
-    if meteo["sum_2h_mm"]>=2:risk+=8
-    elif meteo["sum_2h_mm"]>=0.3:risk+=4
-    if eta is None and meteo["max_prob"]>=70 and meteo["sum_2h_mm"]>=0.3:risk=max(risk,58)
-    conf=35+(25 if eta is not None else 0)+(min(25,motion["score"]*35) if motion["available"] else 0)
-    if meteo["max_prob"]>=45 or meteo["sum_2h_mm"]>=0.3:conf+=10
+            q=sample(latest,x-motion["dx"]*n,y-motion["dy"]*n,7)
+            if q["density"]>=0.055 and q["strength"]>0:
+                hits.append((lead,q))
+        if hits:
+            eta=hits[0][0]
+            best=max(q["strength"] for _,q in hits[:2])
+
+    # Radar-driven calibrated base risk.
+    if eta==0:
+        base_by_strength={1:58,2:72,3:84,4:92}
+        risk=base_by_strength.get(best,45)
+    elif eta is not None and eta<=30:
+        base_by_strength={1:54,2:67,3:79,4:88}
+        risk=base_by_strength.get(best,45)
+    elif eta is not None and eta<=60:
+        base_by_strength={1:50,2:62,3:74,4:84}
+        risk=base_by_strength.get(best,42)
+    elif eta is not None:
+        base_by_strength={1:46,2:57,3:68,4:78}
+        risk=base_by_strength.get(best,38)
+    else:
+        risk=18
+
+    # Forecast support is deliberately capped.
+    if meteo["max_prob"]>=80:risk+=5
+    elif meteo["max_prob"]>=60:risk+=3
+    if meteo["sum_2h_mm"]>=3:risk+=5
+    elif meteo["sum_2h_mm"]>=0.8:risk+=3
+
+    # Forecast-only watch: never high/severe without radar evidence.
+    if eta is None and meteo["max_prob"]>=80 and meteo["sum_2h_mm"]>=0.8:
+        risk=max(risk,52)
+
+    # Confidence reflects persistence + motion quality + forecast agreement.
+    conf=30
+    if persistent: conf+=22
+    if strong_now: conf+=12
+    if eta is not None and eta>0: conf+=12
+    if motion["available"]:
+        conf+=min(20,max(0,(motion.get("score",0)-0.30)*50))
+    if meteo["max_prob"]>=60 or meteo["sum_2h_mm"]>=0.8:
+        conf+=8
+    conf=min(94,conf)
+
     risk=int(max(0,min(100,round(risk))))
+
+    # Guard rails: light rain cannot be severe; low confidence cannot be severe.
+    if best<=1:
+        risk=min(risk,69)
+    if conf<65:
+        risk=min(risk,69)
+
     return {**d,"risk":risk,"level":risk_level(risk),"eta_min":eta,"severity":sev_name(best),
-            "confidence":int(min(96,round(conf))),"forecast_probability":round(meteo["max_prob"]),
+            "confidence":int(round(conf)),"radar_persistence_frames":wet_frames,
+            "motion_correlation":round(float(motion.get("score",0)),2),
+            "forecast_probability":round(meteo["max_prob"]),
             "forecast_2h_mm":round(meteo["sum_2h_mm"],2)}
 
 def read_json(path,default):
@@ -202,6 +263,7 @@ def send_onesignal(status,state):
     app=os.getenv("ONESIGNAL_APP_ID","").strip();key=os.getenv("ONESIGNAL_REST_API_KEY","").strip()
     site=os.getenv("SITE_URL","").strip() or "https://jeerapat2010-cpu.github.io/nongfon-samutprakan/"
     if not app or not key or status["province"]["risk"]<70:return False,state
+    if max(d.get("confidence",0) for d in status["districts"])<68:return False,state
     top=max(status["districts"],key=lambda x:x["risk"]);event=status["event_key"];now=datetime.now(timezone.utc)
     try:last_at=datetime.fromisoformat(state.get("last_push_at",""))
     except Exception:last_at=None
@@ -246,7 +308,7 @@ def main():
     age=max(0,(datetime.now(BKK)-radar_dt).total_seconds()/60)
     districts=[]
     for d in DISTRICTS:
-        row=analyze_district(images[-1],masks[-1],motion,d,open_meteo(d))
+        row=analyze_district(images[-1],masks,motion,d,open_meteo(d))
         if age>45:
             row["confidence"]=max(25,row["confidence"]-20);row["risk"]=max(0,row["risk"]-8);row["level"]=risk_level(row["risk"])
         districts.append(row)
@@ -257,7 +319,7 @@ def main():
     elif top["risk"]>=55:summary=f"จับตา {top['name']} • พบสัญญาณฝนบางส่วน แต่ยังต้องติดตามทิศทาง"
     else:summary="ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงใน 0–120 นาที"
     seed=f"{top['name']}|{level}|{top['eta_min']}|{top['severity']}|{motion.get('direction')}|{radar_dt:%Y%m%d%H}"
-    status={"version":"8.0","generated_at":datetime.now(timezone.utc).isoformat(),
+    status={"version":"8.1","generated_at":datetime.now(timezone.utc).isoformat(),
             "radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),
             "event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
             "province":{"risk":top["risk"],"level":level,"summary":summary,"top_district":top["name"]},
