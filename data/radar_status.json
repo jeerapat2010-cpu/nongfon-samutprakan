@@ -1,20 +1,20 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-26T00:01:19.048463+00:00",
-  "radar_time": "2026-08-25T23:45:00+00:00",
-  "radar_age_min": 16.3,
-  "event_key": "fb043e4a842382",
+  "generated_at": "2026-08-26T01:55:03.461839+00:00",
+  "radar_time": "2026-08-26T01:15:00+00:00",
+  "radar_age_min": 40.0,
+  "event_key": "c0feabfdad0912",
   "province": {
-    "risk": 58,
-    "level": "watch",
-    "summary": "จับตา บางบ่อ • พบสัญญาณฝนบางส่วน แต่ยังต้องติดตามทิศทาง",
-    "top_district": "บางบ่อ"
+    "risk": 18,
+    "level": "normal",
+    "summary": "ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงใน 0–120 นาที",
+    "top_district": "เมืองสมุทรปราการ"
   },
   "motion": {
     "available": true,
     "direction": "ตะวันออก",
-    "speed_kmh": 0.0,
-    "correlation": 0.79
+    "speed_kmh": 8.2,
+    "correlation": 0.73
   },
   "districts": [
     {
@@ -27,8 +27,8 @@
       "eta_min": null,
       "severity": "none",
       "confidence": 50,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.79,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.73,
       "forecast_probability": 20,
       "forecast_2h_mm": 0.0
     },
@@ -41,9 +41,9 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 72,
-      "radar_persistence_frames": 2,
-      "motion_correlation": 0.79,
+      "confidence": 50,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.73,
       "forecast_probability": 19,
       "forecast_2h_mm": 0.0
     },
@@ -52,13 +52,13 @@
       "short": "บางบ่อ",
       "lat": 13.58513,
       "lon": 100.8647,
-      "risk": 58,
-      "level": "watch",
-      "eta_min": 0,
-      "severity": "light",
-      "confidence": 72,
-      "radar_persistence_frames": 2,
-      "motion_correlation": 0.79,
+      "risk": 18,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 50,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.73,
       "forecast_probability": 26,
       "forecast_2h_mm": 0.0
     },
@@ -72,8 +72,8 @@
       "eta_min": null,
       "severity": "none",
       "confidence": 50,
-      "radar_persistence_frames": 1,
-      "motion_correlation": 0.79,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.73,
       "forecast_probability": 20,
       "forecast_2h_mm": 0.0
     },
@@ -88,7 +88,7 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 1,
-      "motion_correlation": 0.79,
+      "motion_correlation": 0.73,
       "forecast_probability": 20,
       "forecast_2h_mm": 0.0
     },
@@ -97,20 +97,20 @@
       "short": "บางเสาธง",
       "lat": 13.59472,
       "lon": 100.83,
-      "risk": 58,
-      "level": "watch",
-      "eta_min": 0,
-      "severity": "light",
-      "confidence": 72,
-      "radar_persistence_frames": 2,
-      "motion_correlation": 0.79,
+      "risk": 18,
+      "level": "normal",
+      "eta_min": null,
+      "severity": "none",
+      "confidence": 50,
+      "radar_persistence_frames": 0,
+      "motion_correlation": 0.73,
       "forecast_probability": 19,
       "forecast_2h_mm": 0.0
     }
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260645.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608260815.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
