@@ -1,9 +1,9 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-26T15:54:52.464711+00:00",
-  "radar_time": "2026-08-26T15:30:00+00:00",
-  "radar_age_min": 24.8,
-  "event_key": "2437de47b877ea",
+  "generated_at": "2026-08-26T16:55:55.849911+00:00",
+  "radar_time": "2026-08-26T16:30:00+00:00",
+  "radar_age_min": 25.9,
+  "event_key": "f03893a19c86c0",
   "province": {
     "risk": 18,
     "level": "normal",
@@ -13,8 +13,8 @@
   "motion": {
     "available": true,
     "direction": "ตะวันออก",
-    "speed_kmh": 0.0,
-    "correlation": 0.7
+    "speed_kmh": 1.5,
+    "correlation": 0.59
   },
   "districts": [
     {
@@ -26,9 +26,9 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 50,
+      "confidence": 45,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.7,
+      "motion_correlation": 0.59,
       "forecast_probability": 25,
       "forecast_2h_mm": 0.0
     },
@@ -41,9 +41,9 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 50,
+      "confidence": 45,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.7,
+      "motion_correlation": 0.59,
       "forecast_probability": 21,
       "forecast_2h_mm": 0.0
     },
@@ -56,9 +56,9 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 50,
+      "confidence": 45,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.7,
+      "motion_correlation": 0.59,
       "forecast_probability": 30,
       "forecast_2h_mm": 0.0
     },
@@ -71,9 +71,9 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 50,
+      "confidence": 45,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.7,
+      "motion_correlation": 0.59,
       "forecast_probability": 25,
       "forecast_2h_mm": 0.0
     },
@@ -86,9 +86,9 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 50,
+      "confidence": 45,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.7,
+      "motion_correlation": 0.59,
       "forecast_probability": 25,
       "forecast_2h_mm": 0.0
     },
@@ -101,16 +101,16 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 50,
+      "confidence": 45,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.7,
+      "motion_correlation": 0.59,
       "forecast_probability": 21,
       "forecast_2h_mm": 0.0
     }
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608262230.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608262330.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
