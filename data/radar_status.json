@@ -1,9 +1,9 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-26T10:48:47.553893+00:00",
-  "radar_time": "2026-08-26T10:30:00+00:00",
-  "radar_age_min": 18.7,
-  "event_key": "edcb50ae694a4a",
+  "generated_at": "2026-08-26T11:19:40.807693+00:00",
+  "radar_time": "2026-08-26T11:00:00+00:00",
+  "radar_age_min": 19.6,
+  "event_key": "8ebf83f6817af6",
   "province": {
     "risk": 18,
     "level": "normal",
@@ -42,7 +42,7 @@
       "eta_min": null,
       "severity": "none",
       "confidence": 50,
-      "radar_persistence_frames": 1,
+      "radar_persistence_frames": 0,
       "motion_correlation": 0.79,
       "forecast_probability": 21,
       "forecast_2h_mm": 0.0
@@ -110,7 +110,7 @@
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608261730.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608261800.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
