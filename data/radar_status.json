@@ -1,9 +1,9 @@
 {
   "version": "8.2",
-  "generated_at": "2026-08-26T08:22:10.495743+00:00",
-  "radar_time": "2026-08-26T07:45:00+00:00",
-  "radar_age_min": 37.1,
-  "event_key": "284e284513108d",
+  "generated_at": "2026-08-26T09:11:46.491373+00:00",
+  "radar_time": "2026-08-26T08:45:00+00:00",
+  "radar_age_min": 26.7,
+  "event_key": "fc84f20613e662",
   "province": {
     "risk": 18,
     "level": "normal",
@@ -13,7 +13,7 @@
   "motion": {
     "available": true,
     "direction": "ตะวันออก",
-    "speed_kmh": 0.0,
+    "speed_kmh": 9.0,
     "correlation": 0.73
   },
   "districts": [
@@ -110,7 +110,7 @@
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608261445.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608261545.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "open_meteo": "https://open-meteo.com/"
   },
