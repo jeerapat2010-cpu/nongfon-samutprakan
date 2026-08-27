@@ -2,6 +2,13 @@ name: NongFon Rain Watch
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/radar_intelligence.py'
+      - '.github/workflows/rain-watch.yml'
+      - 'requirements.txt'
   schedule:
     - cron: '*/5 * * * *'
 
