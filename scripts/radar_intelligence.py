@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# NongFon Samut Prakan - Fusion Intelligence v9.4.1 iOS Fix
+# NongFon Samut Prakan - Fusion Intelligence v9.4.3 Time Correct
 # Radar + Himawari IR + point forecast. Automated nowcast aid; official warnings should be checked with TMD.
 
 from __future__ import annotations
@@ -19,7 +19,7 @@ DATA=ROOT/"data"; DATA.mkdir(exist_ok=True)
 STATUS_PATH=DATA/"radar_status.json"; STATE_PATH=DATA/"radar_state.json"; ALERT_HISTORY_PATH=DATA/"alert_history.json"
 SATDA="https://satda.tmd.go.th/"
 JMA_TARGET="https://www.jma.go.jp/bosai/himawari/data/satimg/targetTimes_fd.json"
-UA={"User-Agent":"NongFon-SamutPrakan/9.4.1"}
+UA={"User-Agent":"NongFon-SamutPrakan/9.4.3"}
 
 DISTRICTS=[
  {"name":"เมืองสมุทรปราการ","short":"เมืองฯ","lat":13.60056,"lon":100.59667},
@@ -43,6 +43,7 @@ def scrape_frames(limit=6):
             items[s]=f"https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/{s}.png"
     ss=sorted(items)[-limit:]; return [(s,items[s]) for s in ss]
 
+# SATDA radar_composite filename timestamp is treated as Thailand local time; DO NOT add +7 again.
 def parse_stamp(s): return datetime.strptime(s,"%Y%m%d%H%M").replace(tzinfo=BKK)
 def load_image(url): return Image.open(io.BytesIO(get(url).content)).convert("RGB")
 def plot_xy(img,lat,lon):
@@ -442,7 +443,7 @@ def send_onesignal(status,state):
 def maybe_write_status(status):
     old=read_json(STATUS_PATH,{})
     def sig(x):
-        return {"version":x.get("version"),"province":x.get("province"),"motion":{k:x.get("motion",{}).get(k) for k in ("available","direction","speed_kmh")},"satellite":{k:x.get("satellite",{}).get(k) for k in ("available","status","age_min","time","top_score","trend")},"districts":[{k:d.get(k) for k in ("name","risk","level","eta_min","severity","satellite_score","satellite_trend")} for d in x.get("districts",[])]}
+        return {"version":x.get("version"),"time_reference":x.get("time_reference"),"province":x.get("province"),"motion":{k:x.get("motion",{}).get(k) for k in ("available","direction","speed_kmh")},"satellite":{k:x.get("satellite",{}).get(k) for k in ("available","status","age_min","time","top_score","trend")},"districts":[{k:d.get(k) for k in ("name","risk","level","eta_min","severity","satellite_score","satellite_trend")} for d in x.get("districts",[])]}
     changed=sig(status)!=sig(old)
     try:heartbeat=(datetime.now(timezone.utc)-datetime.fromisoformat(old.get("generated_at",""))).total_seconds()>=900
     except Exception:heartbeat=True
@@ -479,11 +480,12 @@ def main():
     elif top["risk"]>=60:summary=f"🌦️ เริ่มเฝ้าระวัง {top['name']} • Fusion {top['risk']}/100 • Satellite {top.get('satellite_score') if top.get('satellite_score') is not None else "—"}/100"
     else:summary="ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงจาก Radar + Satellite Fusion"
     seed=f"{top['name']}|{level}|{top['eta_min']}|{top['severity']}|{motion.get('direction')}|{top['satellite_trend']}|{radar_dt:%Y%m%d%H}"
-    status={"version":"9.4.1 iOSFix","generated_at":datetime.now(timezone.utc).isoformat(),"radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),"event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
+    status={"version":"9.4.3 TimeCorrect","generated_at":datetime.now(timezone.utc).isoformat(),"radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),"event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
             "province":{"risk":top["risk"],"level":level,"summary":summary,"top_district":top["name"]},
             "motion":{"available":bool(motion["available"]),"direction":motion["direction"],"speed_kmh":round(float(motion["speed_kmh"]),1),"correlation":round(float(motion["score"]),2)},
             "satellite":{"available":bool(sframes),"status":sat_health.get("status","unavailable"),"age_min":sat_health.get("age_min"),"frames":sat_health.get("frames",0),"provider":"JMA Himawari-8/9 B13 IR","time":sat_dt.isoformat() if sat_dt else None,"top_score":top.get("satellite_score"),"trend":top.get("satellite_trend")},
             "fusion":{"principle":"Radar primary + Himawari IR support + Open-Meteo support","satellite_alone_high_alert":False,"early_watch":60,"high":70,"severe":85},
+            "time_reference":{"display_timezone":"Asia/Bangkok","display_utc_offset":"+07:00","radar_composite_source_timezone":"Asia/Bangkok","radar_composite_add_hours":0,"tmd_station_image_clock":"UTC","tmd_station_image_to_thailand_hours":7,"jma_himawari_source_timezone":"UTC","jma_himawari_to_thailand_hours":7},
             "districts":districts,
             "sources":{"tmd_satda":SATDA,"tmd_radar_frame":urls[-1],"tmd_suvarnabhumi":"https://weather.tmd.go.th/svp120.php","tmd_satellite":"https://satda.tmd.go.th/tmd_satellite.php","jma_himawari":"https://www.jma.go.jp/bosai/map.html#contents=himawari","open_meteo":"https://open-meteo.com/"},
             "note":"Automated nowcast aid; satellite is supporting evidence. Official warnings should be checked with TMD."}
