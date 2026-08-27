@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# NongFon Samut Prakan - Fusion Intelligence v9.2 Motion HD
+# NongFon Samut Prakan - Fusion Intelligence v9.4 Alert History
 # Radar + Himawari IR + point forecast. Automated nowcast aid; official warnings should be checked with TMD.
 
 from __future__ import annotations
@@ -16,10 +16,10 @@ from zoneinfo import ZoneInfo
 BKK=ZoneInfo("Asia/Bangkok")
 ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/"data"; DATA.mkdir(exist_ok=True)
-STATUS_PATH=DATA/"radar_status.json"; STATE_PATH=DATA/"radar_state.json"
+STATUS_PATH=DATA/"radar_status.json"; STATE_PATH=DATA/"radar_state.json"; ALERT_HISTORY_PATH=DATA/"alert_history.json"
 SATDA="https://satda.tmd.go.th/"
 JMA_TARGET="https://www.jma.go.jp/bosai/himawari/data/satimg/targetTimes_fd.json"
-UA={"User-Agent":"NongFon-SamutPrakan/9.2"}
+UA={"User-Agent":"NongFon-SamutPrakan/9.4"}
 
 DISTRICTS=[
  {"name":"เมืองสมุทรปราการ","short":"เมืองฯ","lat":13.60056,"lon":100.59667},
@@ -149,56 +149,184 @@ def analyze_district(img,masks,motion,d,meteo):
     return {**d,"raw_radar_risk":risk,"risk":risk,"level":risk_level(risk),"eta_min":eta,"severity":sev_name(best),"confidence":int(round(conf)),"radar_persistence_frames":wet_frames,"motion_correlation":round(float(motion.get("score",0)),2),"forecast_probability":round(meteo["max_prob"]),"forecast_2h_mm":round(meteo["sum_2h_mm"],2)}
 
 def mercator_xy(lat,lon,z=5):
-    n=2**z; x=(lon+180)/360*n; y=(1-math.asinh(math.tan(math.radians(lat)))/math.pi)/2*n
+    n=2**z
+    x=(lon+180)/360*n
+    y=(1-math.asinh(math.tan(math.radians(lat)))/math.pi)/2*n
     return x,y
 
 def sat_tile_url(t,x,y,band="B13",prod="TBB",z=5):
     return f"https://www.jma.go.jp/bosai/himawari/data/satimg/{t['basetime']}/fd/{t['validtime']}/{band}/{prod}/{z}/{x}/{y}.jpg"
 
 def load_sat_mosaic(t,z=5,x0=24,y0=14):
-    canvas=Image.new("L",(512,512))
+    # 2x2 JMA tiles ครอบคลุมสมุทรปราการและปริมณฑล
+    canvas=Image.new("RGB",(512,512))
     for j,y in enumerate((y0,y0+1)):
         for i,x in enumerate((x0,x0+1)):
-            im=Image.open(io.BytesIO(get(sat_tile_url(t,x,y,z=z)).content)).convert("L")
+            im=Image.open(io.BytesIO(get(sat_tile_url(t,x,y,z=z)).content)).convert("RGB")
             canvas.paste(im,(i*256,j*256))
-    return np.asarray(canvas)
+    a=np.asarray(canvas).astype(np.float32)
+    # luminance ใช้กับภาพ IR ที่อาจมีการกลับโทนสว่าง/มืด
+    return 0.2126*a[:,:,0]+0.7152*a[:,:,1]+0.0722*a[:,:,2]
+
+def _parse_jma_time(t):
+    try:
+        return datetime.strptime(t["validtime"],"%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
+    except Exception:
+        return None
 
 def satellite_frames():
     try:
         tt=get(JMA_TARGET).json()
-        if len(tt)<5:return [],None
+        if len(tt)<5:
+            return [],None,{"status":"unavailable","reason":"not_enough_frames","frames":0}
         picks=[tt[-5],tt[-3],tt[-1]]
-        arr=[load_sat_mosaic(t) for t in picks]
-        return list(zip(picks,arr)),picks[-1]
+        frames=[]
+        for t in picks:
+            try:
+                frames.append((t,load_sat_mosaic(t)))
+            except Exception as e:
+                print("satellite frame error",t.get("validtime"),type(e).__name__,str(e)[:100])
+        if not frames:
+            return [],picks[-1],{"status":"unavailable","reason":"download_failed","frames":0}
+        latest=frames[-1][0]
+        dt=_parse_jma_time(latest)
+        age=None
+        if dt:
+            age=max(0,(datetime.now(timezone.utc)-dt).total_seconds()/60)
+        status="online" if age is None or age<=35 else "stale" if age<=120 else "unavailable"
+        return frames,latest,{"status":status,"age_min":round(age,1) if age is not None else None,"frames":len(frames)}
     except Exception as e:
-        print("satellite error",type(e).__name__,str(e)[:120]); return [],None
+        print("satellite error",type(e).__name__,str(e)[:120])
+        return [],None,{"status":"unavailable","reason":type(e).__name__,"frames":0}
 
-def sat_score_for_district(frames,d):
-    if not frames:return {"satellite_score":0,"satellite_trend":"unavailable","satellite_cold_pct":0,"satellite_deep_pct":0}
-    x,y=mercator_xy(d["lat"],d["lon"],5); px=(x-24)*256; py=(y-14)*256; vals=[]
+def _sat_local_stats(a,d,r=14):
+    x,y=mercator_xy(d["lat"],d["lon"],5)
+    px=(x-24)*256
+    py=(y-14)*256
+    xi,yi=int(round(px)),int(round(py))
+    y0,y1=max(0,yi-r),min(a.shape[0],yi+r+1)
+    x0,x1=max(0,xi-r),min(a.shape[1],xi+r+1)
+    cut=a[y0:y1,x0:x1]
+    if cut.size<25:
+        return None
+
+    # Dynamic calibration: ไม่ผูกกับเลขสีตายตัว 170/210 อีกต่อไป
+    gp02,gp10,gp50,gp90,gp98=np.percentile(a,[2,10,50,90,98])
+    lp30,lp50,lp70=np.percentile(cut,[30,50,70])
+    eps=1e-6
+
+    # รองรับทั้ง render แบบ cloud top สว่างและมืด
+    # ใช้ "ค่ากลางของพื้นที่" เทียบกับค่ากลางของภาพ เพื่อไม่ให้ noise ปกติกลายเป็นคะแนนสูง
+    bright_med=np.clip((lp50-gp50)/(gp98-gp50+eps),0,1)
+    dark_med=np.clip((gp50-lp50)/(gp50-gp02+eps),0,1)
+    bright_frac=float((cut>=gp90).mean())
+    dark_frac=float((cut<=gp10).mean())
+
+    # ในพื้นที่ปกติ จะมี pixel อยู่ปลาย distribution ราว 10% อยู่แล้ว
+    # จึงนับเฉพาะ "ส่วนเกิน" เหนือ baseline นี้
+    bright_excess=np.clip((bright_frac-0.10)/0.55,0,1)
+    dark_excess=np.clip((dark_frac-0.10)/0.55,0,1)
+
+    bright_signal=0.75*bright_med+0.25*bright_excess
+    dark_signal=0.75*dark_med+0.25*dark_excess
+
+    if bright_signal>=dark_signal:
+        signal=float(bright_signal); polarity="bright"
+    else:
+        signal=float(dark_signal); polarity="dark"
+
+    return {
+        "signal":signal,
+        "polarity":polarity,
+        "texture":float(np.std(cut)),
+        "median":float(lp50),
+        "regional_median":float(gp50),
+    }
+
+def sat_score_for_district(frames,d,sat_health):
+    status=sat_health.get("status","unavailable")
+    unavailable={
+        "satellite_score":None,
+        "satellite_trend":"unavailable",
+        "satellite_status":status,
+        "satellite_signal_pct":None,
+        "satellite_texture":None,
+    }
+    if not frames:
+        return unavailable
+
+    stats=[]
     for _,a in frames:
-        xi,yi=int(round(px)),int(round(py)); r=9; y0,y1=max(0,yi-r),min(a.shape[0],yi+r+1);x0,x1=max(0,xi-r),min(a.shape[1],xi+r+1); cut=a[y0:y1,x0:x1]
-        if cut.size==0:vals.append((0,0,0));continue
-        cold=float((cut>=170).mean()); deep=float((cut>=210).mean()); bright=float(cut.mean())
-        vals.append((cold,deep,bright))
-    cold,deep,bright=vals[-1]; growth=(vals[-1][1]-vals[0][1])+(vals[-1][0]-vals[0][0])*.35
-    score=min(100,max(0,round(cold*80+deep*160+max(0,growth)*180)))
-    trend="growing" if growth>=0.035 else "weakening" if growth<=-0.035 else "steady"
-    return {"satellite_score":int(score),"satellite_trend":trend,"satellite_cold_pct":round(cold*100,1),"satellite_deep_pct":round(deep*100,1),"satellite_growth":round(growth,3)}
+        s=_sat_local_stats(a,d)
+        if s is not None:
+            stats.append(s)
+    if not stats:
+        return unavailable
+
+    current=stats[-1]
+    signals=[s["signal"] for s in stats]
+    # anomaly + texture -> 0..95
+    raw=current["signal"]*85 + min(10,current["texture"]/3.2)
+    score=int(round(np.clip(raw,0,95)))
+    delta=signals[-1]-signals[0] if len(signals)>=2 else 0
+
+    if delta>=0.09:
+        trend="growing"
+    elif delta<=-0.09:
+        trend="weakening"
+    else:
+        trend="steady"
+
+    if status=="stale":
+        trend="stale"
+    elif status=="unavailable":
+        return unavailable
+
+    return {
+        "satellite_score":score,
+        "satellite_trend":trend,
+        "satellite_status":status,
+        "satellite_signal_pct":round(current["signal"]*100,1),
+        "satellite_texture":round(current["texture"],1),
+        "satellite_polarity":current["polarity"],
+        "satellite_growth":round(delta,3),
+    }
 
 def fuse(row,sat):
-    r=int(row["risk"]); conf=int(row["confidence"]); s=sat["satellite_score"]; trend=sat["satellite_trend"]
+    r=int(row["risk"])
+    conf=int(row["confidence"])
+    s=sat.get("satellite_score")
+    trend=sat.get("satellite_trend")
+    status=sat.get("satellite_status","unavailable")
     bonus=0
-    if s>=80:bonus=8
-    elif s>=65:bonus=5
-    elif s>=50:bonus=2
-    if trend=="growing" and s>=55:bonus+=3
-    # Satellite is supporting evidence, not a stand-alone rain alarm.
-    r=min(100,r+bonus); conf=min(96,conf+(8 if s>=70 else 5 if s>=55 else 0)+(4 if trend=="growing" else 0))
+    conf_bonus=0
+
+    # ใช้ดาวเทียมเพิ่มความเชื่อมั่นเฉพาะเมื่อข้อมูลสดเท่านั้น
+    if status=="online" and s is not None:
+        if s>=80:
+            bonus=7; conf_bonus=7
+        elif s>=65:
+            bonus=4; conf_bonus=5
+        elif s>=50:
+            bonus=2; conf_bonus=3
+        if trend=="growing" and s>=50:
+            bonus+=3; conf_bonus+=3
+
+    r=min(100,r+bonus)
+    conf=min(96,conf+conf_bonus)
+
+    # ดาวเทียมอย่างเดียวห้ามดันเป็น High/Severe
     if row["severity"]=="none" and row["eta_min"] is None:
-        if row["forecast_probability"]>=80 and row["forecast_2h_mm"]>=0.8:r=min(r,69)
-        else:r=min(r,64)
-    row.update(sat); row["risk"]=int(r);row["confidence"]=int(conf);row["level"]=risk_level(r);return row
+        if row["forecast_probability"]>=80 and row["forecast_2h_mm"]>=0.8:
+            r=min(r,69)
+        else:
+            r=min(r,64)
+
+    row.update(sat)
+    row["risk"]=int(r)
+    row["confidence"]=int(conf)
+    row["level"]=risk_level(r)
+    return row
 
 def read_json(path,default):
     try:return json.loads(path.read_text(encoding="utf-8"))
@@ -212,35 +340,111 @@ def alert_tier(top):
 
 def tier_rank(t):return {"early":1,"high":2,"severe":3}.get(t,0)
 
+def append_alert_history(item):
+    history=read_json(ALERT_HISTORY_PATH,[])
+    if not isinstance(history,list):
+        history=[]
+    # prevent duplicate rows when a retry reuses the same event/status
+    key=f"{item.get('event_key')}|{item.get('status')}|{item.get('tier')}|{item.get('district')}"
+    if not any(f"{x.get('event_key')}|{x.get('status')}|{x.get('tier')}|{x.get('district')}"==key for x in history[-40:]):
+        history.append(item)
+    history=history[-200:]
+    ALERT_HISTORY_PATH.write_text(json.dumps(history,ensure_ascii=False,indent=2),encoding="utf-8")
+
+def make_alert_history_item(status,top,tier,push_status,error=None):
+    now=datetime.now(timezone.utc)
+    return {
+        "time":now.isoformat(),
+        "event_key":status.get("event_key"),
+        "district":top.get("name"),
+        "tier":tier,
+        "risk":top.get("risk"),
+        "confidence":top.get("confidence"),
+        "eta_min":top.get("eta_min"),
+        "severity":top.get("severity"),
+        "satellite_score":top.get("satellite_score"),
+        "push_status":push_status,
+        "status":push_status,
+        "error":error,
+    }
+
 def send_onesignal(status,state):
-    app=os.getenv("ONESIGNAL_APP_ID","").strip(); key=os.getenv("ONESIGNAL_REST_API_KEY","").strip(); site=os.getenv("SITE_URL","").strip() or "https://jeerapat2010-cpu.github.io/nongfon-samutprakan/"
-    if not app or not key:return False,state
-    top=max(status["districts"],key=lambda x:x["risk"]); tier=alert_tier(top)
-    if not tier:return False,state
-    now=datetime.now(timezone.utc); event=status["event_key"]
-    try:last_at=datetime.fromisoformat(state.get("last_push_at",""))
-    except Exception:last_at=None
-    last_tier=state.get("last_push_tier"); cooldown={"early":3600,"high":5400,"severe":3600}[tier]
+    app=os.getenv("ONESIGNAL_APP_ID","").strip()
+    key=os.getenv("ONESIGNAL_REST_API_KEY","").strip()
+    site=os.getenv("SITE_URL","").strip() or "https://jeerapat2010-cpu.github.io/nongfon-samutprakan/"
+    top=max(status["districts"],key=lambda x:x["risk"])
+    tier=alert_tier(top)
+    if not tier:
+        return False,state
+
+    # ถ้าไม่มี credential ไม่ถือว่าเป็น failed push เพราะระบบยังไม่ได้พยายามส่งจริง
+    if not app or not key:
+        return False,state
+
+    now=datetime.now(timezone.utc)
+    event=status["event_key"]
+    try:
+        last_at=datetime.fromisoformat(state.get("last_push_at",""))
+    except Exception:
+        last_at=None
+
+    last_tier=state.get("last_push_tier")
+    cooldown={"early":3600,"high":5400,"severe":3600}[tier]
     same_event=state.get("last_push_key")==event
     escalated=tier_rank(tier)>tier_rank(last_tier)
-    if same_event and not escalated and last_at and (now-last_at).total_seconds()<cooldown:return False,state
+
+    if same_event and not escalated and last_at and (now-last_at).total_seconds()<cooldown:
+        return False,state
+
     eta="มีฝนแล้ว" if top["eta_min"]==0 else (f"ประมาณ {top['eta_min']} นาที" if top["eta_min"] is not None else "ภายใน 2 ชม.")
     sev={"light":"เบา","moderate":"ปานกลาง","heavy":"หนัก","very_heavy":"หนักมาก","none":"ยังไม่ชัด"}[top["severity"]]
-    icon={"early":"🌦️","high":"☔","severe":"🚨"}[tier]; label={"early":"เริ่มเฝ้าระวัง","high":"เสี่ยงสูง","severe":"เตือนสูง"}[tier]
+    icon={"early":"🌦️","high":"☔","severe":"🚨"}[tier]
+    label={"early":"เริ่มเฝ้าระวัง","high":"เสี่ยงสูง","severe":"เตือนสูง"}[tier]
     title=f"{icon} เฝ้าน้องฝน: {label} {top['name']}"
-    body=f"Fusion {top['risk']}/100 • {eta} • ฝน{sev} • Sat {top['satellite_score']}/100 • มั่นใจ {top['confidence']}%"
-    payload={"app_id":app,"target_channel":"push","included_segments":["Subscribed Users"],"headings":{"en":title,"th":title},"contents":{"en":body,"th":body},"url":site,"data":{"event_key":event,"tier":tier}}
-    r=requests.post("https://api.onesignal.com/notifications",headers={"Authorization":f"Key {key}","Content-Type":"application/json"},json=payload,timeout=20)
-    if r.ok:
-        state.update({"last_push_key":event,"last_push_at":now.isoformat(),"last_push_tier":tier}); return True,state
-    print("OneSignal error",r.status_code,r.text[:300]);return False,state
+    sat_txt=top.get("satellite_score") if top.get("satellite_score") is not None else "—"
+    body=f"Fusion {top['risk']}/100 • {eta} • ฝน{sev} • Sat {sat_txt}/100 • มั่นใจ {top['confidence']}%"
+    payload={
+        "app_id":app,
+        "target_channel":"push",
+        "included_segments":["Subscribed Users"],
+        "headings":{"en":title,"th":title},
+        "contents":{"en":body,"th":body},
+        "url":site,
+        "data":{"event_key":event,"tier":tier}
+    }
+
+    try:
+        r=requests.post(
+            "https://api.onesignal.com/notifications",
+            headers={"Authorization":f"Key {key}","Content-Type":"application/json"},
+            json=payload,
+            timeout=20
+        )
+        if r.ok:
+            state.update({
+                "last_push_key":event,
+                "last_push_at":now.isoformat(),
+                "last_push_tier":tier
+            })
+            append_alert_history(make_alert_history_item(status,top,tier,"sent"))
+            return True,state
+
+        err=f"{r.status_code}: {r.text[:160]}"
+        print("OneSignal error",err)
+        append_alert_history(make_alert_history_item(status,top,tier,"failed",err))
+        return False,state
+    except Exception as e:
+        err=f"{type(e).__name__}: {str(e)[:160]}"
+        print("OneSignal exception",err)
+        append_alert_history(make_alert_history_item(status,top,tier,"failed",err))
+        return False,state
 
 def maybe_write_status(status):
     old=read_json(STATUS_PATH,{})
     def sig(x):
-        return {"province":x.get("province"),"motion":{k:x.get("motion",{}).get(k) for k in ("available","direction","speed_kmh")},"satellite":{k:x.get("satellite",{}).get(k) for k in ("available","time","top_score","trend")},"districts":[{k:d.get(k) for k in ("name","risk","level","eta_min","severity","satellite_score","satellite_trend")} for d in x.get("districts",[])]}
+        return {"province":x.get("province"),"motion":{k:x.get("motion",{}).get(k) for k in ("available","direction","speed_kmh")},"satellite":{k:x.get("satellite",{}).get(k) for k in ("available","status","age_min","time","top_score","trend")},"districts":[{k:d.get(k) for k in ("name","risk","level","eta_min","severity","satellite_score","satellite_trend")} for d in x.get("districts",[])]}
     changed=sig(status)!=sig(old)
-    try:heartbeat=(datetime.now(timezone.utc)-datetime.fromisoformat(old.get("generated_at",""))).total_seconds()>=1800
+    try:heartbeat=(datetime.now(timezone.utc)-datetime.fromisoformat(old.get("generated_at",""))).total_seconds()>=900
     except Exception:heartbeat=True
     if changed or heartbeat or not STATUS_PATH.exists():
         STATUS_PATH.write_text(json.dumps(status,ensure_ascii=False,indent=2),encoding="utf-8");return True
@@ -256,29 +460,29 @@ def main():
         except Exception as e:print("skip radar",stamp,e)
     if not images:raise SystemExit("No radar images downloaded")
     motion=estimate_motion(images,masks,stamps);radar_dt=parse_stamp(stamps[-1]);age=max(0,(datetime.now(BKK)-radar_dt).total_seconds()/60)
-    sframes,slatest=satellite_frames()
+    sframes,slatest,sat_health=satellite_frames()
     sat_dt=None
     if slatest:
         try:sat_dt=datetime.strptime(slatest["validtime"],"%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
         except Exception:pass
     districts=[]
     for d in DISTRICTS:
-        row=analyze_district(images[-1],masks,motion,d,open_meteo(d)); sat=sat_score_for_district(sframes,d); row=fuse(row,sat)
+        row=analyze_district(images[-1],masks,motion,d,open_meteo(d)); sat=sat_score_for_district(sframes,d,sat_health); row=fuse(row,sat)
         if age>45:
             row["confidence"]=max(25,row["confidence"]-20);row["risk"]=max(0,row["risk"]-8);row["level"]=risk_level(row["risk"])
         districts.append(row)
     top=max(districts,key=lambda x:x["risk"]); level=risk_level(top["risk"]); eta="มีฝนแล้ว" if top["eta_min"]==0 else (f"คาดประมาณ {top['eta_min']} นาที" if top["eta_min"] is not None else "ยังไม่เห็นก้อนฝนเข้าถึงภายใน 120 นาที")
     sev={"light":"เบา","moderate":"ปานกลาง","heavy":"หนัก","very_heavy":"หนักมาก","none":"ยังไม่ชัด"}[top["severity"]]
-    sat_phrase="เมฆก่อตัวเพิ่ม" if top["satellite_trend"]=="growing" else "เมฆทรงตัว" if top["satellite_trend"]=="steady" else "เมฆลดลง" if top["satellite_trend"]=="weakening" else "ดาวเทียมไม่พร้อม"
+    sat_phrase="เมฆก่อตัวเพิ่ม" if top.get("satellite_trend")=="growing" else "เมฆทรงตัว" if top.get("satellite_trend")=="steady" else "เมฆลดลง" if top.get("satellite_trend")=="weakening" else "ข้อมูลดาวเทียมเก่า" if top.get("satellite_trend")=="stale" else "ดาวเทียมไม่พร้อม"
     if top["risk"]>=85:summary=f"🚨 {top['name']}: {eta} • ฝน{sev} • Fusion {top['risk']}/100 • {sat_phrase}"
     elif top["risk"]>=70:summary=f"⚠️ {top['name']}: {eta} • ฝน{sev} • Fusion {top['risk']}/100 • {sat_phrase}"
-    elif top["risk"]>=60:summary=f"🌦️ เริ่มเฝ้าระวัง {top['name']} • Fusion {top['risk']}/100 • Satellite {top['satellite_score']}/100"
+    elif top["risk"]>=60:summary=f"🌦️ เริ่มเฝ้าระวัง {top['name']} • Fusion {top['risk']}/100 • Satellite {top.get('satellite_score') if top.get('satellite_score') is not None else "—"}/100"
     else:summary="ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงจาก Radar + Satellite Fusion"
     seed=f"{top['name']}|{level}|{top['eta_min']}|{top['severity']}|{motion.get('direction')}|{top['satellite_trend']}|{radar_dt:%Y%m%d%H}"
     status={"version":"9.2 SatelliteFusion MotionHD","generated_at":datetime.now(timezone.utc).isoformat(),"radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),"event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
             "province":{"risk":top["risk"],"level":level,"summary":summary,"top_district":top["name"]},
             "motion":{"available":bool(motion["available"]),"direction":motion["direction"],"speed_kmh":round(float(motion["speed_kmh"]),1),"correlation":round(float(motion["score"]),2)},
-            "satellite":{"available":bool(sframes),"provider":"JMA Himawari-8/9 B13 IR","time":sat_dt.isoformat() if sat_dt else None,"top_score":top["satellite_score"],"trend":top["satellite_trend"]},
+            "satellite":{"available":bool(sframes),"status":sat_health.get("status","unavailable"),"age_min":sat_health.get("age_min"),"frames":sat_health.get("frames",0),"provider":"JMA Himawari-8/9 B13 IR","time":sat_dt.isoformat() if sat_dt else None,"top_score":top.get("satellite_score"),"trend":top.get("satellite_trend")},
             "fusion":{"principle":"Radar primary + Himawari IR support + Open-Meteo support","satellite_alone_high_alert":False,"early_watch":60,"high":70,"severe":85},
             "districts":districts,
             "sources":{"tmd_satda":SATDA,"tmd_radar_frame":urls[-1],"tmd_suvarnabhumi":"https://weather.tmd.go.th/svp120.php","tmd_satellite":"https://satda.tmd.go.th/tmd_satellite.php","jma_himawari":"https://www.jma.go.jp/bosai/map.html#contents=himawari","open_meteo":"https://open-meteo.com/"},
