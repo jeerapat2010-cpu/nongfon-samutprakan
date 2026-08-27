@@ -30,12 +30,26 @@ body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans
  background:
  linear-gradient(90deg,transparent 0 5%,#8bb8ca 5% 13%,transparent 13% 18%,#6aa2bb 18% 28%,transparent 28% 33%,#9bc5d5 33% 42%,transparent 42% 48%,#74a7bb 48% 61%,transparent 61% 66%,#8fb9cb 66% 76%,transparent 76% 82%,#72a5b9 82% 94%,transparent 94%),
  linear-gradient(180deg,transparent 0 35%,#afd8e4 36% 100%)}
-.scene{position:absolute;z-index:3;left:4%;right:4%;bottom:3%;width:92%;height:72%;object-fit:contain;object-position:center bottom;
- filter:drop-shadow(0 14px 12px rgba(31,72,92,.22));transform-origin:50% 85%;
- animation:clayRun .85s ease-in-out infinite alternate}
-@keyframes clayRun{
- 0%{transform:translate(-5px,2px) rotate(-1.2deg) scale(1)}
- 35%{transform:translate(2px,-4px) rotate(1deg) scale(1.01)}
+.scene-bg{position:absolute;z-index:1;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;
+ filter:saturate(1.04) contrast(1.02)}
+.motion-stage{position:absolute;z-index:3;left:0;right:0;bottom:0;height:69%;overflow:hidden;pointer-events:none}
+.runner{position:absolute;bottom:5%;background-repeat:no-repeat;background-position:0 100%;
+ filter:drop-shadow(0 11px 8px rgba(18,45,61,.22));will-change:transform,background-position}
+.runner.girl{left:18%;width:180px;height:220px;background-image:url('character-girl-sprite.png');
+ background-size:1440px 220px;animation:girlFrames .72s steps(8) infinite,girlTravel 2.25s ease-in-out infinite}
+.runner.dog{left:57%;width:145px;height:145px;background-image:url('character-dog-sprite.png');
+ background-size:1160px 145px;animation:dogFrames .58s steps(8) infinite,dogTravel 1.75s ease-in-out infinite}
+.runner.girl:after,.runner.dog:after{content:"";position:absolute;left:18%;right:12%;bottom:0;height:13px;border-radius:50%;
+ background:radial-gradient(ellipse at center,rgba(224,249,255,.95),rgba(95,196,240,.45) 45%,transparent 72%);
+ transform:scaleX(.8);animation:splash .36s ease-out infinite alternate}
+@keyframes girlFrames{to{background-position:-1440px 100%}}
+@keyframes dogFrames{to{background-position:-1160px 100%}}
+@keyframes girlTravel{0%,100%{transform:translate(-8px,3px) rotate(-1deg)}35%{transform:translate(4px,-7px) rotate(1.5deg)}70%{transform:translate(11px,1px) rotate(-.8deg)}}
+@keyframes dogTravel{0%,100%{transform:translate(-10px,3px) rotate(1deg)}45%{transform:translate(8px,-10px) rotate(-2deg)}75%{transform:translate(14px,0) rotate(1.5deg)}}
+@keyframes splash{from{opacity:.35;transform:scaleX(.65) scaleY(.7)}to{opacity:.9;transform:scaleX(1.08) scaleY(1.2)}}
+@media(max-width:880px){.motion-stage{height:66%}.runner.girl{left:17%}.runner.dog{left:58%}}
+@media(max-width:520px){.runner.girl{left:10%;transform-origin:bottom center}.runner.dog{left:55%}}
+35%{transform:translate(2px,-4px) rotate(1deg) scale(1.01)}
  70%{transform:translate(7px,1px) rotate(-.6deg) scale(.995)}
  100%{transform:translate(0,-6px) rotate(1.3deg) scale(1.01)}
 }
@@ -101,25 +115,29 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .sat-label{position:absolute;z-index:3;transform:translate(10px,-34px);background:#fff;color:#173f67;border-radius:10px;padding:5px 8px;font-size:12px;font-weight:1000;white-space:nowrap;box-shadow:0 4px 14px #0005}
 .fusionline{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.fusionline>div{background:#ffffff14;border:1px solid #ffffff33;border-radius:14px;padding:9px;text-align:center}.fusionline b{display:block;font-size:19px;margin-top:3px}
 @media(max-width:560px){.fusionline{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.speech,.drop,.scene{animation:none!important}}
+@media(prefers-reduced-motion:reduce){.speech,.drop,.runner{animation:none!important}.runner{background-position:0 100%!important}}
 </style>
 </head>
 <body>
 <div class="app"><div class="shell">
 <section class="illustration">
   <div class="city"></div>
-  <img class="scene" src="scene-clay.png" onerror="this.onerror=null;this.src='scene.jpg'" alt="น้องฝนสไตล์ดินน้ำมันญี่ปุ่นกำลังวิ่งหนีฝน">
+  <img class="scene-bg" src="scene-clay-bg.png" alt="ฉากสมุทรปราการสไตล์ดินน้ำมันยามฝนตก">
+  <div class="motion-stage" aria-label="น้องฝนและน้องหมากำลังวิ่งหนีฝนแบบเคลื่อนไหว">
+    <div class="runner girl" aria-hidden="true"></div>
+    <div class="runner dog" aria-hidden="true"></div>
+  </div>
   <div class="hero-copy">
     <div class="logo"><div class="t1">เฝ้าน้องฝน</div><div class="t2">สมุทรปราการ 💗</div></div>
     <div class="location">📍 เฝ้าครบทั้งจังหวัด • 6 อำเภอ</div>
   </div>
-  <div class="speech">ฝนมาแล้ววว~ วิ่งดุ๊กดิ๊กไปดูให้! ☔💗</div>
+  <div class="speech">ฝนมาแล้ววว~ น้องฝนกับน้องหมาวิ่งดุ๊กดิ๊ก! ☔🐶💗</div>
   <div class="rain" id="rainFx"></div>
 </section>
 
 <section class="panel">
   <div class="headbar"><h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-    <div class="sub">Radar + Satellite Fusion • เรดาร์ TMD + Himawari IR + พยากรณ์รายจุด • <b>v9.0</b></div>
+    <div class="sub">Radar + Satellite Fusion • เรดาร์ TMD + Himawari IR + พยากรณ์รายจุด • <b>v9.1 Motion</b></div>
   </div>
 
   <div class="card"><div class="districts" id="districtTabs"></div></div>
@@ -173,7 +191,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     <a class="action purple btn" target="_blank" rel="noopener" href="https://satda.tmd.go.th/tmd_satellite.php"><span>🛰️</span>ดาวเทียม</a>
     <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
   </div>
-  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: Open-Meteo • Fusion Intelligence v9.0 • 27 AUG 2026</div>
+  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: Open-Meteo • Fusion Intelligence v9.1 Motion • 27 AUG 2026</div>
 </section>
 </div></div>
 
@@ -230,7 +248,7 @@ async function installApp(){if(isStandalone()){showToast('ติดตั้ง�
 function closeModal(){installModal.style.display='none'}
 latestBtn.onclick=()=>{radarMode='latest';latestBtn.className='blue';loopBtn.className='soft';radarImg.src=radarUrl()}
 loopBtn.onclick=()=>{radarMode='loop';loopBtn.className='blue';latestBtn.className='soft';radarImg.src=radarUrl()}
-refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast('Fusion v9: Radar + Himawari IR + Open-Meteo • Early Watch 60 • High 70 • Severe 85')
+refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast('Fusion v9.1 Motion: Radar + Himawari IR + Open-Meteo • เด็ก+น้องหมาเคลื่อนไหว • Early 60 • High 70 • Severe 85')
 ;(async()=>{if('serviceWorker'in navigator){try{swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await navigator.serviceWorker.ready;try{await swReg.update()}catch(e){}}catch(e){}}updateNotifyUI()})();
 fx();tabs();radarImg.src=radarUrl();refresh();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,5*60*1000);initOneSignal();
 </script>

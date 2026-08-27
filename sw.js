@@ -1,5 +1,5 @@
-const C='nongfon-spk-v9-satfusion';
-const STATIC=['./','./index.html','./manifest.webmanifest','./scene.jpg','./icon-192.png','./icon-512.png','./push-config.js'];
+const C='nongfon-spk-v9-1-motion';
+const STATIC=['./','./index.html','./manifest.webmanifest','./scene.jpg','./scene-clay-bg.png','./character-girl-sprite.png','./character-dog-sprite.png','./icon-192.png','./icon-512.png','./push-config.js'];
 try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(e){}
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(STATIC)));self.skipWaiting();});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==C).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
