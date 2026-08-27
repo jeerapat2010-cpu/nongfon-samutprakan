@@ -17,25 +17,41 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",Tahoma,sans-serif;
-background:linear-gradient(180deg,#c7ecff 0,#effaff 55%,#dff6ff 100%);color:var(--ink)}
-.app{max-width:1180px;margin:auto;padding:10px}
-.shell{display:grid;grid-template-columns:45% 55%;gap:10px;align-items:stretch}
-@media(max-width:840px){.shell{grid-template-columns:1fr}}
-.illustration{position:relative;overflow:hidden;border-radius:30px;min-height:760px;background:linear-gradient(180deg,#79c9f2,#dff6ff);box-shadow:var(--shadow);border:3px solid #fff}
-.illustration .scene{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center center;filter:saturate(1.06);background:linear-gradient(180deg,#7dcdf3 0%,#cfefff 55%,#e9f9ff 100%)}
-.illustration:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,94,154,.18),transparent 27%,rgba(15,88,135,.08));pointer-events:none}
-.hero-copy{position:absolute;z-index:4;left:18px;right:18px;top:18px;text-align:center}
+ background:linear-gradient(180deg,#c7ecff 0,#effaff 55%,#dff6ff 100%);color:var(--ink)}
+.app{max-width:1220px;margin:auto;padding:10px}
+.shell{display:grid;grid-template-columns:43% 57%;gap:10px;align-items:stretch}
+@media(max-width:880px){.shell{grid-template-columns:1fr}}
+.illustration{position:relative;overflow:hidden;border-radius:30px;min-height:760px;
+ background:
+ radial-gradient(circle at 15% 18%,#fff7 0 8%,transparent 9%),
+ linear-gradient(180deg,#79c9f2 0 45%,#d8f1f9 46% 62%,#91c9a8 63% 100%);
+ box-shadow:var(--shadow);border:3px solid #fff}
+.city{position:absolute;left:0;right:0;bottom:0;height:42%;opacity:.48;
+ background:
+ linear-gradient(90deg,transparent 0 5%,#8bb8ca 5% 13%,transparent 13% 18%,#6aa2bb 18% 28%,transparent 28% 33%,#9bc5d5 33% 42%,transparent 42% 48%,#74a7bb 48% 61%,transparent 61% 66%,#8fb9cb 66% 76%,transparent 76% 82%,#72a5b9 82% 94%,transparent 94%),
+ linear-gradient(180deg,transparent 0 35%,#afd8e4 36% 100%)}
+.scene{position:absolute;z-index:3;left:4%;right:4%;bottom:3%;width:92%;height:72%;object-fit:contain;object-position:center bottom;
+ filter:drop-shadow(0 14px 12px rgba(31,72,92,.22));transform-origin:50% 85%;
+ animation:clayRun .85s ease-in-out infinite alternate}
+@keyframes clayRun{
+ 0%{transform:translate(-5px,2px) rotate(-1.2deg) scale(1)}
+ 35%{transform:translate(2px,-4px) rotate(1deg) scale(1.01)}
+ 70%{transform:translate(7px,1px) rotate(-.6deg) scale(.995)}
+ 100%{transform:translate(0,-6px) rotate(1.3deg) scale(1.01)}
+}
+.illustration:after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,rgba(20,94,154,.14),transparent 30%,rgba(15,88,135,.05));pointer-events:none}
+.hero-copy{position:absolute;z-index:5;left:18px;right:18px;top:18px;text-align:center}
 .logo{display:inline-block;background:rgba(255,255,255,.96);padding:10px 18px 12px;border-radius:26px;border:4px solid #fff;
-box-shadow:0 7px 0 #70c9ef,0 12px 26px rgba(0,0,0,.14);transform:rotate(-1deg)}
+ box-shadow:0 7px 0 #70c9ef,0 12px 26px rgba(0,0,0,.14);transform:rotate(-1deg)}
 .logo .t1{font-size:clamp(35px,5vw,62px);font-weight:1000;color:#227ecf;line-height:.95;text-shadow:0 2px #fff}
-.logo .t2{font-size:clamp(30px,4.5vw,54px);font-weight:1000;color:#ff5f9e;line-height:1.0}
+.logo .t2{font-size:clamp(30px,4.5vw,54px);font-weight:1000;color:#ff5f9e;line-height:1}
 .location{margin:13px auto 0;display:inline-block;background:#91592f;color:#fff;padding:8px 14px;border-radius:14px;font-size:16px;font-weight:900;box-shadow:0 4px 0 #603715}
-.speech{position:absolute;z-index:5;left:50%;bottom:180px;transform:translateX(-4%);background:#fff;color:#26617e;font-weight:900;padding:10px 14px;border-radius:22px;
-box-shadow:var(--shadow);animation:pop 1.1s ease-in-out infinite alternate}
+.speech{position:absolute;z-index:6;left:50%;bottom:105px;transform:translateX(-4%);background:#fff;color:#26617e;font-weight:900;padding:10px 14px;border-radius:22px;
+ box-shadow:var(--shadow);animation:pop 1.1s ease-in-out infinite alternate}
 @keyframes pop{from{transform:translateX(-4%) scale(.97) rotate(-1deg)}to{transform:translateX(-4%) scale(1.03) rotate(1deg)}}
-.rain{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
-.drop{position:absolute;width:5px;height:18px;background:#dff8ff;border-radius:60%;opacity:.8;animation:fall 1.3s linear infinite}
-@keyframes fall{from{transform:translateY(-30px) rotate(12deg);opacity:0}15%{opacity:.8}to{transform:translateY(850px) rotate(12deg);opacity:0}}
+.rain{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+.drop{position:absolute;width:5px;height:18px;background:#e7fbff;border-radius:60%;opacity:.82;animation:fall 1.2s linear infinite}
+@keyframes fall{from{transform:translateY(-30px) rotate(15deg);opacity:0}15%{opacity:.85}to{transform:translateY(850px) translateX(-80px) rotate(15deg);opacity:0}}
 .panel{display:flex;flex-direction:column;gap:10px}
 .headbar{background:linear-gradient(90deg,#43b6f4,#45c8f0);border-radius:24px;padding:12px 16px;box-shadow:var(--shadow);border:3px solid #fff}
 .headbar h1{margin:0;color:#fff;font-size:28px;font-weight:1000;text-shadow:0 2px #1b83bc}
@@ -62,497 +78,160 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .hour .p{font-size:20px;font-weight:1000;color:#1c74b6}
 .alert{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;background:#ecfff2;border:2px solid #9ce2b5}
 .alert .mascot{font-size:40px}
-.toggle{width:62px;height:32px;border-radius:99px;background:#25ba62;position:relative}
-.toggle:after{content:"";position:absolute;right:4px;top:4px;width:24px;height:24px;border-radius:50%;background:#fff}
-.districts{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px}
-.dbtn{white-space:nowrap;background:#eaf8fe;color:#176686;border:1px solid #d2edf8}
-.dbtn.active{background:#238ff3;color:#fff}
+.toggle{width:62px;height:32px;border-radius:99px;background:#25ba62;position:relative}.toggle:after{content:"";position:absolute;right:4px;top:4px;width:24px;height:24px;border-radius:50%;background:#fff}
+.districts{display:flex;gap:6px;overflow-x:auto;padding:2px 0 4px}.dbtn{white-space:nowrap;background:#eaf8fe;color:#176686;border:1px solid #d2edf8}.dbtn.active{background:#238ff3;color:#fff}
 .riskcard{background:#f4fbfe;border-radius:17px;padding:11px;border:1px solid #dbeff7}
-.riskcard.high{background:#fff0f2;border-color:#ff9aa7}.riskcard.mid{background:#fff9e9;border-color:#ffd46a}
-.actions{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
-@media(max-width:700px){.actions{grid-template-columns:repeat(3,1fr)}}
-.action{min-height:70px;border-radius:18px;flex-direction:column;font-size:13px}
-.action span{font-size:24px}
+.riskcard.high{background:#fff0f2;border-color:#ff9aa7}.riskcard.mid{background:#fff9e9;border-color:#ffd46a}.riskcard.severe{background:#ffe6e9;border-color:#ef3852}
+.actions{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}@media(max-width:700px){.actions{grid-template-columns:repeat(3,1fr)}}
+.action{min-height:70px;border-radius:18px;flex-direction:column;font-size:13px}.action span{font-size:24px}
 .footer{text-align:center;color:#4c7187;font-size:12px;padding:5px 0 10px}
 .intel{background:linear-gradient(135deg,#f7fbff,#f4f0ff);border-color:#c9d9ff}
-.intel-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.intel-badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:1000;background:#e9f4fb;color:#386278}
-.intel-badge.watch{background:#fff5cf;color:#7b5d00}
-.intel-badge.high{background:#ffe2e7;color:#a32235}
-.intel-badge.severe{background:#ef3852;color:#fff}
+.intel-top{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}.intel-badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:1000;background:#e9f4fb;color:#386278}
+.intel-badge.watch{background:#fff5cf;color:#7b5d00}.intel-badge.high{background:#ffe2e7;color:#a32235}.intel-badge.severe{background:#ef3852;color:#fff}
 .intel-summary{font-size:17px;font-weight:1000;margin:9px 0;color:#234f6a}
-.intel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
-@media(max-width:560px){.intel-grid{grid-template-columns:repeat(2,1fr)}}
-.intel-metric{background:#fff;border:1px solid #dceafb;border-radius:15px;padding:9px;text-align:center}
-.intel-metric b{display:block;font-size:18px;margin-top:3px}
-.intel-districts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}
-@media(max-width:560px){.intel-districts{grid-template-columns:repeat(2,1fr)}}
-.intel-chip{border-radius:13px;padding:7px;background:#fff;border:1px solid #e2eaf7;font-size:12px}
-.intel-source{font-size:11px;color:#6d8291;margin-top:8px;line-height:1.45}
-@media(prefers-reduced-motion:reduce){.speech,.drop{animation:none!important}}
+.intel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}@media(max-width:560px){.intel-grid{grid-template-columns:repeat(2,1fr)}}
+.intel-metric{background:#fff;border:1px solid #dceafb;border-radius:15px;padding:9px;text-align:center}.intel-metric b{display:block;font-size:18px;margin-top:3px}
+.intel-districts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}@media(max-width:560px){.intel-districts{grid-template-columns:repeat(2,1fr)}}
+.intel-chip{border-radius:13px;padding:7px;background:#fff;border:1px solid #e2eaf7;font-size:12px}.intel-source{font-size:11px;color:#6d8291;margin-top:8px;line-height:1.45}
+.sat-card{background:linear-gradient(135deg,#071d37,#173f67);border-color:#7bb5e1;color:#fff}
+.sat-card .intel-source{color:#c9def0}.sat-wrap{position:relative;overflow:hidden;border-radius:17px;background:#071521;aspect-ratio:1/1;max-height:500px}
+.sat-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr)}
+.sat-grid img{width:100%;height:100%;object-fit:cover;display:block}
+.sat-marker{position:absolute;z-index:3;width:16px;height:16px;border-radius:50%;background:#ff4678;border:3px solid #fff;box-shadow:0 0 0 6px #ff467844;transform:translate(-50%,-50%)}
+.sat-label{position:absolute;z-index:3;transform:translate(10px,-34px);background:#fff;color:#173f67;border-radius:10px;padding:5px 8px;font-size:12px;font-weight:1000;white-space:nowrap;box-shadow:0 4px 14px #0005}
+.fusionline{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.fusionline>div{background:#ffffff14;border:1px solid #ffffff33;border-radius:14px;padding:9px;text-align:center}.fusionline b{display:block;font-size:19px;margin-top:3px}
+@media(max-width:560px){.fusionline{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.speech,.drop,.scene{animation:none!important}}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="shell">
-    <section class="illustration">
-      <img class="scene" src="scene.jpg" alt="ฉากการ์ตูนน้องฝนวิ่งหนีฝนในเมืองสมุทรปราการ">
-      <div class="hero-copy">
-        <div class="logo">
-          <div class="t1">เฝ้าน้องฝน</div>
-          <div class="t2">สมุทรปราการ 💗</div>
-        </div>
-        <div class="location">📍 เฝ้าครบทั้งจังหวัด • 6 อำเภอ</div>
-      </div>
-      <div class="speech">ฝนมาแล้ววว~ น้องฝนวิ่งไปดูให้! ☔💗</div>
-      <div class="rain" id="rainFx"></div>
-    </section>
-
-    <section class="panel">
-      <div class="headbar">
-        <h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-        <div class="sub">เลือกอำเภอเพื่อดูสถานการณ์ • ภาพรวมทั้งจังหวัดยังเฝ้าครบ 6 อำเภอ • <b>Radar Intelligence v8.2</b></div>
-      </div>
-
-      <div class="card">
-        <div class="districts" id="districtTabs"></div>
-      </div>
-
-      <div class="card summary">
-        <div class="nowbox">
-          <div class="metric">
-            <div>⏰ สภาพตอนนี้</div>
-            <div id="currentText" class="bigtemp">—</div>
-            <div id="currentRain">กำลังโหลด…</div>
-          </div>
-          <div class="metric">
-            <div>☔ โอกาสฝน (1 ชม.)</div>
-            <b id="prob1">—</b>
-            <div>ฝนสะสม 2 ชม. <span id="sum2">—</span></div>
-          </div>
-        </div>
-        <div class="riskcard" id="riskCard">
-          <div>🔔 สถานะพื้นที่</div>
-          <div id="riskTitle" style="font-size:22px;font-weight:1000;margin:6px 0">กำลังตรวจ…</div>
-          <div id="riskDesc" style="font-size:13px;color:#617d91">—</div>
-        </div>
-      </div>
-
-      <div class="card radarbox">
-        <div class="radarhead">
-          <h2>📡 ภาพเรดาร์ล่าสุด (TMD - สุวรรณภูมิ)</h2><span class="live">▶ LIVE</span>
-        </div>
-        <img id="radarImg" class="radar" alt="ภาพเรดาร์ฝน TMD">
-        <div class="tabs">
-          <button id="latestBtn" class="blue">เรดาร์ล่าสุด</button>
-          <button id="loopBtn" class="soft">ภาพเคลื่อนไหว</button>
-          <a class="btn soft" target="_blank" rel="noopener" href="https://radargis.tmd.go.th/">แผนที่ TMD</a>
-        </div>
-      </div>
-
-      <div class="card intel" id="intelCard">
-        <div class="intel-top">
-          <div style="font-size:20px;font-weight:1000">🧠 Radar Intelligence — วิเคราะห์ก้อนฝนอัตโนมัติ</div>
-          <span id="intelBadge" class="intel-badge">กำลังรอข้อมูล…</span>
-        </div>
-        <div id="intelSummary" class="intel-summary">กำลังอ่านผลวิเคราะห์จากเรดาร์ TMD หลายเฟรม…</div>
-        <div class="intel-grid">
-          <div class="intel-metric">⏱️ ฝนอาจถึง<b id="intelEta">—</b></div>
-          <div class="intel-metric">🧭 ทิศทาง<b id="intelDir">—</b></div>
-          <div class="intel-metric">🌧️ ความแรง<b id="intelSeverity">—</b></div>
-          <div class="intel-metric">🎯 ความมั่นใจ<b id="intelConfidence">—</b></div>
-        </div>
-        <div id="intelDistricts" class="intel-districts"></div>
-        <div id="intelSource" class="intel-source">ใช้ TMD Radar Composite หลายเฟรม + การเคลื่อนตัวของกลุ่มฝน + พยากรณ์ฝนรายจุดประกอบ</div>
-      </div>
-
-      <div class="card">
-        <div style="font-size:19px;font-weight:1000;margin-bottom:8px">🔔 แนวโน้ม 2 ชั่วโมงข้างหน้า</div>
-        <div id="forecast" class="forecast"></div>
-      </div>
-
-      <div class="card alert">
-        <div class="mascot">☁️</div>
-        <div>
-          <div id="provinceText" style="font-weight:1000">กำลังสรุปภาพรวมจังหวัด…</div>
-          <div id="provinceSub" style="font-size:13px;color:#477765">ตรวจครบ 6 อำเภอทุก 10 นาทีขณะเปิดแอป</div>
-          <div id="notifyStatus" style="font-size:12px;margin-top:5px;color:#315f4d">🔔 สถานะแจ้งเตือน: กำลังตรวจสอบ…</div>
-        </div>
-        <div id="notifyLamp" class="toggle" aria-label="สถานะแจ้งเตือน"></div>
-      </div>
-
-      <div class="card">
-        <div style="font-size:19px;font-weight:1000;margin-bottom:8px">🗺️ ภาพรวม 6 อำเภอ</div>
-        <div id="provinceGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px"></div>
-      </div>
-
-      <div class="actions">
-        <button class="action blue" id="refreshBtn"><span>📡</span>เรดาร์</button>
-        <button class="action pink" id="forecastBtn"><span>☁️</span>พยากรณ์</button>
-        <button class="action yellow" id="notifyBtn"><span>🔔</span>เปิดแจ้งเตือน</button>
-        <button class="action greenbtn" id="installBtn"><span>📲</span>ติดตั้งแอป</button>
-        <a class="action purple btn" target="_blank" rel="noopener" href="https://radargis.tmd.go.th/"><span>📍</span>แผนที่</a>
-        <button class="action teal" id="settingsBtn"><span>⚙️</span>ตั้งค่า</button>
-      </div>
-
-      <div class="footer">ข้อมูลเรดาร์: กรมอุตุนิยมวิทยา (TMD) • พยากรณ์รายจุด: Open-Meteo • Radar Intelligence v8.2 • พัฒนาโดย ภก.จีรภัทร พลายงาม 26 AUG 2026</div>
-    </section>
+<div class="app"><div class="shell">
+<section class="illustration">
+  <div class="city"></div>
+  <img class="scene" src="scene-clay.png" onerror="this.onerror=null;this.src='scene.jpg'" alt="น้องฝนสไตล์ดินน้ำมันญี่ปุ่นกำลังวิ่งหนีฝน">
+  <div class="hero-copy">
+    <div class="logo"><div class="t1">เฝ้าน้องฝน</div><div class="t2">สมุทรปราการ 💗</div></div>
+    <div class="location">📍 เฝ้าครบทั้งจังหวัด • 6 อำเภอ</div>
   </div>
-</div>
+  <div class="speech">ฝนมาแล้ววว~ วิ่งดุ๊กดิ๊กไปดูให้! ☔💗</div>
+  <div class="rain" id="rainFx"></div>
+</section>
+
+<section class="panel">
+  <div class="headbar"><h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
+    <div class="sub">Radar + Satellite Fusion • เรดาร์ TMD + Himawari IR + พยากรณ์รายจุด • <b>v9.0</b></div>
+  </div>
+
+  <div class="card"><div class="districts" id="districtTabs"></div></div>
+
+  <div class="card summary">
+    <div class="nowbox">
+      <div class="metric"><div>⏰ สภาพตอนนี้</div><div id="currentText" class="bigtemp">—</div><div id="currentRain">กำลังโหลด…</div></div>
+      <div class="metric"><div>☔ พยากรณ์โมเดล (1 ชม.)</div><b id="prob1">—</b><div>ฝนสะสม 2 ชม. <span id="sum2">—</span></div></div>
+    </div>
+    <div class="riskcard" id="riskCard"><div>🧠 Fusion Risk พื้นที่</div><div id="riskTitle" style="font-size:22px;font-weight:1000;margin:6px 0">กำลังตรวจ…</div><div id="riskDesc" style="font-size:13px;color:#617d91">—</div></div>
+  </div>
+
+  <div class="card radarbox">
+    <div class="radarhead"><h2>📡 ภาพเรดาร์ล่าสุด (TMD - สุวรรณภูมิ)</h2><span class="live">▶ LIVE</span></div>
+    <img id="radarImg" class="radar" alt="ภาพเรดาร์ฝน TMD">
+    <div class="tabs"><button id="latestBtn" class="blue">เรดาร์ล่าสุด</button><button id="loopBtn" class="soft">ภาพเคลื่อนไหว</button>
+      <a class="btn soft" target="_blank" rel="noopener" href="https://radargis.tmd.go.th/">แผนที่ TMD</a></div>
+  </div>
+
+  <div class="card sat-card">
+    <div class="intel-top"><div style="font-size:20px;font-weight:1000">🛰️ Himawari Satellite — เมฆยอดสูงและการก่อตัว</div><span id="satBadge" class="intel-badge">กำลังโหลด…</span></div>
+    <div class="sat-wrap"><div id="satGrid" class="sat-grid"></div><div id="satMarker" class="sat-marker"></div><div id="satLabel" class="sat-label">สมุทรปราการ</div></div>
+    <div class="tabs"><button id="satIRBtn" class="blue">IR เมฆเย็น</button><button id="satCloudBtn" class="soft">Cloud Top</button>
+      <a class="btn soft" target="_blank" rel="noopener" href="https://www.jma.go.jp/bosai/map.html#5/13.6/100.6/&elem=ir&contents=himawari">เปิด JMA Himawari</a>
+      <a class="btn soft" target="_blank" rel="noopener" href="https://satda.tmd.go.th/tmd_satellite.php">TMD ดาวเทียม</a></div>
+    <div class="fusionline">
+      <div>☁️ Satellite Score<b id="satScore">—</b></div><div>📈 แนวโน้มเมฆ<b id="satTrend">—</b></div><div>🕒 เวลา Himawari<b id="satTime">—</b></div>
+    </div>
+    <div class="intel-source">ภาพ: JMA Himawari-8/9 full-disk tiles • วิเคราะห์ภาพ IR เป็นข้อมูลประกอบ ไม่ใช้ดาวเทียมเพียงแหล่งเดียวในการสั่งเตือน</div>
+  </div>
+
+  <div class="card intel" id="intelCard">
+    <div class="intel-top"><div style="font-size:20px;font-weight:1000">🧠 Fusion Intelligence — เรดาร์ + ดาวเทียม + พยากรณ์</div><span id="intelBadge" class="intel-badge">กำลังรอข้อมูล…</span></div>
+    <div id="intelSummary" class="intel-summary">กำลังอ่านผลวิเคราะห์หลายแหล่ง…</div>
+    <div class="intel-grid"><div class="intel-metric">⏱️ ฝนอาจถึง<b id="intelEta">—</b></div><div class="intel-metric">🧭 ทิศทาง<b id="intelDir">—</b></div><div class="intel-metric">🌧️ ความแรง<b id="intelSeverity">—</b></div><div class="intel-metric">🎯 ความมั่นใจ<b id="intelConfidence">—</b></div></div>
+    <div id="intelDistricts" class="intel-districts"></div><div id="intelSource" class="intel-source">กำลังรอผลจาก GitHub Actions…</div>
+  </div>
+
+  <div class="card"><div style="font-size:19px;font-weight:1000;margin-bottom:8px">🔔 แนวโน้ม 2 ชั่วโมงข้างหน้า</div><div id="forecast" class="forecast"></div></div>
+
+  <div class="card alert"><div class="mascot">☁️</div><div><div id="provinceText" style="font-weight:1000">กำลังสรุปภาพรวมจังหวัด…</div>
+    <div id="provinceSub" style="font-size:13px;color:#477765">ระบบอัตโนมัติตรวจทุกประมาณ 10 นาที</div><div id="notifyStatus" style="font-size:12px;margin-top:5px;color:#315f4d">🔔 สถานะแจ้งเตือน: กำลังตรวจสอบ…</div></div><div id="notifyLamp" class="toggle"></div></div>
+
+  <div class="card"><div style="font-size:19px;font-weight:1000;margin-bottom:8px">🗺️ ภาพรวม 6 อำเภอ — Fusion Risk</div><div id="provinceGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px"></div></div>
+
+  <div class="actions">
+    <button class="action blue" id="refreshBtn"><span>📡</span>ตรวจใหม่</button>
+    <button class="action pink" id="forecastBtn"><span>☁️</span>พยากรณ์</button>
+    <button class="action yellow" id="notifyBtn"><span>🔔</span>เปิดแจ้งเตือน</button>
+    <button class="action greenbtn" id="installBtn"><span>📲</span>ติดตั้งแอป</button>
+    <a class="action purple btn" target="_blank" rel="noopener" href="https://satda.tmd.go.th/tmd_satellite.php"><span>🛰️</span>ดาวเทียม</a>
+    <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
+  </div>
+  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: Open-Meteo • Fusion Intelligence v9.0 • 27 AUG 2026</div>
+</section>
+</div></div>
 
 <div id="toast" style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:9999;background:#123c5b;color:#fff;padding:12px 16px;border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:.25s;max-width:88%;text-align:center;font-weight:800"></div>
-
 <div id="installModal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(10,45,68,.45);padding:18px;align-items:center;justify-content:center">
-  <div id="installDialog" role="dialog" aria-modal="true" aria-labelledby="installDialogTitle"
-      style="position:relative;width:min(92vw,440px);background:#fff;border-radius:24px;padding:20px;box-shadow:0 18px 48px rgba(0,0,0,.25)">
-      <button type="button" id="installModalX" aria-label="ปิด"
-        style="position:absolute;right:12px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:#eef7fb;color:#315b70;font-size:22px;font-weight:900;cursor:pointer">×</button>
-    <div id="installDialogTitle" style="font-size:24px;font-weight:1000;color:#176686;padding-right:46px">📲 ติดตั้ง “เฝ้าน้องฝน”</div>
-    <div id="installHelpText" style="margin-top:10px;line-height:1.65;color:#3f6074"></div>
-    <button type="button" id="closeInstallModal" style="margin-top:14px;width:100%;background:#238ff3;color:#fff">เข้าใจแล้วค่ะ</button>
-  </div>
+ <div style="position:relative;width:min(92vw,440px);background:#fff;border-radius:24px;padding:20px;box-shadow:0 18px 48px rgba(0,0,0,.25)">
+  <button id="installModalX" style="position:absolute;right:12px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:#eef7fb;font-size:22px">×</button>
+  <div style="font-size:24px;font-weight:1000;color:#176686;padding-right:46px">📲 ติดตั้ง “เฝ้าน้องฝน”</div><div id="installHelpText" style="margin-top:10px;line-height:1.65;color:#3f6074"></div>
+  <button id="closeInstallModal" style="margin-top:14px;width:100%;background:#238ff3;color:#fff">เข้าใจแล้วค่ะ</button>
+ </div>
 </div>
 
 <script src="push-config.js"></script>
 <script>
-const DISTRICTS=[{"name": "เมืองสมุทรปราการ", "short": "เมืองฯ", "lat": 13.60056, "lon": 100.59667}, {"name": "บางพลี", "short": "บางพลี", "lat": 13.60711, "lon": 100.70795}, {"name": "บางบ่อ", "short": "บางบ่อ", "lat": 13.58513, "lon": 100.8647}, {"name": "พระประแดง", "short": "พระประแดง", "lat": 13.65833, "lon": 100.53389}, {"name": "พระสมุทรเจดีย์", "short": "พระสมุทรเจดีย์", "lat": 13.56861, "lon": 100.56167}, {"name": "บางเสาธง", "short": "บางเสาธง", "lat": 13.59472, "lon": 100.83}];
-let selected=0, radarMode='latest', cache=[], radarIntel=null, oneSignalReady=null;
-
+const DISTRICTS=[
+ {name:"เมืองสมุทรปราการ",short:"เมืองฯ",lat:13.60056,lon:100.59667},
+ {name:"บางพลี",short:"บางพลี",lat:13.60711,lon:100.70795},
+ {name:"บางบ่อ",short:"บางบ่อ",lat:13.58513,lon:100.86470},
+ {name:"พระประแดง",short:"พระประแดง",lat:13.65833,lon:100.53389},
+ {name:"พระสมุทรเจดีย์",short:"พระสมุทรเจดีย์",lat:13.56861,lon:100.56167},
+ {name:"บางเสาธง",short:"บางเสาธง",lat:13.59472,lon:100.83000}
+];
+let selected=0,radarMode='latest',cache=[],radarIntel=null,oneSignalReady=null,swReg=null,deferredInstallPrompt=null,satMode='ir',satLatest=null;
 const api=d=>`https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,precipitation,rain,showers,weather_code&hourly=precipitation_probability,precipitation&forecast_days=2&timezone=Asia%2FBangkok`;
-
-function radarUrl(){
- const t=Date.now();
- return radarMode==='latest'
-  ?`https://weather.tmd.go.th/svp/svp120_latest.jpg?t=${t}`
-  :`https://weather.tmd.go.th/svp/svp120loop.gif?t=${t}`;
-}
-
-function fx(){
- const wrap=document.getElementById('rainFx');
- for(let i=0;i<22;i++){
-   const d=document.createElement('span');d.className='drop';
-   d.style.left=(Math.random()*100)+'%'; d.style.top=(-40-Math.random()*500)+'px';
-   d.style.animationDelay=(Math.random()*1.3)+'s'; d.style.animationDuration=(.9+Math.random()*.8)+'s';
-   wrap.appendChild(d);
- }
-}
-
-function tabs(){
- const el=document.getElementById('districtTabs');
- el.innerHTML=DISTRICTS.map((d,i)=>`<button class="dbtn ${i===selected?'active':''}" data-i="${i}">${d.short}</button>`).join('');
- el.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=Number(b.dataset.i);tabs();renderSelected();renderIntelSelected();}));
-}
-
-function cls(r){return (r.current>=.1||r.maxP>=70||r.sum>=1.5)?'high':(r.maxP>=40||r.sum>=.3)?'mid':'low';}
-function label(c){return c==='high'?'มีฝน/เสี่ยงสูง':c==='mid'?'เริ่มมีสัญญาณฝน':'ยังไม่มีแนวฝนเด่น';}
-
-async function load(d){
- const res=await fetch(api(d),{cache:'no-store'});
- if(!res.ok)throw new Error(d.name);
- const x=await res.json(), now=new Date();
- const rows=x.hourly.time.map((t,i)=>({t,date:new Date(t),p:x.hourly.precipitation_probability[i]??0,mm:x.hourly.precipitation[i]??0}))
- .filter(r=>r.date>=new Date(now.getTime()-20*60000)).slice(0,5);
- const two=rows.slice(0,2), maxP=Math.max(0,...two.map(r=>r.p)), sum=two.reduce((a,r)=>a+r.mm,0), current=x.current.precipitation??0;
- return {...d,temp:x.current.temperature_2m??0,current,maxP,sum,rows};
-}
-
-function renderSelected(){
- const r=cache[selected]; if(!r)return;
- currentText.textContent=Math.round(r.temp)+'°C';
- currentRain.textContent=r.current>=.1?`🌧️ มีฝนตอนนี้ ${r.current.toFixed(1)} มม.`:'☁️ ยังไม่มีฝนวัดได้ตอนนี้';
- prob1.textContent=(r.rows[0]?.p??r.maxP)+'%'; sum2.textContent=r.sum.toFixed(1)+' มม.';
- const c=cls(r), card=document.getElementById('riskCard');
- card.className='riskcard '+(c==='low'?'':c);
- riskTitle.textContent=label(c);
- riskDesc.textContent=c==='high'?`ควรจับตา ${r.name} ในช่วง 0–120 นาที`:c==='mid'?`มีโอกาสฝนเป็นหย่อม ๆ ใน ${r.name}`:`ตอนนี้ยังไม่พบแนวโน้มเด่นใน ${r.name}`;
- forecast.innerHTML=r.rows.slice(0,5).map(x=>`<div class="hour"><div>${new Date(x.t).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}</div><div style="font-size:26px">🌧️</div><div class="p">${x.p}%</div><div style="font-size:11px">${x.mm.toFixed(1)} มม.</div></div>`).join('');
-}
-
-function renderProvince(){
- const high=cache.filter(r=>cls(r)==='high'), mid=cache.filter(r=>cls(r)==='mid');
- const top=[...cache].sort((a,b)=>(b.maxP-a.maxP)||(b.sum-a.sum))[0];
- provinceText.textContent=high.length?`⚠️ พบ ${high.length} อำเภอเสี่ยงสูง — เด่นที่ ${top.name}`:mid.length?`🌦️ มีสัญญาณฝนบางพื้นที่ — จับตา ${top.name}`:'✅ ตอนนี้ภาพรวมจังหวัดยังไม่มีแนวฝนเด่น';
- provinceSub.textContent=`โอกาสฝนสูงสุด ${top.maxP}% • เฝ้าครบ 6 อำเภอ`;
- provinceGrid.innerHTML=cache.map(r=>`<div class="riskcard ${cls(r)==='low'?'':cls(r)}" style="padding:8px"><b>${r.short}</b><div style="font-size:20px;font-weight:1000">${r.maxP}%</div><div style="font-size:11px">${label(cls(r))}</div></div>`).join('');
-}
-
-
-function levelThai(level){
-  return level==='severe'?'เตือนสูง':level==='high'?'มีแนวโน้มสูง':level==='watch'?'เฝ้าระวัง':'ปกติ';
-}
-function severityThai(s){
-  return s==='very_heavy'?'หนักมาก':s==='heavy'?'หนัก':s==='moderate'?'ปานกลาง':s==='light'?'เบา':'ยังไม่พบ';
-}
-function etaThai(v){
-  if(v===0) return 'มีฝนแล้ว';
-  if(v===null || v===undefined) return '>120 นาที';
-  return `~${v} นาที`;
-}
-function renderIntelSelected(){
-  if(!radarIntel || !Array.isArray(radarIntel.districts)) return;
-  const d=radarIntel.districts.find(x=>x.name===DISTRICTS[selected].name) || radarIntel.districts[0];
-  if(!d) return;
-  intelEta.textContent=etaThai(d.eta_min);
-  intelSeverity.textContent=severityThai(d.severity);
-  intelConfidence.textContent=`${Math.round(d.confidence||0)}%`;
-}
-function renderRadarIntel(){
-  if(!radarIntel) return;
-  const p=radarIntel.province || {};
-  intelBadge.className='intel-badge '+(p.level||'normal');
-  intelBadge.textContent=`${levelThai(p.level)} • ${Math.round(p.risk||0)}/100`;
-  intelSummary.textContent=p.summary || 'ยังไม่พบแนวฝนเด่น';
-  intelDir.textContent=radarIntel.motion?.available
-    ? `${radarIntel.motion.direction} ~${Math.round(radarIntel.motion.speed_kmh||0)} กม./ชม.`
-    : 'ยังประเมินไม่ได้';
-  intelDistricts.innerHTML=(radarIntel.districts||[]).map(d=>{
-    const icon=d.level==='severe'?'🚨':d.level==='high'?'⚠️':d.level==='watch'?'🌦️':'✅';
-    return `<div class="intel-chip"><b>${icon} ${d.short||d.name}</b><br>ความเสี่ยง ${Math.round(d.risk||0)}% • ${etaThai(d.eta_min)}</div>`;
-  }).join('');
-  const rt=radarIntel.radar_time ? new Date(radarIntel.radar_time).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'}) : '—';
-  intelSource.textContent=`เรดาร์ TMD ล่าสุดที่ใช้: ${rt} • วิเคราะห์ซ้ำด้วย GitHub Actions ทุกประมาณ 10 นาที • เวอร์ชัน ${radarIntel.version||'8.2'}`;
-  renderIntelSelected();
-}
-async function loadRadarIntelligence(){
-  try{
-    const r=await fetch(`./data/radar_status.json?t=${Date.now()}`,{cache:'no-store'});
-    if(!r.ok) throw new Error('status');
-    radarIntel=await r.json();
-    renderRadarIntel();
-    maybeLocalRadarAlert();
-  }catch(e){
-    intelBadge.className='intel-badge watch';
-    intelBadge.textContent='รอเครื่องวิเคราะห์';
-    intelSummary.textContent='ยังไม่มีผล Radar Intelligence — ให้ GitHub Actions ทำงานครั้งแรกก่อนค่ะ';
-  }
-}
-function maybeLocalRadarAlert(){
-  if(!radarIntel || !('Notification' in window) || Notification.permission!=='granted') return;
-  const p=radarIntel.province||{};
-  if((p.risk||0)<70) return;
-  const key=radarIntel.event_key||`${p.level}-${p.risk}-${radarIntel.radar_time||''}`;
-  if(localStorage.getItem('nongfon-last-local-alert')===key) return;
-  const top=(radarIntel.districts||[]).slice().sort((a,b)=>(b.risk||0)-(a.risk||0))[0];
-  if(!top) return;
-  const title='☔ เฝ้าน้องฝน: มีแนวฝน';
-  const body=`${top.name} • ${etaThai(top.eta_min)} • ${severityThai(top.severity)} • มั่นใจ ${Math.round(top.confidence||0)}%`;
-  if(swReg?.showNotification) swReg.showNotification(title,{body,icon:'./icon-192.png',tag:'nongfon-radar'});
-  else new Notification(title,{body,icon:'./icon-192.png'});
-  localStorage.setItem('nongfon-last-local-alert',key);
-}
-async function initOneSignal(){
-  const appId=(window.NONGFON_PUSH_CONFIG||{}).onesignalAppId||'';
-  if(!appId) return false;
-  if(oneSignalReady) return oneSignalReady;
-  oneSignalReady=new Promise((resolve)=>{
-    const s=document.createElement('script');
-    s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';
-    s.defer=true;
-    s.onload=()=>{
-      window.OneSignalDeferred=window.OneSignalDeferred||[];
-      window.OneSignalDeferred.push(async function(OneSignal){
-        try{
-          const appBase=new URL('./',location.href).pathname;
-          const swPath=(appBase.replace(/^\//,'')+'sw.js');
-          await OneSignal.init({
-            appId,
-            serviceWorkerPath:swPath,
-            serviceWorkerParam:{scope:appBase},
-            autoResubscribe:true
-          });
-          window.NongFonOneSignal=OneSignal;
-          resolve(true);
-        }catch(e){resolve(false);}
-      });
-    };
-    s.onerror=()=>resolve(false);
-    document.head.appendChild(s);
-  });
-  return oneSignalReady;
-}
-
-async function refresh(){
- refreshBtn.disabled=true; refreshBtn.textContent='กำลังตรวจ…';
- radarImg.src=radarUrl();
- try{
-   const results=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence()]);
-   cache=results[0];renderSelected();renderProvince();
- }
- catch(e){provinceText.textContent='อ่านข้อมูลบางพื้นที่ไม่ได้ ลองรีเฟรชใหม่';}
- finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>เรดาร์';}
-}
-
-function beep(){
- try{
-   const A=window.AudioContext||window.webkitAudioContext;
-   if(!A)return;
-   const c=new A(),o=c.createOscillator(),g=c.createGain();
-   o.connect(g);g.connect(c.destination);o.frequency.value=760;
-   g.gain.setValueAtTime(.05,c.currentTime);
-   g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.5);
-   o.start();o.stop(c.currentTime+.5);
- }catch(e){}
-}
-
-function closeInstallHelp(){
-  const modal=document.getElementById('installModal');
-  if(modal) modal.style.display='none';
-}
-
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.opacity='1';
-  t.style.transform='translateX(-50%) translateY(0)';
-  clearTimeout(window.__toastTimer);
-  window.__toastTimer=setTimeout(()=>{
-    t.style.opacity='0';
-    t.style.transform='translateX(-50%) translateY(20px)';
-  },3200);
-}
-
-let swReg=null;
-let deferredInstallPrompt=null;
-
-function updateNotifyUI(){
-  const status=document.getElementById('notifyStatus');
-  const lamp=document.getElementById('notifyLamp');
-  if(!('Notification' in window)){
-    status.textContent='🔕 เบราว์เซอร์นี้ไม่รองรับ Notification';
-    lamp.style.background='#aab8c0';
-    return;
-  }
-  const p=Notification.permission;
-  if(p==='granted'){
-    status.textContent='🔔 สถานะแจ้งเตือน: เปิดแล้ว ✅';
-    lamp.style.background='#25ba62';
-  }else if(p==='denied'){
-    status.textContent='🔕 สถานะแจ้งเตือน: ถูกบล็อก ต้องเปิดใน Settings';
-    lamp.style.background='#ef5b64';
-  }else{
-    status.textContent='🔔 สถานะแจ้งเตือน: ยังไม่ได้อนุญาต';
-    lamp.style.background='#f2b934';
-  }
-}
-
-async function enableNotification(){
-  beep();
-  if(!window.isSecureContext){
-    showToast('การแจ้งเตือนต้องเปิดผ่าน HTTPS เช่น GitHub Pages ก่อนค่ะ');
-    return;
-  }
-  try{
-    const osReady=await initOneSignal();
-    if(osReady && window.NongFonOneSignal){
-      await window.NongFonOneSignal.Notifications.requestPermission();
-      updateNotifyUI();
-      showToast(Notification.permission==='granted'
-        ? 'เปิด Push แจ้งเตือนฝนเบื้องหลังแล้วค่ะ ✅'
-        : 'ยังไม่ได้อนุญาต Push Notification ค่ะ');
-      return;
-    }
-    if(!('Notification' in window)){
-      showToast('เบราว์เซอร์นี้ยังไม่รองรับ Web Notification ค่ะ');
-      return;
-    }
-    const permission=await Notification.requestPermission();
-    updateNotifyUI();
-    if(permission!=='granted'){
-      showToast(permission==='denied'
-        ? 'แจ้งเตือนถูกบล็อก กรุณาเปิดสิทธิ์ Notification ใน Settings ค่ะ'
-        : 'ยังไม่ได้อนุญาตการแจ้งเตือนค่ะ');
-      return;
-    }
-    const options={body:'เปิดแจ้งเตือนบนเครื่องแล้วค่ะ • Push ตอนปิดแอปจะทำงานเมื่อเชื่อม OneSignal',icon:'./icon-192.png',badge:'./icon-192.png',tag:'nongfon-test'};
-    if(swReg && swReg.showNotification) await swReg.showNotification('เฝ้าน้องฝน สมุทรปราการ ☔💗',options);
-    else new Notification('เฝ้าน้องฝน สมุทรปราการ ☔💗',options);
-    showToast('เปิด Notification แล้วค่ะ ✅');
-  }catch(e){
-    showToast('เปิดแจ้งเตือนไม่สำเร็จ ลองรีเฟรชแล้วกดใหม่ค่ะ');
-  }
-}
-
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();
-  deferredInstallPrompt=e;
-  document.getElementById('installBtn').style.opacity='1';
-});
-
-window.addEventListener('appinstalled',()=>{
-  deferredInstallPrompt=null;
-  showToast('ติดตั้ง “เฝ้าน้องฝน สมุทรปราการ” สำเร็จแล้วค่ะ 💗');
-});
-
-function isIOS(){
-  return /iphone|ipad|ipod/i.test(navigator.userAgent);
-}
-
-function isStandalone(){
-  return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone===true;
-}
-
-async function installApp(){
-  if(isStandalone()){
-    showToast('แอปติดตั้งอยู่บนเครื่องแล้วค่ะ ✅');
-    return;
-  }
-
-  if(deferredInstallPrompt){
-    deferredInstallPrompt.prompt();
-    const choice=await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt=null;
-    showToast(choice.outcome==='accepted'?'กำลังติดตั้งแอปค่ะ 📲':'ยกเลิกการติดตั้งแล้วค่ะ');
-    return;
-  }
-
-  const modal=document.getElementById('installModal');
-  const help=document.getElementById('installHelpText');
-  if(isIOS()){
-    help.innerHTML='บน iPhone/iPad ให้เปิดหน้านี้ด้วย <b>Safari</b> → กดปุ่ม <b>แชร์</b> → เลือก <b>เพิ่มไปยังหน้าจอโฮม</b> → กด <b>เพิ่ม</b> ค่ะ';
-  }else{
-    help.innerHTML='ถ้ายังไม่เห็นหน้าต่างติดตั้ง ให้เปิดเว็บนี้จาก <b>GitHub Pages ผ่าน HTTPS</b> ด้วย Chrome/Edge แล้วกดปุ่มนี้อีกครั้ง หรือใช้เมนูเบราว์เซอร์ → <b>Install app / Add to Home screen</b> ค่ะ<br><br><span style="font-size:13px;color:#6c8494">ปิดหน้าต่างนี้ได้ด้วยปุ่ม ×, ปุ่ม “เข้าใจแล้วค่ะ”, แตะพื้นที่ด้านนอก หรือกด Esc</span>';
-  }
-  modal.style.display='flex';
-}
-
-latestBtn.addEventListener('click',()=>{radarMode='latest';latestBtn.className='blue';loopBtn.className='soft';radarImg.src=radarUrl();});
-loopBtn.addEventListener('click',()=>{radarMode='loop';loopBtn.className='blue';latestBtn.className='soft';radarImg.src=radarUrl();});
-refreshBtn.addEventListener('click',refresh);
-forecastBtn.addEventListener('click',()=>document.querySelector('.forecast').scrollIntoView({behavior:'smooth',block:'center'}));
-document.getElementById('notifyBtn').addEventListener('click',enableNotification);
-document.getElementById('installBtn').addEventListener('click',installApp);
-document.getElementById('closeInstallModal').addEventListener('click',closeInstallHelp);
-document.getElementById('installModalX').addEventListener('click',closeInstallHelp);
-document.getElementById('installModal').addEventListener('click',e=>{
-  if(e.target.id==='installModal') closeInstallHelp();
-});
-document.addEventListener('keydown',e=>{
-  if(e.key==='Escape') closeInstallHelp();
-});
-settingsBtn.addEventListener('click',()=>showToast('v8.2 พร้อม OneSignal Push สำหรับ GitHub Pages และยังคงจูนความแม่น v8.1 ค่ะ'));
-
-(async()=>{
-  if('serviceWorker' in navigator){
-    try{
-      swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
-      await navigator.serviceWorker.ready;
-      try{ await swReg.update(); }catch(e){}
-      let refreshing=false;
-      navigator.serviceWorker.addEventListener('controllerchange',()=>{
-        if(refreshing) return;
-        refreshing=true;
-        if(!sessionStorage.getItem('nongfon-v81-reloaded')){
-          sessionStorage.setItem('nongfon-v81-reloaded','1');
-          location.reload();
-        }
-      });
-    }catch(e){}
-  }
-  updateNotifyUI();
-})();
-
+function radarUrl(){return radarMode==='latest'?`https://weather.tmd.go.th/svp/svp120_latest.jpg?t=${Date.now()}`:`https://weather.tmd.go.th/svp/svp120loop.gif?t=${Date.now()}`}
+function fx(){const w=rainFx;for(let i=0;i<28;i++){const d=document.createElement('span');d.className='drop';d.style.left=Math.random()*110+'%';d.style.top=(-40-Math.random()*600)+'px';d.style.animationDelay=Math.random()*1.3+'s';d.style.animationDuration=(.8+Math.random()*.8)+'s';w.appendChild(d)}}
+function tabs(){districtTabs.innerHTML=DISTRICTS.map((d,i)=>`<button class="dbtn ${i===selected?'active':''}" data-i="${i}">${d.short}</button>`).join('');districtTabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=+b.dataset.i;tabs();renderSelected();renderIntelSelected();placeSatMarker()})}
+async function load(d){const r=await fetch(api(d),{cache:'no-store'});if(!r.ok)throw 0;const x=await r.json(),now=new Date();const rows=x.hourly.time.map((t,i)=>({t,date:new Date(t),p:x.hourly.precipitation_probability[i]??0,mm:x.hourly.precipitation[i]??0})).filter(v=>v.date>=new Date(now-20*60000)).slice(0,5);const two=rows.slice(0,2);return {...d,temp:x.current.temperature_2m??0,current:x.current.precipitation??0,maxP:Math.max(0,...two.map(v=>v.p)),sum:two.reduce((a,v)=>a+v.mm,0),rows}}
+function levelThai(l){return l==='severe'?'เตือนสูง':l==='high'?'เสี่ยงสูง':l==='watch'?'เฝ้าระวัง':'ปกติ'}
+function severityThai(s){return s==='very_heavy'?'หนักมาก':s==='heavy'?'หนัก':s==='moderate'?'ปานกลาง':s==='light'?'เบา':'ยังไม่พบ'}
+function etaThai(v){return v===0?'มีฝนแล้ว':(v==null?'>120 นาที':`~${v} นาที`)}
+function selectedIntel(){return radarIntel?.districts?.find(x=>x.name===DISTRICTS[selected].name)}
+function renderSelected(){const r=cache[selected];if(!r)return;currentText.textContent=Math.round(r.temp)+'°C';currentRain.textContent=r.current>=.1?`🌧️ มีฝนวัดได้ ${r.current.toFixed(1)} มม.`:'☁️ ยังไม่มีฝนวัดได้ตอนนี้';prob1.textContent=(r.rows[0]?.p??r.maxP)+'%';sum2.textContent=r.sum.toFixed(1)+' มม.';forecast.innerHTML=r.rows.map(x=>`<div class="hour"><div>${new Date(x.t).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}</div><div style="font-size:26px">🌧️</div><div class="p">${x.p}%</div><div style="font-size:11px">${x.mm.toFixed(1)} มม.</div></div>`).join('');const d=selectedIntel();if(d){riskCard.className='riskcard '+(d.level==='normal'?'':d.level==='watch'?'mid':d.level);riskTitle.textContent=`${levelThai(d.level)} • ${d.risk}/100`;riskDesc.textContent=`${d.name} • ${etaThai(d.eta_min)} • ฝน${severityThai(d.severity)} • มั่นใจ ${d.confidence}% • ดาวเทียม ${d.satellite_score??0}/100`}else{riskCard.className='riskcard';riskTitle.textContent='กำลังรอ Fusion Intelligence';riskDesc.textContent='โอกาสฝนจากโมเดลด้านซ้ายเป็นข้อมูลเสริม ไม่ใช่คะแนนเตือนหลัก'}}
+function renderProvince(){if(radarIntel?.districts){const rows=radarIntel.districts;const top=[...rows].sort((a,b)=>b.risk-a.risk)[0];provinceText.textContent=top.risk>=85?`🚨 เตือนสูง — ${top.name}`:top.risk>=70?`⚠️ เสี่ยงสูง — ${top.name}`:top.risk>=60?`🌦️ เริ่มเฝ้าระวัง — ${top.name}`:'✅ ภาพรวมยังไม่พบความเสี่ยงสูง';provinceSub.textContent=`Fusion Risk สูงสุด ${top.risk}/100 • ตรวจเรดาร์+ดาวเทียม+พยากรณ์`;provinceGrid.innerHTML=rows.map(d=>`<div class="riskcard ${d.level==='normal'?'':d.level==='watch'?'mid':d.level}" style="padding:8px"><b>${d.short||d.name}</b><div style="font-size:20px;font-weight:1000">${d.risk}/100</div><div style="font-size:11px">Sat ${d.satellite_score??0} • มั่นใจ ${d.confidence}%</div></div>`).join('')}else if(cache.length){const top=[...cache].sort((a,b)=>b.maxP-a.maxP)[0];provinceText.textContent=`กำลังรอ Fusion Intelligence • โมเดลฝนสูงสุด ${top.maxP}%`;provinceSub.textContent='ยังไม่ใช้เปอร์เซ็นต์พยากรณ์เป็นคำเตือนจนกว่าจะมีผล Fusion'}}
+function renderIntelSelected(){const d=selectedIntel();if(!d)return;intelEta.textContent=etaThai(d.eta_min);intelSeverity.textContent=severityThai(d.severity);intelConfidence.textContent=`${d.confidence}%`;satScore.textContent=`${d.satellite_score??0}/100`;satTrend.textContent=(d.satellite_trend==='growing'?'ก่อตัวเพิ่ม ↑':d.satellite_trend==='weakening'?'ลดลง ↓':'ทรงตัว →')}
+function renderRadarIntel(){if(!radarIntel)return;const p=radarIntel.province||{};intelBadge.className='intel-badge '+(p.level||'normal');intelBadge.textContent=`${levelThai(p.level)} • ${p.risk||0}/100`;intelSummary.textContent=p.summary||'ยังไม่พบแนวฝนเด่น';intelDir.textContent=radarIntel.motion?.available?`${radarIntel.motion.direction} ~${Math.round(radarIntel.motion.speed_kmh||0)} กม./ชม.`:'ยังประเมินไม่ได้';intelDistricts.innerHTML=(radarIntel.districts||[]).map(d=>`<div class="intel-chip"><b>${d.level==='severe'?'🚨':d.level==='high'?'⚠️':d.level==='watch'?'🌦️':'✅'} ${d.short||d.name}</b><br>Fusion ${d.risk}/100 • Sat ${d.satellite_score??0} • ${etaThai(d.eta_min)}</div>`).join('');const rt=radarIntel.radar_time?new Date(radarIntel.radar_time).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'}):'—';const st=radarIntel.satellite?.time?new Date(radarIntel.satellite.time).toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'}):'—';intelSource.textContent=`เรดาร์ TMD ${rt} • Himawari ${st} • วิเคราะห์ซ้ำทุกประมาณ 10 นาที • ${radarIntel.version||'v9'}`;if(radarIntel.satellite){satBadge.textContent=radarIntel.satellite.available?'LIVE • Fusion':'Satellite unavailable';satBadge.className='intel-badge '+(radarIntel.satellite.available?'watch':'');satTime.textContent=st}renderIntelSelected();renderSelected();renderProvince()}
+async function loadRadarIntelligence(){try{const r=await fetch(`./data/radar_status.json?t=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw 0;radarIntel=await r.json();renderRadarIntel();maybeLocalRadarAlert()}catch(e){intelBadge.className='intel-badge watch';intelBadge.textContent='รอเครื่องวิเคราะห์';intelSummary.textContent='ยังอ่านผล Fusion Intelligence ไม่ได้'}}
+function maybeLocalRadarAlert(){if(!radarIntel||!('Notification'in window)||Notification.permission!=='granted')return;const p=radarIntel.province||{};if((p.risk||0)<60)return;const key=radarIntel.event_key||`${p.level}-${p.risk}`;if(localStorage.getItem('nongfon-last-local-alert-v9')===key)return;const top=[...(radarIntel.districts||[])].sort((a,b)=>b.risk-a.risk)[0];if(!top)return;const title=(top.risk>=85?'🚨':top.risk>=70?'☔':'🌦️')+' เฝ้าน้องฝน: '+top.name;const body=`Fusion ${top.risk}/100 • ${etaThai(top.eta_min)} • Sat ${top.satellite_score??0} • มั่นใจ ${top.confidence}%`;if(swReg?.showNotification)swReg.showNotification(title,{body,icon:'./icon-192.png',tag:'nongfon-fusion'});else new Notification(title,{body,icon:'./icon-192.png'});localStorage.setItem('nongfon-last-local-alert-v9',key)}
+function tileXY(lat,lon,z=5){const n=2**z,x=(lon+180)/360*n,y=(1-Math.asinh(Math.tan(lat*Math.PI/180))/Math.PI)/2*n;return{x,y}}
+async function loadSatellite(){try{const r=await fetch('https://www.jma.go.jp/bosai/himawari/data/satimg/targetTimes_fd.json',{cache:'no-store'});const times=await r.json();satLatest=times[times.length-1];renderSatTiles();satTime.textContent=new Date(satLatest.validtime.slice(0,4)+'-'+satLatest.validtime.slice(4,6)+'-'+satLatest.validtime.slice(6,8)+'T'+satLatest.validtime.slice(8,10)+':'+satLatest.validtime.slice(10,12)+':00Z').toLocaleString('th-TH',{dateStyle:'short',timeStyle:'short'});satBadge.textContent='LIVE • JMA';satBadge.className='intel-badge watch'}catch(e){satBadge.textContent='เปิดภาพไม่ได้';satGrid.innerHTML='<div style="grid-column:1/4;grid-row:1/4;display:grid;place-items:center;padding:30px;text-align:center;color:#d7e8f5">ภาพดาวเทียมโหลดตรงไม่ได้ แต่ Fusion Intelligence จาก GitHub Actions ยังทำงานได้ถ้าฝั่งเซิร์ฟเวอร์เข้าถึง JMA</div>'}}
+function satUrl(x,y){if(!satLatest)return'';const bp=satMode==='cloud'?['SND','ETC']:['B13','TBB'];return`https://www.jma.go.jp/bosai/himawari/data/satimg/${satLatest.basetime}/fd/${satLatest.validtime}/${bp[0]}/${bp[1]}/5/${x}/${y}.jpg`}
+function renderSatTiles(){if(!satLatest)return;let h='';for(let y=13;y<=15;y++)for(let x=23;x<=25;x++)h+=`<img alt="Himawari tile" src="${satUrl(x,y)}">`;satGrid.innerHTML=h;placeSatMarker()}
+function placeSatMarker(){const d=DISTRICTS[selected],q=tileXY(d.lat,d.lon,5);const left=((q.x-23)/3)*100,top=((q.y-13)/3)*100;satMarker.style.left=left+'%';satMarker.style.top=top+'%';satLabel.style.left=left+'%';satLabel.style.top=top+'%';satLabel.textContent=d.short}
+satIRBtn.onclick=()=>{satMode='ir';satIRBtn.className='blue';satCloudBtn.className='soft';renderSatTiles()}
+satCloudBtn.onclick=()=>{satMode='cloud';satCloudBtn.className='blue';satIRBtn.className='soft';renderSatTiles()}
+async function refresh(){refreshBtn.disabled=true;radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
+function showToast(msg){toast.textContent=msg;toast.style.opacity='1';toast.style.transform='translateX(-50%) translateY(0)';clearTimeout(window.__tt);window.__tt=setTimeout(()=>{toast.style.opacity='0';toast.style.transform='translateX(-50%) translateY(20px)'},3200)}
+function updateNotifyUI(){if(!('Notification'in window)){notifyStatus.textContent='🔕 ไม่รองรับ Notification';notifyLamp.style.background='#aab8c0';return}const p=Notification.permission;notifyStatus.textContent=p==='granted'?'🔔 สถานะแจ้งเตือน: เปิดแล้ว ✅':p==='denied'?'🔕 ถูกบล็อก ต้องเปิดใน Settings':'🔔 ยังไม่ได้อนุญาต';notifyLamp.style.background=p==='granted'?'#25ba62':p==='denied'?'#ef5b64':'#f2b934'}
+async function initOneSignal(){const appId=(window.NONGFON_PUSH_CONFIG||{}).onesignalAppId||'';if(!appId)return false;if(oneSignalReady)return oneSignalReady;oneSignalReady=new Promise(resolve=>{const s=document.createElement('script');s.src='https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js';s.defer=true;s.onload=()=>{window.OneSignalDeferred=window.OneSignalDeferred||[];window.OneSignalDeferred.push(async OneSignal=>{try{const appBase=new URL('./',location.href).pathname;const swPath=appBase.replace(/^\//,'')+'sw.js';await OneSignal.init({appId,serviceWorkerPath:swPath,serviceWorkerParam:{scope:appBase},autoResubscribe:true});window.NongFonOneSignal=OneSignal;resolve(true)}catch(e){resolve(false)}})};s.onerror=()=>resolve(false);document.head.appendChild(s)});return oneSignalReady}
+async function enableNotification(){try{const ok=await initOneSignal();if(ok&&window.NongFonOneSignal){await window.NongFonOneSignal.Notifications.requestPermission();updateNotifyUI();showToast(Notification.permission==='granted'?'เปิด Push แจ้งเตือนแล้วค่ะ ✅':'ยังไม่ได้อนุญาต Push ค่ะ');return}const p=await Notification.requestPermission();updateNotifyUI();showToast(p==='granted'?'เปิด Notification แล้วค่ะ ✅':'ยังไม่ได้อนุญาตค่ะ')}catch(e){showToast('เปิดแจ้งเตือนไม่สำเร็จ ลองใหม่ค่ะ')}}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e})
+function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}function isStandalone(){return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}
+async function installApp(){if(isStandalone()){showToast('ติดตั้งอยู่แล้วค่ะ ✅');return}if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;return}installHelpText.innerHTML=isIOS()?'บน iPhone/iPad เปิดด้วย <b>Safari</b> → แชร์ → <b>เพิ่มไปยังหน้าจอโฮม</b>':'เปิดเว็บด้วย Chrome/Edge → เมนูเบราว์เซอร์ → <b>Install app / Add to Home screen</b>';installModal.style.display='flex'}
+function closeModal(){installModal.style.display='none'}
+latestBtn.onclick=()=>{radarMode='latest';latestBtn.className='blue';loopBtn.className='soft';radarImg.src=radarUrl()}
+loopBtn.onclick=()=>{radarMode='loop';loopBtn.className='blue';latestBtn.className='soft';radarImg.src=radarUrl()}
+refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast('Fusion v9: Radar + Himawari IR + Open-Meteo • Early Watch 60 • High 70 • Severe 85')
+;(async()=>{if('serviceWorker'in navigator){try{swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await navigator.serviceWorker.ready;try{await swReg.update()}catch(e){}}catch(e){}}updateNotifyUI()})();
 fx();tabs();radarImg.src=radarUrl();refresh();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,5*60*1000);initOneSignal();
 </script>
-
-</body>
-</html>
+</body></html>
