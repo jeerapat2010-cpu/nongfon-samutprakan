@@ -335,9 +335,9 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 }
 
 
-/* ===== v9.5 Multi-Radar ===== */
+/* ===== v9.5.1 Multi-Radar Verify ===== */
 .radar-local-clock{
- top:auto!important;bottom:9px!important;right:9px!important;
+ top:9px!important;bottom:auto!important;right:9px!important;
  max-width:calc(100% - 18px);white-space:normal!important;text-align:right;
  background:rgba(7,47,81,.94)!important;
 }
@@ -350,7 +350,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .radar-clock-state.old,.radar-clock-state.unavailable,.radar-clock-state.unknown{color:#ffb6bf}
 
 
-/* ===== v9.5 Multi-Radar ===== */
+/* ===== v9.5.1 Multi-Radar Verify ===== */
 .multi-radar-box{background:linear-gradient(135deg,#eefaff,#f7fcff);border:1px solid #cfe9f5;border-radius:16px;padding:10px;margin-bottom:9px}
 .multi-radar-current{display:flex;align-items:center;gap:7px;flex-wrap:wrap;color:#527386;font-size:12px}
 .multi-radar-current b{font-size:16px;color:#126990}
@@ -384,7 +384,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 
 <section class="panel">
   <div class="headbar"><h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v9.5 Multi-Radar</span> • Clear View</b></div>
+    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v9.5.1 Multi-Radar Verify</span> • Clear View</b></div>
   </div>
 
   <div class="card"><div class="districts" id="districtTabs"></div></div>
@@ -412,7 +412,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
       <div id="radarThaiTime" class="source-time-badge radar-local-clock">🇹🇭 เวลาไทย —</div>
       <div class="source-time-note">หนองจอก/หนองแขมใช้เวลา TST (เวลาไทย) • สุวรรณภูมิใช้ UTC → แอปแปลง +7</div>
     </div>
-    <div class="thai-time-caption">AUTO FAILOVER: หนองจอก → หนองแขม → สุวรรณภูมิ → Composite • ระบบเลือกแหล่งที่สดและใช้งานได้อัตโนมัติ</div>
+    <div class="thai-time-caption">AUTO FAILOVER แบบยืนยันจริง: ระบบต้องเห็นภาพสถานีเปลี่ยนข้ามรอบก่อนจึงถือว่า LIVE • ระหว่างยืนยันใช้ Composite</div>
     <div class="tabs"><button id="latestBtn" class="blue">เรดาร์ล่าสุด</button><button id="loopBtn" class="soft">ภาพเคลื่อนไหว</button>
       <a class="btn soft" target="_blank" rel="noopener" href="https://weather.tmd.go.th/bma_nck.php">หนองจอก</a>
       <a class="btn soft" target="_blank" rel="noopener" href="https://weather.tmd.go.th/bma_nkm.php">หนองแขม</a>
@@ -506,7 +506,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     <a class="action purple btn" target="_blank" rel="noopener" href="https://satda.tmd.go.th/tmd_satellite.php"><span>🛰️</span>ดาวเทียม</a>
     <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
   </div>
-  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v9.5 Multi-Radar</span> • 28 AUG 2026</div>
+  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v9.5.1 Multi-Radar Verify</span> • 28 AUG 2026</div>
 </section>
 </div></div>
 
@@ -531,7 +531,7 @@ const DISTRICTS=[
 ];
 let selected=0,radarMode='latest',cache=[],radarIntel=null,oneSignalReady=null,swReg=null,deferredInstallPrompt=null,satMode='ir',satLatest=null;
 function appVersionText(){
- const raw=radarIntel?.version||'9.5 MultiRadar';
+ const raw=radarIntel?.version||'9.5.1 MultiRadarVerify';
  return 'v'+String(raw).replace(/^v/i,'').replace('RadarClockSync','Radar Clock Sync').replace('TimeCorrect','Time Correct').replace('SatelliteFix','Satellite Fix').replace('AlertHistory','Alert History');
 }
 function syncAppVersion(){
@@ -632,7 +632,7 @@ function stationRadarState(){
  return {status,time,age,id:s.id||'—',name:s.name||s.short||'เรดาร์',embedded_clock:s.embedded_clock||'—'};
 }
 function radarStatusThai(s){
- return s==='online'?'สด':s==='stale'?'ล่าช้า':s==='old'?'เก่า':s==='unknown'?'ไม่ทราบเวลา':'ใช้ไม่ได้';
+ return s==='online'?'สดและยืนยันแล้ว':s==='warming'?'กำลังยืนยัน':s==='stale'?'ล่าช้า':s==='old'?'เก่า':s==='unknown'?'ไม่ทราบเวลา':'ใช้ไม่ได้';
 }
 function renderMultiRadar(){
  const m=radarIntel?.multi_radar;if(!m)return;
@@ -641,10 +641,10 @@ function renderMultiRadar(){
  const reason=document.getElementById('activeRadarReason');
  const row=document.getElementById('radarHealthRow');
  if(n)n.textContent=`${sel.name||'—'} ${sel.status==='online'?'🟢':sel.status==='stale'?'🟡':'🔴'}`;
- if(reason)reason.textContent=m.selection_reason==='priority_online'?'AUTO • ตามลำดับหลัก':m.selection_reason==='freshest_available'?'AUTO • ตัวที่สดที่สุด':'AUTO • Composite สำรอง';
+ if(reason)reason.textContent=m.selection_reason==='verified_priority_online'?'AUTO • ยืนยันภาพเปลี่ยนแล้ว':'AUTO • Composite จนกว่าสถานีจะยืนยันสด';
  if(row){
    row.innerHTML=(m.stations||[]).map(s=>`<div class="radar-health ${s.status||'unavailable'} ${s.id===sel.id?'active':''}">
-     <b>${s.name}</b><span>${s.status==='online'?'🟢':s.status==='stale'?'🟡':'🔴'} ${radarStatusThai(s.status)}${s.age_min!=null?' • '+Math.round(s.age_min)+'น.':''}</span>
+     <b>${s.name}</b><span>${s.status==='online'?'🟢':s.status==='warming'?'🔵':s.status==='stale'?'🟡':'🔴'} ${radarStatusThai(s.status)}${s.age_min!=null?' • '+Math.round(s.age_min)+'น.':''}</span>
    </div>`).join('');
  }
  refreshRadarImage();
@@ -658,13 +658,12 @@ function syncRadarLiveBadge(){
 }
 function renderStationRadarClock(){
  const el=document.getElementById('radarThaiTime');if(!el)return;
- const s=stationRadarState();
+ const s=stationRadarState(), raw=activeRadar();
  if(s.time){
-   const state=radarStatusThai(s.status);
-   const clock=s.embedded_clock==='TST'?'เวลาไทย TST':'แปลงเป็นเวลาไทย';
-   el.innerHTML=`🇹🇭 <b>${s.name} • ${s.time}</b><br><span class="radar-clock-state ${s.status}">${clock} • ${state}${s.age!=null?' • '+s.age+' นาที':''}</span>`;
+   el.innerHTML=`🇹🇭 <b>${s.name} • ${s.time}</b><br><span class="radar-clock-state ${s.status}">${radarStatusThai(s.status)}${s.age!=null?' • '+s.age+' นาที':''}</span>`;
  }else{
-   el.innerHTML=`🇹🇭 ${s.name}: อ่านเวลาอัตโนมัติไม่ได้<br><span class="radar-clock-state unavailable">${s.embedded_clock==='TST'?'เวลาในภาพเป็นเวลาไทย TST':'เวลา UTC ในภาพ +7 ชม.'}</span>`;
+   const clock=raw.embedded_clock==='TST'?'เวลาในภาพ = เวลาไทย (TST)':raw.embedded_clock==='UTC'?'เวลาในภาพ UTC → ไทย +7':'ตรวจเวลาในภาพ';
+   el.innerHTML=`📡 <b>${s.name}</b><br><span class="radar-clock-state ${s.status}">${clock} • ${radarStatusThai(s.status)}</span>`;
  }
 }
 function renderRadarIntel(){
