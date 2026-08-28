@@ -1,4 +1,4 @@
-const C='nongfon-spk-v9-5-1-multiradar-verify';
+const C='nongfon-spk-v9-5-3-zoom-motion-hardfix';
 const STATIC=['./','./index.html','./manifest.webmanifest','./scene.jpg','./scene-clay-bg-hd.png','./character-girl-hd.png','./character-dog-hd.png','./icon-192.png','./icon-512.png','./push-config.js'];
 try{importScripts('https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.sw.js');}catch(e){}
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>c.addAll(STATIC)));self.skipWaiting();});

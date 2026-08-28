@@ -335,7 +335,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 }
 
 
-/* ===== v9.5.1 Multi-Radar Verify ===== */
+/* ===== v9.5.3 Zoom + Motion ===== */
 .radar-local-clock{
  top:9px!important;bottom:auto!important;right:9px!important;
  max-width:calc(100% - 18px);white-space:normal!important;text-align:right;
@@ -350,7 +350,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .radar-clock-state.old,.radar-clock-state.unavailable,.radar-clock-state.unknown{color:#ffb6bf}
 
 
-/* ===== v9.5.1 Multi-Radar Verify ===== */
+/* ===== v9.5.3 Zoom + Motion ===== */
 .multi-radar-box{background:linear-gradient(135deg,#eefaff,#f7fcff);border:1px solid #cfe9f5;border-radius:16px;padding:10px;margin-bottom:9px}
 .multi-radar-current{display:flex;align-items:center;gap:7px;flex-wrap:wrap;color:#527386;font-size:12px}
 .multi-radar-current b{font-size:16px;color:#126990}
@@ -362,6 +362,54 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .radar-health.online span{color:#13824b}.radar-health.stale span{color:#8a6500}.radar-health.old span,.radar-health.unavailable span,.radar-health.unknown span{color:#ad3344}
 .radar-health.active{border:2px solid #238ff3;box-shadow:0 0 0 2px rgba(35,143,243,.08)}
 @media(max-width:520px){.radar-health-row{grid-template-columns:repeat(3,minmax(0,1fr))}.radar-health{padding:6px 3px}.multi-radar-reason{margin-left:0}}
+
+
+/* ===== v9.5.3 HARD FIX: Bangkok Metro crop + reliable animation ===== */
+.radar-wrap{
+ position:relative!important;
+ width:100%!important;
+ height:auto!important;
+ aspect-ratio:1.10/1!important;
+ overflow:hidden!important;
+ border-radius:17px!important;
+ background:#eef5f7!important;
+}
+.radar-wrap .radar{
+ position:absolute!important;
+ max-width:none!important;
+ min-height:0!important;
+ border:0!important;
+ border-radius:0!important;
+ object-fit:fill!important;
+ transform-origin:0 0!important;
+}
+.radar-wrap.radar-station-view .radar{
+ position:absolute!important;
+ left:0!important;top:0!important;
+ width:100%!important;height:100%!important;
+ object-fit:contain!important;
+ transform:none!important;
+}
+.radar-frame-clock{
+ position:absolute;z-index:20;left:9px;top:9px;
+ background:rgba(8,59,94,.94);color:#fff;
+ border:1px solid rgba(255,255,255,.55);
+ border-radius:10px;padding:6px 9px;font-size:10px;font-weight:1000;
+ box-shadow:0 4px 12px rgba(0,0,0,.18)
+}
+.radar-zoom-area{
+ position:absolute;z-index:15;left:9px;bottom:9px;
+ background:rgba(255,255,255,.94);color:#12678e;
+ border:1px solid #cfe7f3;border-radius:10px;
+ padding:5px 8px;font-size:9px;font-weight:1000
+}
+.radar-local-clock{z-index:18!important}
+#loopBtn.is-playing{background:#16a86c!important;color:#fff!important}
+@media(max-width:520px){
+ .radar-wrap{aspect-ratio:1/1!important}
+ .radar-frame-clock{font-size:9px}
+ .radar-zoom-area{font-size:8px}
+}
 
 </style>
 </head>
@@ -384,7 +432,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 
 <section class="panel">
   <div class="headbar"><h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v9.5.1 Multi-Radar Verify</span> • Clear View</b></div>
+    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v9.5.3 Zoom + Motion</span> • Clear View</b></div>
   </div>
 
   <div class="card"><div class="districts" id="districtTabs"></div></div>
@@ -409,10 +457,10 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     </div>
     <div class="radar-wrap">
       <img id="radarImg" class="radar" alt="ภาพเรดาร์ฝน TMD">
-      <div id="radarThaiTime" class="source-time-badge radar-local-clock">🇹🇭 เวลาไทย —</div>
+      <div id="radarFrameClock" class="radar-frame-clock" style="display:none">🎞️ —</div><div id="radarThaiTime" class="source-time-badge radar-local-clock">🇹🇭 เวลาไทย —</div><div id="radarZoomAreaLabel" class="radar-zoom-area">🔍 กทม. • สมุทรปราการ • ปริมณฑล</div>
       <div class="source-time-note">หนองจอก/หนองแขมใช้เวลา TST (เวลาไทย) • สุวรรณภูมิใช้ UTC → แอปแปลง +7</div>
     </div>
-    <div class="thai-time-caption">AUTO FAILOVER แบบยืนยันจริง: ระบบต้องเห็นภาพสถานีเปลี่ยนข้ามรอบก่อนจึงถือว่า LIVE • ระหว่างยืนยันใช้ Composite</div>
+    <div class="thai-time-caption">AUTO FAILOVER แบบยืนยันจริง • Composite ซูมเฉพาะ กทม.–สมุทรปราการ–ปริมณฑล • ภาพเคลื่อนไหวสร้างจากภาพย้อนหลังจริง</div>
     <div class="tabs"><button id="latestBtn" class="blue">เรดาร์ล่าสุด</button><button id="loopBtn" class="soft">ภาพเคลื่อนไหว</button>
       <a class="btn soft" target="_blank" rel="noopener" href="https://weather.tmd.go.th/bma_nck.php">หนองจอก</a>
       <a class="btn soft" target="_blank" rel="noopener" href="https://weather.tmd.go.th/bma_nkm.php">หนองแขม</a>
@@ -506,7 +554,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     <a class="action purple btn" target="_blank" rel="noopener" href="https://satda.tmd.go.th/tmd_satellite.php"><span>🛰️</span>ดาวเทียม</a>
     <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
   </div>
-  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v9.5.1 Multi-Radar Verify</span> • 28 AUG 2026</div>
+  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v9.5.3 Zoom + Motion</span> • 28 AUG 2026</div>
 </section>
 </div></div>
 
@@ -530,8 +578,9 @@ const DISTRICTS=[
  {name:"บางเสาธง",short:"บางเสาธง",lat:13.59472,lon:100.83000}
 ];
 let selected=0,radarMode='latest',cache=[],radarIntel=null,oneSignalReady=null,swReg=null,deferredInstallPrompt=null,satMode='ir',satLatest=null;
+let radarAnimTimer=null,radarAnimIndex=0,radarAnimFrames=[];
 function appVersionText(){
- const raw=radarIntel?.version||'9.5.1 MultiRadarVerify';
+ const raw=radarIntel?.version||'9.5.3 ZoomMotion';
  return 'v'+String(raw).replace(/^v/i,'').replace('RadarClockSync','Radar Clock Sync').replace('TimeCorrect','Time Correct').replace('SatelliteFix','Satellite Fix').replace('AlertHistory','Alert History');
 }
 function syncAppVersion(){
@@ -572,10 +621,132 @@ function activeRadar(){
    status:'unknown'
  };
 }
+function cacheBustRadar(url){
+ if(!url)return'';
+ return `${url}${url.includes('?')?'&':'?'}cb=${Date.now()}`;
+}
 function radarUrl(){
  const r=activeRadar();
- const base=radarMode==='loop'?(r.loop_url||r.latest_url):r.latest_url;
- return `${base}${base.includes('?')?'&':'?'}t=${Date.now()}`;
+ const base=r.latest_url||radarIntel?.sources?.tmd_radar_frame||'https://weather.tmd.go.th/pic_bmanck.jpg';
+ return cacheBustRadar(base);
+}
+function parseCompositeStampFromUrl(url){
+ const m=String(url||'').match(/(\d{12})\.png/);
+ if(!m)return null;
+ const s=m[1];
+ // Composite filename clock = Thailand local time.
+ return new Date(`${s.slice(0,4)}-${s.slice(4,6)}-${s.slice(6,8)}T${s.slice(8,10)}:${s.slice(10,12)}:00+07:00`);
+}
+function compositeFrameUrl(d){
+ const y=d.toLocaleString('en-CA',{timeZone:'Asia/Bangkok',year:'numeric'});
+ const mo=d.toLocaleString('en-CA',{timeZone:'Asia/Bangkok',month:'2-digit'});
+ const da=d.toLocaleString('en-CA',{timeZone:'Asia/Bangkok',day:'2-digit'});
+ const hh=d.toLocaleString('en-GB',{timeZone:'Asia/Bangkok',hour:'2-digit',hour12:false});
+ const mm=String(Math.floor(Number(d.toLocaleString('en-GB',{timeZone:'Asia/Bangkok',minute:'2-digit'}))/15)*15).padStart(2,'0');
+ return `https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/${y}${mo}${da}${hh}${mm}.png`;
+}
+function makeCompositeCandidates(){
+ const latest=activeRadar()?.id==='composite'
+   ? parseCompositeStampFromUrl(activeRadar().latest_url)
+   : parseCompositeStampFromUrl(radarIntel?.sources?.tmd_radar_frame);
+ if(!latest)return[];
+ const arr=[];
+ for(let i=7;i>=0;i--){
+   const d=new Date(latest.getTime()-i*15*60*1000);
+   arr.push({url:compositeFrameUrl(d),time:d});
+ }
+ return arr;
+}
+async function verifyRadarFrame(frame){
+ return new Promise(resolve=>{
+   const im=new Image();
+   const t=setTimeout(()=>resolve(null),5000);
+   im.onload=()=>{clearTimeout(t);resolve(frame)};
+   im.onerror=()=>{clearTimeout(t);resolve(null)};
+   im.src=cacheBustRadar(frame.url);
+ });
+}
+async function buildRadarAnimationFrames(){
+ const r=activeRadar();
+ if(r.id!=='composite' && r.loop_url)return {gif:r.loop_url,frames:[]};
+ const cand=makeCompositeCandidates();
+ const verified=(await Promise.all(cand.map(verifyRadarFrame))).filter(Boolean);
+ return {gif:null,frames:verified};
+}
+function stopRadarAnimation(){
+ if(radarAnimTimer){clearInterval(radarAnimTimer);radarAnimTimer=null}
+ radarAnimFrames=[];radarAnimIndex=0;
+ const c=document.getElementById('radarFrameClock');if(c)c.style.display='none';
+ loopBtn?.classList.remove('is-playing');
+}
+function displayAnimationFrame(frame){
+ if(!frame)return;
+ radarImg.src=cacheBustRadar(frame.url);
+ const c=document.getElementById('radarFrameClock');
+ if(c){c.style.display='block';c.textContent=`🎞️ ${formatThaiTime(frame.time)}`}
+}
+async function startRadarAnimation(){
+ stopRadarAnimation();
+ radarMode='loop';
+ loopBtn.disabled=true;
+ loopBtn.textContent='กำลังเตรียมภาพ…';
+ const built=await buildRadarAnimationFrames();
+ loopBtn.disabled=false;
+ loopBtn.textContent='ภาพเคลื่อนไหว';
+ loopBtn.classList.add('is-playing');
+ if(built.gif){
+   radarImg.src=cacheBustRadar(built.gif);
+   const c=document.getElementById('radarFrameClock');
+   if(c){c.style.display='block';c.textContent=`🎞️ ${activeRadar().name} • LIVE LOOP`}
+   return;
+ }
+ radarAnimFrames=built.frames;
+ if(radarAnimFrames.length<2){
+   stopRadarAnimation();
+   radarMode='latest';
+   radarImg.src=radarUrl();
+   showToast('ยังโหลดภาพย้อนหลังไม่พอ ลองกดใหม่อีกครั้ง');
+   return;
+ }
+ radarAnimIndex=0;
+ displayAnimationFrame(radarAnimFrames[0]);
+ radarAnimTimer=setInterval(()=>{
+   radarAnimIndex=(radarAnimIndex+1)%radarAnimFrames.length;
+   displayAnimationFrame(radarAnimFrames[radarAnimIndex]);
+ },800);
+}
+function showLatestRadar(){
+ radarMode='latest';
+ stopRadarAnimation();
+ radarImg.src=radarUrl();
+ latestBtn.className='blue';
+ loopBtn.className='soft';
+}
+function applyMetroZoom(){
+ const wrap=radarImg.closest('.radar-wrap');if(!wrap)return;
+ const r=activeRadar();
+ if(r.id!=='composite'){
+   wrap.classList.add('radar-station-view');
+   radarImg.style.cssText='';
+   return;
+ }
+ wrap.classList.remove('radar-station-view');
+ if(!radarImg.naturalWidth||!radarImg.naturalHeight)return;
+
+ // Exact calibrated crop from TMD Composite:
+ // approx lon 98.8–102.0 E, lat 12.2–15.2 N
+ // source image 816x1000 => crop about x=275..414, y=391..525
+ const sx=0.337, sy=0.391, sw=0.171, sh=0.134;
+ const W=wrap.clientWidth,H=wrap.clientHeight;
+ const fullW=W/sw;
+ const fullH=H/sh;
+ // preserve the source image aspect while ensuring crop fills viewport
+ const scale=Math.max(fullW/radarImg.naturalWidth,fullH/radarImg.naturalHeight);
+ const dw=radarImg.naturalWidth*scale, dh=radarImg.naturalHeight*scale;
+ radarImg.style.width=dw+'px';
+ radarImg.style.height=dh+'px';
+ radarImg.style.left=(-sx*dw)+'px';
+ radarImg.style.top=(-sy*dh)+'px';
 }
 function refreshRadarImage(){radarImg.src=radarUrl()}
 function fx(){const w=rainFx;for(let i=0;i<28;i++){const d=document.createElement('span');d.className='drop';d.style.left=Math.random()*110+'%';d.style.top=(-40-Math.random()*600)+'px';d.style.animationDelay=Math.random()*1.3+'s';d.style.animationDuration=(.8+Math.random()*.8)+'s';w.appendChild(d)}}
@@ -647,7 +818,7 @@ function renderMultiRadar(){
      <b>${s.name}</b><span>${s.status==='online'?'🟢':s.status==='warming'?'🔵':s.status==='stale'?'🟡':'🔴'} ${radarStatusThai(s.status)}${s.age_min!=null?' • '+Math.round(s.age_min)+'น.':''}</span>
    </div>`).join('');
  }
- refreshRadarImage();
+ if(radarMode!=='loop')radarImg.src=radarUrl();
 }
 function syncRadarLiveBadge(){
  const live=document.querySelector('.radarhead .live');if(!live)return;
@@ -708,7 +879,7 @@ function renderSatTiles(){if(!satLatest)return;let h='';for(let y=13;y<=15;y++)f
 function placeSatMarker(){const d=DISTRICTS[selected],q=tileXY(d.lat,d.lon,5);const left=((q.x-23)/3)*100,top=((q.y-13)/3)*100;satMarker.style.left=left+'%';satMarker.style.top=top+'%';satLabel.style.left=left+'%';satLabel.style.top=top+'%';satLabel.textContent=d.short}
 satIRBtn.onclick=()=>{satMode='ir';satIRBtn.className='blue';satCloudBtn.className='soft';renderSatTiles()}
 satCloudBtn.onclick=()=>{satMode='cloud';satCloudBtn.className='blue';satIRBtn.className='soft';renderSatTiles()}
-async function refresh(){refreshBtn.disabled=true;radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
+async function refresh(){refreshBtn.disabled=true;if(radarMode!=='loop')radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
 function tierThai(t){return t==='severe'?'เตือนสูง':t==='high'?'เสี่ยงสูง':t==='early'?'เริ่มเฝ้าระวัง':'แจ้งเตือน'}
 function pushStatusThai(s){return s==='sent'?'ส่งสำเร็จ ✅':'ส่งไม่สำเร็จ ⚠️'}
 function severityHistoryThai(s){return s==='very_heavy'?'หนักมาก':s==='heavy'?'หนัก':s==='moderate'?'ปานกลาง':s==='light'?'เบา':'ยังไม่ชัด'}
@@ -758,10 +929,12 @@ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredIns
 function isIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}function isStandalone(){return matchMedia('(display-mode: standalone)').matches||navigator.standalone===true}
 async function installApp(){if(isStandalone()){showToast('ติดตั้งอยู่แล้วค่ะ ✅');return}if(deferredInstallPrompt){deferredInstallPrompt.prompt();await deferredInstallPrompt.userChoice;deferredInstallPrompt=null;return}installHelpText.innerHTML=isIOS()?'บน iPhone/iPad เปิดด้วย <b>Safari</b> → แชร์ → <b>เพิ่มไปยังหน้าจอโฮม</b>':'เปิดเว็บด้วย Chrome/Edge → เมนูเบราว์เซอร์ → <b>Install app / Add to Home screen</b>';installModal.style.display='flex'}
 function closeModal(){installModal.style.display='none'}
-latestBtn.onclick=()=>{radarMode='latest';latestBtn.className='blue';loopBtn.className='soft';radarImg.src=radarUrl()}
-loopBtn.onclick=()=>{radarMode='loop';loopBtn.className='blue';latestBtn.className='soft';radarImg.src=radarUrl()}
+radarImg.addEventListener('load',()=>setTimeout(applyMetroZoom,20));
+window.addEventListener('resize',()=>setTimeout(applyMetroZoom,80));
+latestBtn.onclick=showLatestRadar;
+loopBtn.onclick=async()=>{latestBtn.className='soft';loopBtn.className='blue';await startRadarAnimation()};
 refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast(`Fusion ${appVersionText()}: Radar + ภาพเมฆดาวเทียม + พยากรณ์อากาศ • เด็ก+น้องหมาเคลื่อนไหว • Early 60 • High 70 • Severe 85`)
 ;(async()=>{if('serviceWorker'in navigator){try{swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await navigator.serviceWorker.ready;try{await swReg.update()}catch(e){}}catch(e){}}updateNotifyUI()})();
-fx();tabs();radarImg.src=radarUrl();refresh();loadAlertHistory();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,5*60*1000);setInterval(loadAlertHistory,5*60*1000);initOneSignal();
+fx();tabs();radarMode='latest';radarImg.src=radarUrl();refresh();loadAlertHistory();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,5*60*1000);setInterval(loadAlertHistory,5*60*1000);initOneSignal();
 </script>
 </body></html>
