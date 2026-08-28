@@ -334,6 +334,35 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
  .source-time-note{right:7px;top:40px;font-size:8px}
 }
 
+
+/* ===== v9.5 Multi-Radar ===== */
+.radar-local-clock{
+ top:auto!important;bottom:9px!important;right:9px!important;
+ max-width:calc(100% - 18px);white-space:normal!important;text-align:right;
+ background:rgba(7,47,81,.94)!important;
+}
+.radar-clock-state{
+ display:inline-block;margin-top:4px;padding:3px 7px;border-radius:999px;
+ font-size:9px;font-weight:1000;background:rgba(255,255,255,.18)
+}
+.radar-clock-state.online{color:#bfffd7}
+.radar-clock-state.stale{color:#ffe89a}
+.radar-clock-state.old,.radar-clock-state.unavailable,.radar-clock-state.unknown{color:#ffb6bf}
+
+
+/* ===== v9.5 Multi-Radar ===== */
+.multi-radar-box{background:linear-gradient(135deg,#eefaff,#f7fcff);border:1px solid #cfe9f5;border-radius:16px;padding:10px;margin-bottom:9px}
+.multi-radar-current{display:flex;align-items:center;gap:7px;flex-wrap:wrap;color:#527386;font-size:12px}
+.multi-radar-current b{font-size:16px;color:#126990}
+.multi-radar-reason{margin-left:auto;background:#dff4ff;color:#1879a7;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:1000}
+.radar-health-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.radar-health{background:#fff;border:1px solid #dcecf3;border-radius:12px;padding:7px;text-align:center;min-width:0}
+.radar-health b{display:block;font-size:11px;color:#244e66;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radar-health span{display:block;margin-top:3px;font-size:9px;font-weight:1000}
+.radar-health.online span{color:#13824b}.radar-health.stale span{color:#8a6500}.radar-health.old span,.radar-health.unavailable span,.radar-health.unknown span{color:#ad3344}
+.radar-health.active{border:2px solid #238ff3;box-shadow:0 0 0 2px rgba(35,143,243,.08)}
+@media(max-width:520px){.radar-health-row{grid-template-columns:repeat(3,minmax(0,1fr))}.radar-health{padding:6px 3px}.multi-radar-reason{margin-left:0}}
+
 </style>
 </head>
 <body>
@@ -355,7 +384,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 
 <section class="panel">
   <div class="headbar"><h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b>v9.4.2 เวลาไทย • Clear View</b></div>
+    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v9.5 Multi-Radar</span> • Clear View</b></div>
   </div>
 
   <div class="card"><div class="districts" id="districtTabs"></div></div>
@@ -369,14 +398,24 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
   </div>
 
   <div class="card radarbox">
-    <div class="radarhead"><h2>📡 ภาพเรดาร์ล่าสุด (TMD - สุวรรณภูมิ)</h2><span class="live">▶ LIVE</span></div>
+    <div class="radarhead"><h2>📡 เรดาร์กรุงเทพฯ — เลือกแหล่งอัตโนมัติ</h2><span class="live">▶ LIVE</span></div>
+    <div class="multi-radar-box">
+      <div class="multi-radar-current">
+        <span>📡 กำลังใช้</span>
+        <b id="activeRadarName">กำลังเลือกเรดาร์…</b>
+        <span id="activeRadarReason" class="multi-radar-reason">AUTO</span>
+      </div>
+      <div id="radarHealthRow" class="radar-health-row"></div>
+    </div>
     <div class="radar-wrap">
       <img id="radarImg" class="radar" alt="ภาพเรดาร์ฝน TMD">
-      <div id="radarThaiTime" class="source-time-badge">🇹🇭 เวลาไทย —</div>
-      <div class="source-time-note">เวลามุมภาพต้นฉบับอาจเป็น UTC</div>
+      <div id="radarThaiTime" class="source-time-badge radar-local-clock">🇹🇭 เวลาไทย —</div>
+      <div class="source-time-note">หนองจอก/หนองแขมใช้เวลา TST (เวลาไทย) • สุวรรณภูมิใช้ UTC → แอปแปลง +7</div>
     </div>
-    <div class="thai-time-caption">เวลาที่แอปแสดงยึดประเทศไทย (Asia/Bangkok, UTC+7) ทุกอุปกรณ์</div>
+    <div class="thai-time-caption">AUTO FAILOVER: หนองจอก → หนองแขม → สุวรรณภูมิ → Composite • ระบบเลือกแหล่งที่สดและใช้งานได้อัตโนมัติ</div>
     <div class="tabs"><button id="latestBtn" class="blue">เรดาร์ล่าสุด</button><button id="loopBtn" class="soft">ภาพเคลื่อนไหว</button>
+      <a class="btn soft" target="_blank" rel="noopener" href="https://weather.tmd.go.th/bma_nck.php">หนองจอก</a>
+      <a class="btn soft" target="_blank" rel="noopener" href="https://weather.tmd.go.th/bma_nkm.php">หนองแขม</a>
       <a class="btn soft" target="_blank" rel="noopener" href="https://radargis.tmd.go.th/">แผนที่ TMD</a></div>
   </div>
 
@@ -467,7 +506,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     <a class="action purple btn" target="_blank" rel="noopener" href="https://satda.tmd.go.th/tmd_satellite.php"><span>🛰️</span>ดาวเทียม</a>
     <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
   </div>
-  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน v9.4.2 เวลาไทย • 27 AUG 2026</div>
+  <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v9.5 Multi-Radar</span> • 28 AUG 2026</div>
 </section>
 </div></div>
 
@@ -491,6 +530,16 @@ const DISTRICTS=[
  {name:"บางเสาธง",short:"บางเสาธง",lat:13.59472,lon:100.83000}
 ];
 let selected=0,radarMode='latest',cache=[],radarIntel=null,oneSignalReady=null,swReg=null,deferredInstallPrompt=null,satMode='ir',satLatest=null;
+function appVersionText(){
+ const raw=radarIntel?.version||'9.5 MultiRadar';
+ return 'v'+String(raw).replace(/^v/i,'').replace('RadarClockSync','Radar Clock Sync').replace('TimeCorrect','Time Correct').replace('SatelliteFix','Satellite Fix').replace('AlertHistory','Alert History');
+}
+function syncAppVersion(){
+ const v=appVersionText();
+ document.querySelectorAll('.app-version-slot').forEach(el=>el.textContent=v);
+ return v;
+}
+
 const api=d=>`https://api.open-meteo.com/v1/forecast?latitude=${d.lat}&longitude=${d.lon}&current=temperature_2m,precipitation,rain,showers,weather_code&hourly=precipitation_probability,precipitation&forecast_days=2&timezone=Asia%2FBangkok`;
 const THAI_TZ='Asia/Bangkok';
 function formatThaiDateTime(value){
@@ -514,7 +563,21 @@ function jmaUtcDate(validtime){
   if(!validtime||validtime.length<12)return null;
   return new Date(validtime.slice(0,4)+'-'+validtime.slice(4,6)+'-'+validtime.slice(6,8)+'T'+validtime.slice(8,10)+':'+validtime.slice(10,12)+':00Z');
 }
-function radarUrl(){return radarMode==='latest'?`https://weather.tmd.go.th/svp/svp120_latest.jpg?t=${Date.now()}`:`https://weather.tmd.go.th/svp/svp120loop.gif?t=${Date.now()}`}
+function activeRadar(){
+ const m=radarIntel?.multi_radar;
+ return m?.selected||radarIntel?.station_radar||{
+   id:'nongchok',name:'หนองจอก',
+   latest_url:'https://weather.tmd.go.th/pic_bmanck.jpg',
+   loop_url:'https://weather.tmd.go.th/pic_bmancLoop.gif',
+   status:'unknown'
+ };
+}
+function radarUrl(){
+ const r=activeRadar();
+ const base=radarMode==='loop'?(r.loop_url||r.latest_url):r.latest_url;
+ return `${base}${base.includes('?')?'&':'?'}t=${Date.now()}`;
+}
+function refreshRadarImage(){radarImg.src=radarUrl()}
 function fx(){const w=rainFx;for(let i=0;i<28;i++){const d=document.createElement('span');d.className='drop';d.style.left=Math.random()*110+'%';d.style.top=(-40-Math.random()*600)+'px';d.style.animationDelay=Math.random()*1.3+'s';d.style.animationDuration=(.8+Math.random()*.8)+'s';w.appendChild(d)}}
 function tabs(){districtTabs.innerHTML=DISTRICTS.map((d,i)=>`<button class="dbtn ${i===selected?'active':''}" data-i="${i}">${d.short}</button>`).join('');districtTabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=+b.dataset.i;tabs();renderSelected();renderIntelSelected();placeSatMarker()})}
 async function load(d){const r=await fetch(api(d),{cache:'no-store'});if(!r.ok)throw 0;const x=await r.json(),now=new Date();const rows=x.hourly.time.map((t,i)=>({t,date:new Date(t),p:x.hourly.precipitation_probability[i]??0,mm:x.hourly.precipitation[i]??0})).filter(v=>v.date>=new Date(now-20*60000)).slice(0,5);const two=rows.slice(0,2);return {...d,temp:x.current.temperature_2m??0,current:x.current.precipitation??0,maxP:Math.max(0,...two.map(v=>v.p)),sum:two.reduce((a,v)=>a+v.mm,0),rows}}
@@ -561,8 +624,55 @@ function satValueText(top){
  if(st.cls==='online') return v==null?'ออนไลน์':`ออนไลน์ • ${v}/100`;
  return st.cls==='stale'?'ข้อมูลเก่า':'อ่านไม่ได้';
 }
+function stationRadarState(){
+ const s=activeRadar()||{};
+ const status=s.status||'unavailable';
+ const time=s.time?formatThaiDateTime(s.time):null;
+ const age=Number.isFinite(Number(s.age_min))?Math.round(Number(s.age_min)):null;
+ return {status,time,age,id:s.id||'—',name:s.name||s.short||'เรดาร์',embedded_clock:s.embedded_clock||'—'};
+}
+function radarStatusThai(s){
+ return s==='online'?'สด':s==='stale'?'ล่าช้า':s==='old'?'เก่า':s==='unknown'?'ไม่ทราบเวลา':'ใช้ไม่ได้';
+}
+function renderMultiRadar(){
+ const m=radarIntel?.multi_radar;if(!m)return;
+ const sel=m.selected||{};
+ const n=document.getElementById('activeRadarName');
+ const reason=document.getElementById('activeRadarReason');
+ const row=document.getElementById('radarHealthRow');
+ if(n)n.textContent=`${sel.name||'—'} ${sel.status==='online'?'🟢':sel.status==='stale'?'🟡':'🔴'}`;
+ if(reason)reason.textContent=m.selection_reason==='priority_online'?'AUTO • ตามลำดับหลัก':m.selection_reason==='freshest_available'?'AUTO • ตัวที่สดที่สุด':'AUTO • Composite สำรอง';
+ if(row){
+   row.innerHTML=(m.stations||[]).map(s=>`<div class="radar-health ${s.status||'unavailable'} ${s.id===sel.id?'active':''}">
+     <b>${s.name}</b><span>${s.status==='online'?'🟢':s.status==='stale'?'🟡':'🔴'} ${radarStatusThai(s.status)}${s.age_min!=null?' • '+Math.round(s.age_min)+'น.':''}</span>
+   </div>`).join('');
+ }
+ refreshRadarImage();
+}
+function syncRadarLiveBadge(){
+ const live=document.querySelector('.radarhead .live');if(!live)return;
+ const s=stationRadarState();
+ if(s.status==='online'){live.textContent='● LIVE';live.style.background='#e9fff1';live.style.color='#13824b'}
+ else if(s.status==='stale'){live.textContent='● ล่าช้า';live.style.background='#fff7d9';live.style.color='#8a6500'}
+ else{live.textContent='● ข้อมูลเก่า';live.style.background='#fff0f2';live.style.color='#ad3344'}
+}
+function renderStationRadarClock(){
+ const el=document.getElementById('radarThaiTime');if(!el)return;
+ const s=stationRadarState();
+ if(s.time){
+   const state=radarStatusThai(s.status);
+   const clock=s.embedded_clock==='TST'?'เวลาไทย TST':'แปลงเป็นเวลาไทย';
+   el.innerHTML=`🇹🇭 <b>${s.name} • ${s.time}</b><br><span class="radar-clock-state ${s.status}">${clock} • ${state}${s.age!=null?' • '+s.age+' นาที':''}</span>`;
+ }else{
+   el.innerHTML=`🇹🇭 ${s.name}: อ่านเวลาอัตโนมัติไม่ได้<br><span class="radar-clock-state unavailable">${s.embedded_clock==='TST'?'เวลาในภาพเป็นเวลาไทย TST':'เวลา UTC ในภาพ +7 ชม.'}</span>`;
+ }
+}
 function renderRadarIntel(){
  if(!radarIntel)return;
+ if(typeof syncAppVersion==='function')syncAppVersion();
+ renderMultiRadar();
+ renderStationRadarClock();
+ syncRadarLiveBadge();
  const p=radarIntel.province||{}, rows=radarIntel.districts||[];
  const top=[...rows].sort((a,b)=>(b.risk||0)-(a.risk||0))[0];
  intelBadge.className='intel-badge '+(p.level||'normal');
@@ -574,7 +684,7 @@ function renderRadarIntel(){
  const si=document.getElementById('clearStatusIcon');if(si)si.textContent=(p.risk||0)>=85?'⛈️':(p.risk||0)>=70?'🌩️':(p.risk||0)>=60?'🌦️':(top?.severity==='light'?'🌧️':'☁️');
  intelDir.textContent=radarIntel.motion?.available?`${radarIntel.motion.direction} ${Math.round(radarIntel.motion.speed_kmh||0)} กม./ชม.`:'ยังบอกทิศทางไม่ได้';
  if(top){
-   const sr=document.getElementById('sensorRadar');if(sr)sr.textContent=`${top.raw_radar_risk??top.risk??0}/100`;
+   const sr=document.getElementById('sensorRadar');if(sr){const ar=activeRadar();sr.textContent=`${top.raw_radar_risk??top.risk??0}/100 • ${ar.name||'Radar'}`;}
    const ss=document.getElementById('sensorSat');if(ss){ss.textContent=satValueText(top);let old=ss.parentElement.querySelector('.sat-state');if(old)old.remove();const st=satelliteState(),el=document.createElement('div');el.className='sat-state '+st.cls;el.textContent=st.label;el.title=st.detail;ss.parentElement.appendChild(el);}
    const sf=document.getElementById('sensorForecast');if(sf)sf.textContent=`${top.forecast_probability??0}%`;
  }
@@ -582,7 +692,6 @@ function renderRadarIntel(){
  const rt=radarIntel.radar_time?formatThaiDateTime(radarIntel.radar_time):'—';
  const st=radarIntel.satellite?.time?formatThaiDateTime(radarIntel.satellite.time):'—';
  intelSource.textContent=`เวลาไทย • เรดาร์ ${rt} • ดาวเทียม ${st}`;
- const rtb=document.getElementById('radarThaiTime');if(rtb)rtb.textContent=`🇹🇭 วิเคราะห์เรดาร์ ${rt}`;
  const stb=document.getElementById('satThaiTimeOverlay');if(stb&&radarIntel.satellite?.time)stb.textContent=`🇹🇭 ดาวเทียม ${st}`;
  if(radarIntel.satellite){
    const sst=satelliteState();satBadge.textContent=sst.label;
@@ -652,7 +761,7 @@ async function installApp(){if(isStandalone()){showToast('ติดตั้ง�
 function closeModal(){installModal.style.display='none'}
 latestBtn.onclick=()=>{radarMode='latest';latestBtn.className='blue';loopBtn.className='soft';radarImg.src=radarUrl()}
 loopBtn.onclick=()=>{radarMode='loop';loopBtn.className='blue';latestBtn.className='soft';radarImg.src=radarUrl()}
-refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast('Fusion v9.4.2 เวลาไทย: Radar + ภาพเมฆดาวเทียม + พยากรณ์อากาศ • เด็ก+น้องหมาเคลื่อนไหว • Early 60 • High 70 • Severe 85')
+refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast(`Fusion ${appVersionText()}: Radar + ภาพเมฆดาวเทียม + พยากรณ์อากาศ • เด็ก+น้องหมาเคลื่อนไหว • Early 60 • High 70 • Severe 85`)
 ;(async()=>{if('serviceWorker'in navigator){try{swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await navigator.serviceWorker.ready;try{await swReg.update()}catch(e){}}catch(e){}}updateNotifyUI()})();
 fx();tabs();radarImg.src=radarUrl();refresh();loadAlertHistory();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,5*60*1000);setInterval(loadAlertHistory,5*60*1000);initOneSignal();
 </script>
