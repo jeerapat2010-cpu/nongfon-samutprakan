@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# NongFon Samut Prakan - Fusion Intelligence v9.4.3 Time Correct
+# NongFon Samut Prakan - Fusion Intelligence v9.5 Multi-Radar
 # Radar + Himawari IR + point forecast. Automated nowcast aid; official warnings should be checked with TMD.
 
 from __future__ import annotations
 import io, os, re, json, math, hashlib
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from urllib.parse import urljoin
+from email.utils import parsedate_to_datetime
 import numpy as np
 import requests
 from PIL import Image
@@ -18,8 +19,33 @@ ROOT=Path(__file__).resolve().parents[1]
 DATA=ROOT/"data"; DATA.mkdir(exist_ok=True)
 STATUS_PATH=DATA/"radar_status.json"; STATE_PATH=DATA/"radar_state.json"; ALERT_HISTORY_PATH=DATA/"alert_history.json"
 SATDA="https://satda.tmd.go.th/"
+COMPOSITE_PAGE="https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/radar_composite.php"
+SVP_LATEST="https://weather.tmd.go.th/svp/svp120_latest.jpg"
+RADAR_STATIONS=[
+    {
+        "id":"nongchok","name":"หนองจอก","short":"หนองจอก","priority":1,
+        "latest_url":"https://weather.tmd.go.th/pic_bmanck.jpg",
+        "loop_url":"https://weather.tmd.go.th/pic_bmancLoop.gif",
+        "page_url":"https://weather.tmd.go.th/bma_nck.php",
+        "embedded_clock":"TST","embedded_to_thailand_hours":0
+    },
+    {
+        "id":"nongkhame","name":"หนองแขม","short":"หนองแขม","priority":2,
+        "latest_url":"https://weather.tmd.go.th/pic_bmankm.jpg",
+        "loop_url":"https://weather.tmd.go.th/pic_bmankLoop.gif",
+        "page_url":"https://weather.tmd.go.th/bma_nkm.php",
+        "embedded_clock":"TST","embedded_to_thailand_hours":0
+    },
+    {
+        "id":"suvarnabhumi","name":"สุวรรณภูมิ","short":"สุวรรณภูมิ","priority":3,
+        "latest_url":"https://weather.tmd.go.th/svp/svp120_latest.jpg",
+        "loop_url":"https://weather.tmd.go.th/svp/svp120loop.gif",
+        "page_url":"https://weather.tmd.go.th/svp120.php",
+        "embedded_clock":"UTC","embedded_to_thailand_hours":7
+    },
+]
 JMA_TARGET="https://www.jma.go.jp/bosai/himawari/data/satimg/targetTimes_fd.json"
-UA={"User-Agent":"NongFon-SamutPrakan/9.4.3"}
+UA={"User-Agent":"NongFon-SamutPrakan/9.5"}
 
 DISTRICTS=[
  {"name":"เมืองสมุทรปราการ","short":"เมืองฯ","lat":13.60056,"lon":100.59667},
@@ -35,16 +61,97 @@ def get(url,timeout=25):
     r=requests.get(url,headers=UA,timeout=timeout); r.raise_for_status(); return r
 
 def scrape_frames(limit=6):
-    html=get(SATDA).text
-    pattern=r'(?:href|src)=["\']([^"\']*radar_composite/max/(\d{12})\.png)["\']'
-    items={s:urljoin(SATDA,h) for h,s in re.findall(pattern,html,flags=re.I)}
+    # อ่านหน้า Radar Composite โดยตรงก่อน เพื่อลดโอกาสติดรายการเก่าจากหน้าแรก SATDA
+    items={}
+    for page in (COMPOSITE_PAGE,SATDA):
+        try:
+            html=get(page).text
+            pattern=r'(?:href|src)=["\']([^"\']*radar_composite/max/(\d{12})\.png)["\']'
+            for h,s in re.findall(pattern,html,flags=re.I):
+                items[s]=urljoin(page,h)
+            for s in re.findall(r'(?<!\d)(\d{12})\.png',html):
+                items.setdefault(s,f"https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/{s}.png")
+        except Exception as e:
+            print("radar page error",page,type(e).__name__,str(e)[:100])
     if not items:
-        for s in re.findall(r'(\d{12})\.png',html):
-            items[s]=f"https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/{s}.png"
-    ss=sorted(items)[-limit:]; return [(s,items[s]) for s in ss]
+        raise RuntimeError("No radar composite frames found")
+    ss=sorted(items)[-limit:]
+    return [(s,items[s]) for s in ss]
 
-# SATDA radar_composite filename timestamp is treated as Thailand local time; DO NOT add +7 again.
-def parse_stamp(s): return datetime.strptime(s,"%Y%m%d%H%M").replace(tzinfo=BKK)
+def _http_image_meta(spec):
+    """Probe freshness of a radar image using HTTP metadata.
+    HTTP Last-Modified itself is an RFC/GMT timestamp. It is converted for display later.
+    Embedded clock semantics are kept separately (TST for BMA, UTC for Suvarnabhumi).
+    """
+    url=spec["latest_url"]
+    base={k:spec[k] for k in ("id","name","short","priority","latest_url","loop_url","page_url","embedded_clock","embedded_to_thailand_hours")}
+    try:
+        r=requests.head(url,headers=UA,timeout=15,allow_redirects=True)
+        lm=r.headers.get("Last-Modified")
+        clen=r.headers.get("Content-Length")
+        ctype=r.headers.get("Content-Type","")
+        if not lm:
+            r=requests.get(url,headers=UA,timeout=20,stream=True)
+            lm=r.headers.get("Last-Modified")
+            clen=r.headers.get("Content-Length",clen)
+            ctype=r.headers.get("Content-Type",ctype)
+        if not lm:
+            return {**base,"available":True,"time":None,"status":"unknown","age_min":None,
+                    "content_length":int(clen) if clen and str(clen).isdigit() else None,
+                    "method":"HTTP Last-Modified unavailable"}
+        dt=parsedate_to_datetime(lm)
+        if dt.tzinfo is None:
+            dt=dt.replace(tzinfo=timezone.utc)
+        dt=dt.astimezone(timezone.utc)
+        age=max(0,(datetime.now(timezone.utc)-dt).total_seconds()/60)
+        status="online" if age<=30 else "stale" if age<=90 else "old"
+        return {**base,"available":True,"time":dt.isoformat(),"status":status,"age_min":round(age,1),
+                "content_length":int(clen) if clen and str(clen).isdigit() else None,
+                "content_type":ctype,"method":"HTTP Last-Modified"}
+    except Exception as e:
+        return {**base,"available":False,"time":None,"status":"unavailable","age_min":None,
+                "error":f"{type(e).__name__}: {str(e)[:120]}"}
+
+def multi_radar_meta(radar_dt,composite_url):
+    stations=[_http_image_meta(s) for s in RADAR_STATIONS]
+
+    # AUTO FAILOVER:
+    # 1) Prefer an online station by priority: Nongchok -> Nongkhame -> Suvarnabhumi
+    # 2) If none is online, use the freshest station that is still reachable
+    # 3) If all stations are unavailable, expose Composite as visual fallback
+    online=[s for s in stations if s.get("status")=="online"]
+    if online:
+        selected=sorted(online,key=lambda s:s["priority"])[0].copy()
+        reason="priority_online"
+    else:
+        usable=[s for s in stations if s.get("available") and s.get("age_min") is not None]
+        if usable:
+            selected=sorted(usable,key=lambda s:(s.get("age_min",999999),s["priority"]))[0].copy()
+            reason="freshest_available"
+        else:
+            age=max(0,(datetime.now(timezone.utc)-radar_dt.astimezone(timezone.utc)).total_seconds()/60)
+            selected={
+                "id":"composite","name":"TMD Composite","short":"Composite","priority":9,
+                "latest_url":composite_url,"loop_url":None,
+                "page_url":COMPOSITE_PAGE,"embedded_clock":"UTC","embedded_to_thailand_hours":7,
+                "available":True,"time":radar_dt.astimezone(timezone.utc).isoformat(),
+                "status":"online" if age<=30 else "stale" if age<=90 else "old",
+                "age_min":round(age,1),"method":"composite filename UTC"
+            }
+            reason="composite_fallback"
+
+    return {
+        "mode":"auto_failover",
+        "priority":["nongchok","nongkhame","suvarnabhumi","composite"],
+        "selected":selected,
+        "selection_reason":reason,
+        "stations":stations,
+        "analysis_source":"TMD Radar Composite",
+        "analysis_note":"Station radars are visual/health cross-checks. Risk and ETA remain based on calibrated TMD Composite + Himawari + forecast."
+    }
+
+# TMD Radar Composite filename timestamp is UTC; display in Thailand = UTC+7.
+def parse_stamp(s): return datetime.strptime(s,"%Y%m%d%H%M").replace(tzinfo=timezone.utc)
 def load_image(url): return Image.open(io.BytesIO(get(url).content)).convert("RGB")
 def plot_xy(img,lat,lon):
     w,h=img.size
@@ -443,7 +550,7 @@ def send_onesignal(status,state):
 def maybe_write_status(status):
     old=read_json(STATUS_PATH,{})
     def sig(x):
-        return {"version":x.get("version"),"time_reference":x.get("time_reference"),"province":x.get("province"),"motion":{k:x.get("motion",{}).get(k) for k in ("available","direction","speed_kmh")},"satellite":{k:x.get("satellite",{}).get(k) for k in ("available","status","age_min","time","top_score","trend")},"districts":[{k:d.get(k) for k in ("name","risk","level","eta_min","severity","satellite_score","satellite_trend")} for d in x.get("districts",[])]}
+        return {"version":x.get("version"),"time_reference":x.get("time_reference"),"station_radar":x.get("station_radar"),"multi_radar":x.get("multi_radar"),"province":x.get("province"),"motion":{k:x.get("motion",{}).get(k) for k in ("available","direction","speed_kmh")},"satellite":{k:x.get("satellite",{}).get(k) for k in ("available","status","age_min","time","top_score","trend")},"districts":[{k:d.get(k) for k in ("name","risk","level","eta_min","severity","satellite_score","satellite_trend")} for d in x.get("districts",[])]}
     changed=sig(status)!=sig(old)
     try:heartbeat=(datetime.now(timezone.utc)-datetime.fromisoformat(old.get("generated_at",""))).total_seconds()>=900
     except Exception:heartbeat=True
@@ -460,7 +567,9 @@ def main():
             im=load_image(url);stamps.append(stamp);urls.append(url);images.append(im);masks.append(rain_strength(im))
         except Exception as e:print("skip radar",stamp,e)
     if not images:raise SystemExit("No radar images downloaded")
-    motion=estimate_motion(images,masks,stamps);radar_dt=parse_stamp(stamps[-1]);age=max(0,(datetime.now(BKK)-radar_dt).total_seconds()/60)
+    motion=estimate_motion(images,masks,stamps);radar_dt=parse_stamp(stamps[-1])
+    multi_meta=multi_radar_meta(radar_dt,frames[-1][1])
+    station_meta=multi_meta["selected"];age=max(0,(datetime.now(BKK)-radar_dt).total_seconds()/60)
     sframes,slatest,sat_health=satellite_frames()
     sat_dt=None
     if slatest:
@@ -480,12 +589,14 @@ def main():
     elif top["risk"]>=60:summary=f"🌦️ เริ่มเฝ้าระวัง {top['name']} • Fusion {top['risk']}/100 • Satellite {top.get('satellite_score') if top.get('satellite_score') is not None else "—"}/100"
     else:summary="ภาพรวมสมุทรปราการยังไม่พบแนวฝนที่มีความเสี่ยงสูงจาก Radar + Satellite Fusion"
     seed=f"{top['name']}|{level}|{top['eta_min']}|{top['severity']}|{motion.get('direction')}|{top['satellite_trend']}|{radar_dt:%Y%m%d%H}"
-    status={"version":"9.4.3 TimeCorrect","generated_at":datetime.now(timezone.utc).isoformat(),"radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),"event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
+    status={"version":"9.5 MultiRadar","generated_at":datetime.now(timezone.utc).isoformat(),"radar_time":radar_dt.astimezone(timezone.utc).isoformat(),"radar_age_min":round(age,1),"event_key":hashlib.sha1(seed.encode()).hexdigest()[:14],
             "province":{"risk":top["risk"],"level":level,"summary":summary,"top_district":top["name"]},
+            "station_radar":station_meta,
+            "multi_radar":multi_meta,
             "motion":{"available":bool(motion["available"]),"direction":motion["direction"],"speed_kmh":round(float(motion["speed_kmh"]),1),"correlation":round(float(motion["score"]),2)},
             "satellite":{"available":bool(sframes),"status":sat_health.get("status","unavailable"),"age_min":sat_health.get("age_min"),"frames":sat_health.get("frames",0),"provider":"JMA Himawari-8/9 B13 IR","time":sat_dt.isoformat() if sat_dt else None,"top_score":top.get("satellite_score"),"trend":top.get("satellite_trend")},
             "fusion":{"principle":"Radar primary + Himawari IR support + Open-Meteo support","satellite_alone_high_alert":False,"early_watch":60,"high":70,"severe":85},
-            "time_reference":{"display_timezone":"Asia/Bangkok","display_utc_offset":"+07:00","radar_composite_source_timezone":"Asia/Bangkok","radar_composite_add_hours":0,"tmd_station_image_clock":"UTC","tmd_station_image_to_thailand_hours":7,"jma_himawari_source_timezone":"UTC","jma_himawari_to_thailand_hours":7},
+            "time_reference":{"display_timezone":"Asia/Bangkok","display_utc_offset":"+07:00","radar_composite_source_timezone":"UTC","radar_composite_add_hours":7,"tmd_station_image_clock":"UTC","tmd_station_image_to_thailand_hours":7,"bma_radar_image_clock":"TST","bma_radar_image_to_thailand_hours":0,"visible_radar_source":"Suvarnabhumi 120 km","visible_radar_time_field":"station_radar.time","jma_himawari_source_timezone":"UTC","jma_himawari_to_thailand_hours":7},
             "districts":districts,
             "sources":{"tmd_satda":SATDA,"tmd_radar_frame":urls[-1],"tmd_suvarnabhumi":"https://weather.tmd.go.th/svp120.php","tmd_satellite":"https://satda.tmd.go.th/tmd_satellite.php","jma_himawari":"https://www.jma.go.jp/bosai/map.html#contents=himawari","open_meteo":"https://open-meteo.com/"},
             "note":"Automated nowcast aid; satellite is supporting evidence. Official warnings should be checked with TMD."}
