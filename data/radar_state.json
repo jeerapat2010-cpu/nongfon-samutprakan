@@ -1,1 +1,25 @@
-{}
+{
+  "radar_health": {
+    "nongchok": {
+      "hash": "6952aacf5c35965507d9090e23dd989bb84160bd",
+      "changed_at": "2026-08-28T02:46:31.708824+00:00",
+      "verified": false,
+      "last_checked_at": "2026-08-28T02:46:31.708824+00:00",
+      "bytes": 94396
+    },
+    "nongkhame": {
+      "hash": "bac955cca37bc86f157791fb43251309e4aef1f4",
+      "changed_at": "2026-08-28T02:46:32.760834+00:00",
+      "verified": false,
+      "last_checked_at": "2026-08-28T02:46:32.760834+00:00",
+      "bytes": 101049
+    },
+    "suvarnabhumi": {
+      "hash": "2d04be65ca8b02c2e4174210e18f9535fa05c178",
+      "changed_at": "2026-08-28T02:46:33.894533+00:00",
+      "verified": false,
+      "last_checked_at": "2026-08-28T02:46:33.894533+00:00",
+      "bytes": 268630
+    }
+  }
+}
