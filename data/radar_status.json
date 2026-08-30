@@ -543,7 +543,7 @@
       "time": "2026-08-30T06:49:40.661526+00:00",
       "configured": true,
       "action": "failed",
-      "reason": "OneSignal ตอบกลับผิดพลาด",
+      "reason": "OneSignal Secret เป็น App ID/Key ID ไม่ใช่ App API Key",
       "tier": "imminent",
       "district": "พระประแดง",
       "p15": 85,
@@ -551,8 +551,9 @@
       "p60": 92,
       "data_quality": 97,
       "model_confidence": 98,
-      "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+      "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n",
+      "credential_rotation_required": true
     },
-    "policy": "v10 probabilistic + consensus + hysteresis"
+    "policy": "v10 + Push Guardian"
   }
 }
