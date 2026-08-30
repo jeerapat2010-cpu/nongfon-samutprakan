@@ -540,10 +540,10 @@
   "push_engine": {
     "configured": true,
     "decision": {
-      "time": "2026-08-30T06:49:40.661526+00:00",
+      "time": "2026-08-30T07:23:55.412421+00:00",
       "configured": true,
-      "action": "failed",
-      "reason": "OneSignal Secret เป็น App ID/Key ID ไม่ใช่ App API Key",
+      "action": "sent",
+      "reason": "ส่ง Push สำเร็จหลัง Push Guardian ซ่อม OneSignal authentication",
       "tier": "imminent",
       "district": "พระประแดง",
       "p15": 85,
@@ -552,8 +552,12 @@
       "data_quality": 97,
       "model_confidence": 98,
       "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n",
-      "credential_rotation_required": true
+      "credential_rotation_required": true,
+      "auth_method": "app-key",
+      "key_source": "app_api_key",
+      "message_id": "",
+      "recovered": true
     },
-    "policy": "v10 + Push Guardian"
+    "policy": "v10 probabilistic + consensus + hysteresis + Push Guardian"
   }
 }
