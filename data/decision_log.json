@@ -1,0 +1,16 @@
+[
+  {
+    "time": "2026-08-30T06:49:40.661526+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "imminent",
+    "district": "พระประแดง",
+    "p15": 85,
+    "p30": 91,
+    "p60": 92,
+    "data_quality": 97,
+    "model_confidence": 98,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  }
+]
