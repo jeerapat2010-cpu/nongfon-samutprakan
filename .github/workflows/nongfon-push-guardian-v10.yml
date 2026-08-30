@@ -1,0 +1,289 @@
+name: NongFon OneSignal Push Guardian
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '2,7,12,17,22,27,32,37,42,47,52,57 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nongfon-push-guardian
+  cancel-in-progress: true
+
+jobs:
+  repair-push:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    env:
+      ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+      ONESIGNAL_APP_API_KEY: ${{ secrets.ONESIGNAL_APP_API_KEY }}
+      ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+      ONESIGNAL_LEGACY_REST_API_KEY: ${{ secrets.ONESIGNAL_LEGACY_REST_API_KEY }}
+      SITE_URL: https://${{ github.repository_owner }}.github.io/nongfon-samutprakan/
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install HTTP client
+        run: pip install requests
+
+      - name: Repair and retry OneSignal push
+        shell: python
+        run: |
+          import json, os, re
+          from datetime import datetime, timezone
+          from pathlib import Path
+          import requests
+
+          DATA=Path("data")
+          STATUS=DATA/"radar_status.json"
+          STATE=DATA/"radar_state.json"
+          HISTORY=DATA/"alert_history.json"
+          SITE=os.getenv("SITE_URL","").strip()
+
+          def read(path,default):
+              try:
+                  return json.loads(path.read_text(encoding="utf-8"))
+              except Exception:
+                  return default
+
+          def write(path,obj):
+              path.write_text(json.dumps(obj,ensure_ascii=False,indent=2),encoding="utf-8")
+
+          def norm(raw):
+              v=(raw or "").strip().strip('"').strip("'")
+              return re.sub(r"^(?:key|basic)\s+","",v,flags=re.I).strip()
+
+          def credential():
+              for source,name in (
+                  ("app_api_key","ONESIGNAL_APP_API_KEY"),
+                  ("rest_api_key","ONESIGNAL_REST_API_KEY"),
+                  ("legacy_rest_api_key","ONESIGNAL_LEGACY_REST_API_KEY"),
+              ):
+                  k=norm(os.getenv(name,""))
+                  if k:
+                      return source,k
+              return None,""
+
+          def send(payload,key):
+              # Current OneSignal authentication.
+              r=requests.post(
+                  "https://api.onesignal.com/notifications",
+                  headers={"Authorization":f"Key {key}","Content-Type":"application/json"},
+                  json=payload,timeout=20)
+              if r.ok:
+                  return r,"app-key"
+              # If auth failed, try the historical REST-key authentication.
+              if r.status_code in (401,403,404):
+                  old_payload=dict(payload)
+                  old_payload.pop("target_channel",None)
+                  r2=requests.post(
+                      "https://onesignal.com/api/v1/notifications",
+                      headers={"Authorization":f"Basic {key}","Content-Type":"application/json"},
+                      json=old_payload,timeout=20)
+                  return r2,"legacy-basic"
+              return r,"app-key"
+
+          status=read(STATUS,{})
+          if not status:
+              print("No radar status; stop.")
+              raise SystemExit(0)
+
+          pe=status.get("push_engine") or {}
+          dec=pe.get("decision") or {}
+          action=dec.get("action")
+          reason=str(dec.get("reason",""))
+          retryable=(action=="failed") or (action=="suppressed" and ("credential" in reason.lower() or "onesignal" in reason.lower()))
+          if not retryable:
+              print("No failed push to repair:",action)
+              raise SystemExit(0)
+
+          tier=dec.get("tier")
+          district=dec.get("district")
+          if not tier or not district:
+              print("No tier/district in decision.")
+              raise SystemExit(0)
+
+          d=next((x for x in status.get("districts",[]) if x.get("name")==district),None)
+          if not d:
+              print("District not found.")
+              raise SystemExit(0)
+
+          app=os.getenv("ONESIGNAL_APP_ID","").strip()
+          source,key=credential()
+          if not app or not key:
+              dec.update({
+                  "action":"failed",
+                  "reason":"OneSignal credential missing",
+                  "credential_rotation_required":True
+              })
+              status["push_engine"]={"configured":False,"decision":dec,"policy":"v10 + Push Guardian"}
+              write(STATUS,status)
+              print("Missing OneSignal App ID/API key.")
+              raise SystemExit(0)
+
+          # Detect common copy/paste mistakes without revealing the key.
+          if key==app or (re.fullmatch(r"[0-9a-fA-F-]{36}",key) and not key.startswith("os_v2_")):
+              dec.update({
+                  "action":"failed",
+                  "reason":"OneSignal Secret เป็น App ID/Key ID ไม่ใช่ App API Key",
+                  "credential_rotation_required":True
+              })
+              status["push_engine"]={"configured":True,"decision":dec,"policy":"v10 + Push Guardian"}
+              write(STATUS,status)
+              print("Secret looks like an ID, not a secret App API Key.")
+              raise SystemExit(0)
+
+          labels={"early":"เริ่มเฝ้าระวัง","prepare":"เตรียมรับฝน","imminent":"ฝนใกล้ถึง","severe":"เตือนฝนหนัก"}
+          icons={"early":"🌦️","prepare":"☔","imminent":"🌧️","severe":"🚨"}
+          eta=d.get("eta_min")
+          eta_txt="มีฝนแล้ว" if eta==0 else (f"~{eta} นาที" if eta is not None else "ภายใน 60 นาที")
+          title=f"{icons.get(tier,'🌧️')} เฝ้าน้องฝน: {labels.get(tier,tier)} • {d.get('short',district)}"
+          body=f"P15 {d.get('p15',0)}% • P30 {d.get('p30',0)}% • P60 {d.get('p60',0)}% • {eta_txt} • เชื่อมั่น {d.get('model_confidence',d.get('confidence',0))}%"
+          payload={
+              "app_id":app,
+              "target_channel":"push",
+              "included_segments":["Subscribed Users"],
+              "headings":{"en":title,"th":title},
+              "contents":{"en":body,"th":body},
+              "url":SITE,
+              "data":{
+                  "event_key":status.get("event_key"),
+                  "tier":tier,
+                  "district":district,
+                  "guardian":"v10.1"
+              }
+          }
+
+          try:
+              r,method=send(payload,key)
+          except Exception as e:
+              dec.update({
+                  "action":"failed",
+                  "reason":"Push Guardian network error",
+                  "error":f"{type(e).__name__}: {str(e)[:180]}"
+              })
+              status["push_engine"]={"configured":True,"decision":dec,"policy":"v10 + Push Guardian"}
+              write(STATUS,status)
+              print("Network error while retrying push.")
+              raise SystemExit(0)
+
+          if not r.ok:
+              err=f"{r.status_code}: {r.text[:220]}"
+              dec.update({
+                  "action":"failed",
+                  "reason":"OneSignal API key ยังไม่ผ่านหลังลอง App Key + Legacy",
+                  "error":err,
+                  "auth_method":method,
+                  "key_source":source,
+                  "credential_rotation_required":r.status_code in (401,403)
+              })
+              status["push_engine"]={"configured":True,"decision":dec,"policy":"v10 + Push Guardian"}
+              write(STATUS,status)
+              print(f"Push still failed: HTTP {r.status_code}. API key rotation may be required.")
+              raise SystemExit(0)
+
+          try:
+              response=r.json()
+          except Exception:
+              response={}
+          message_id=response.get("id") if isinstance(response,dict) else None
+          now=datetime.now(timezone.utc).isoformat()
+
+          dec.update({
+              "action":"sent",
+              "reason":"ส่ง Push สำเร็จหลัง Push Guardian ซ่อม OneSignal authentication",
+              "auth_method":method,
+              "key_source":source,
+              "message_id":message_id,
+              "recovered":True,
+              "time":now
+          })
+          status["push_engine"]={
+              "configured":True,
+              "decision":dec,
+              "policy":"v10 probabilistic + consensus + hysteresis + Push Guardian"
+          }
+
+          history=read(HISTORY,[])
+          if not isinstance(history,list):
+              history=[]
+          healed=False
+          for row in reversed(history):
+              if (
+                  row.get("event_key")==status.get("event_key")
+                  and row.get("district")==district
+                  and row.get("tier")==tier
+                  and row.get("push_status")=="failed"
+              ):
+                  row["previous_error"]=row.get("error")
+                  row.update({
+                      "time":now,
+                      "push_status":"sent",
+                      "status":"sent",
+                      "error":None,
+                      "auth_method":method,
+                      "message_id":message_id,
+                      "recovered":True
+                  })
+                  healed=True
+                  break
+
+          if not healed:
+              history.append({
+                  "time":now,
+                  "event_key":status.get("event_key"),
+                  "district":district,
+                  "tier":tier,
+                  "risk":d.get("risk"),
+                  "p15":d.get("p15"),
+                  "p30":d.get("p30"),
+                  "p60":d.get("p60"),
+                  "confidence":d.get("model_confidence",d.get("confidence")),
+                  "data_quality":d.get("data_quality"),
+                  "eta_min":eta,
+                  "severity":d.get("severity"),
+                  "satellite_score":d.get("satellite_score"),
+                  "push_status":"sent",
+                  "status":"sent",
+                  "error":None,
+                  "auth_method":method,
+                  "message_id":message_id,
+                  "recovered":True
+              })
+
+          state=read(STATE,{})
+          ds=state.setdefault("alert_engine",{}).setdefault("districts",{}).setdefault(district,{})
+          ds.update({
+              "last_push_at":now,
+              "last_push_tier":tier,
+              "last_p15":d.get("p15"),
+              "last_eta":eta,
+              "last_severity":d.get("severity")
+          })
+
+          write(HISTORY,history[-300:])
+          write(STATE,state)
+          write(STATUS,status)
+          print(f"SUCCESS: OneSignal push recovered via {method}; message_id_present={bool(message_id)}")
+
+      - name: Commit repaired push state
+        run: |
+          git config user.name "nongfon-push-guardian"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/radar_status.json data/radar_state.json data/alert_history.json
+          if git diff --cached --quiet; then
+            echo "No push state change"
+          else
+            git commit -m "fix: recover OneSignal push delivery"
+            git pull --rebase origin main
+            git push origin main
+          fi
