@@ -1,9 +1,9 @@
 {
   "version": "9.5.1 MultiRadarVerify",
-  "generated_at": "2026-08-29T22:06:41.847528+00:00",
-  "radar_time": "2026-08-29T21:45:00+00:00",
-  "radar_age_min": 21.5,
-  "event_key": "02ad2125b6031a",
+  "generated_at": "2026-08-30T00:13:41.914232+00:00",
+  "radar_time": "2026-08-29T23:45:00+00:00",
+  "radar_age_min": 28.5,
+  "event_key": "e47d8989a0cc30",
   "province": {
     "risk": 18,
     "level": "normal",
@@ -25,8 +25,8 @@
     "status": "online",
     "age_min": 0,
     "verified_change": true,
-    "changed_at": "2026-08-29T22:06:29.230298+00:00",
-    "content_length": 94804,
+    "changed_at": "2026-08-30T00:13:29.495828+00:00",
+    "content_length": 94397,
     "method": "image hash change across workflow runs"
   },
   "multi_radar": {
@@ -52,8 +52,8 @@
       "status": "online",
       "age_min": 0,
       "verified_change": true,
-      "changed_at": "2026-08-29T22:06:29.230298+00:00",
-      "content_length": 94804,
+      "changed_at": "2026-08-30T00:13:29.495828+00:00",
+      "content_length": 94397,
       "method": "image hash change across workflow runs"
     },
     "selection_reason": "verified_priority_online",
@@ -73,8 +73,8 @@
         "status": "online",
         "age_min": 0,
         "verified_change": true,
-        "changed_at": "2026-08-29T22:06:29.230298+00:00",
-        "content_length": 94804,
+        "changed_at": "2026-08-30T00:13:29.495828+00:00",
+        "content_length": 94397,
         "method": "image hash change across workflow runs"
       },
       {
@@ -92,8 +92,8 @@
         "status": "online",
         "age_min": 0,
         "verified_change": true,
-        "changed_at": "2026-08-29T22:06:30.188403+00:00",
-        "content_length": 99891,
+        "changed_at": "2026-08-30T00:13:30.914217+00:00",
+        "content_length": 99694,
         "method": "image hash change across workflow runs"
       },
       {
@@ -111,8 +111,8 @@
         "status": "online",
         "age_min": 0,
         "verified_change": true,
-        "changed_at": "2026-08-29T22:06:30.551251+00:00",
-        "content_length": 261082,
+        "changed_at": "2026-08-30T00:13:31.250523+00:00",
+        "content_length": 262373,
         "method": "image hash change across workflow runs"
       }
     ],
@@ -123,17 +123,17 @@
     "available": true,
     "direction": "ตะวันออก",
     "speed_kmh": 0.0,
-    "correlation": 0.82
+    "correlation": 0.79
   },
   "satellite": {
     "available": true,
     "status": "online",
-    "age_min": 16.6,
+    "age_min": 13.7,
     "frames": 3,
     "provider": "JMA Himawari-8/9 B13 IR",
-    "time": "2026-08-29T21:50:00+00:00",
-    "top_score": 16,
-    "trend": "steady"
+    "time": "2026-08-30T00:00:00+00:00",
+    "top_score": 25,
+    "trend": "growing"
   },
   "fusion": {
     "principle": "Radar primary + Himawari IR support + Open-Meteo support",
@@ -169,16 +169,16 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.82,
-      "forecast_probability": 45,
+      "motion_correlation": 0.79,
+      "forecast_probability": 41,
       "forecast_2h_mm": 0.0,
-      "satellite_score": 16,
-      "satellite_trend": "steady",
+      "satellite_score": 25,
+      "satellite_trend": "growing",
       "satellite_status": "online",
-      "satellite_signal_pct": 14.7,
-      "satellite_texture": 10.3,
-      "satellite_polarity": "bright",
-      "satellite_growth": 0.051
+      "satellite_signal_pct": 21.8,
+      "satellite_texture": 20.9,
+      "satellite_polarity": "dark",
+      "satellite_growth": 0.167
     },
     {
       "name": "บางพลี",
@@ -192,16 +192,16 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.82,
-      "forecast_probability": 53,
+      "motion_correlation": 0.79,
+      "forecast_probability": 42,
       "forecast_2h_mm": 0.0,
-      "satellite_score": 16,
-      "satellite_trend": "steady",
+      "satellite_score": 25,
+      "satellite_trend": "growing",
       "satellite_status": "online",
-      "satellite_signal_pct": 14.7,
-      "satellite_texture": 9.9,
-      "satellite_polarity": "bright",
-      "satellite_growth": 0.023
+      "satellite_signal_pct": 21.8,
+      "satellite_texture": 21.6,
+      "satellite_polarity": "dark",
+      "satellite_growth": 0.18
     },
     {
       "name": "บางบ่อ",
@@ -215,16 +215,16 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.82,
-      "forecast_probability": 49,
+      "motion_correlation": 0.79,
+      "forecast_probability": 30,
       "forecast_2h_mm": 0.0,
-      "satellite_score": 16,
-      "satellite_trend": "steady",
+      "satellite_score": 24,
+      "satellite_trend": "growing",
       "satellite_status": "online",
-      "satellite_signal_pct": 15.4,
-      "satellite_texture": 10.6,
-      "satellite_polarity": "bright",
-      "satellite_growth": 0.023
+      "satellite_signal_pct": 20.5,
+      "satellite_texture": 21.1,
+      "satellite_polarity": "dark",
+      "satellite_growth": 0.166
     },
     {
       "name": "พระประแดง",
@@ -238,16 +238,16 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.82,
-      "forecast_probability": 45,
+      "motion_correlation": 0.79,
+      "forecast_probability": 41,
       "forecast_2h_mm": 0.0,
-      "satellite_score": 16,
-      "satellite_trend": "steady",
+      "satellite_score": 24,
+      "satellite_trend": "growing",
       "satellite_status": "online",
-      "satellite_signal_pct": 14.7,
-      "satellite_texture": 9.8,
-      "satellite_polarity": "bright",
-      "satellite_growth": 0.037
+      "satellite_signal_pct": 20.5,
+      "satellite_texture": 22.0,
+      "satellite_polarity": "dark",
+      "satellite_growth": 0.154
     },
     {
       "name": "พระสมุทรเจดีย์",
@@ -261,16 +261,16 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.82,
-      "forecast_probability": 45,
+      "motion_correlation": 0.79,
+      "forecast_probability": 41,
       "forecast_2h_mm": 0.0,
-      "satellite_score": 16,
-      "satellite_trend": "steady",
+      "satellite_score": 25,
+      "satellite_trend": "growing",
       "satellite_status": "online",
-      "satellite_signal_pct": 14.7,
-      "satellite_texture": 10.5,
-      "satellite_polarity": "bright",
-      "satellite_growth": 0.051
+      "satellite_signal_pct": 21.8,
+      "satellite_texture": 20.7,
+      "satellite_polarity": "dark",
+      "satellite_growth": 0.167
     },
     {
       "name": "บางเสาธง",
@@ -284,21 +284,21 @@
       "severity": "none",
       "confidence": 50,
       "radar_persistence_frames": 0,
-      "motion_correlation": 0.82,
-      "forecast_probability": 53,
+      "motion_correlation": 0.79,
+      "forecast_probability": 42,
       "forecast_2h_mm": 0.0,
-      "satellite_score": 16,
-      "satellite_trend": "steady",
+      "satellite_score": 25,
+      "satellite_trend": "growing",
       "satellite_status": "online",
-      "satellite_signal_pct": 15.4,
-      "satellite_texture": 10.3,
-      "satellite_polarity": "bright",
-      "satellite_growth": 0.03
+      "satellite_signal_pct": 21.8,
+      "satellite_texture": 21.0,
+      "satellite_polarity": "dark",
+      "satellite_growth": 0.174
     }
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608300445.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202608300645.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "tmd_satellite": "https://satda.tmd.go.th/tmd_satellite.php",
     "jma_himawari": "https://www.jma.go.jp/bosai/map.html#contents=himawari",
