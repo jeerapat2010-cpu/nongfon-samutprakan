@@ -23,7 +23,12 @@
     "districts": {
       "เมืองสมุทรปราการ": {
         "active_tier": "imminent",
-        "below_count": 0
+        "below_count": 0,
+        "last_push_at": "2026-08-31T18:12:13.186702+00:00",
+        "last_push_tier": "imminent",
+        "last_p15": 99,
+        "last_eta": 0,
+        "last_severity": "light"
       },
       "บางพลี": {
         "active_tier": "imminent",
