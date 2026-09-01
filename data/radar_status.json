@@ -540,10 +540,10 @@
   "push_engine": {
     "configured": true,
     "decision": {
-      "time": "2026-09-01T10:01:14.600343+00:00",
+      "time": "2026-09-01T11:49:06.512112+00:00",
       "configured": true,
-      "action": "failed",
-      "reason": "OneSignal ตอบกลับผิดพลาด",
+      "action": "sent",
+      "reason": "ส่ง Push สำเร็จหลัง Push Guardian ซ่อม OneSignal authentication",
       "tier": "imminent",
       "district": "เมืองสมุทรปราการ",
       "p15": 99,
@@ -551,8 +551,12 @@
       "p60": 99,
       "data_quality": 98,
       "model_confidence": 99,
-      "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+      "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n",
+      "auth_method": "app-key",
+      "key_source": "app_api_key",
+      "message_id": "",
+      "recovered": true
     },
-    "policy": "v10 probabilistic + consensus + hysteresis"
+    "policy": "v10 probabilistic + consensus + hysteresis + Push Guardian"
   }
 }
