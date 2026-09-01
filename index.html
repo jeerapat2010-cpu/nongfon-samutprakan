@@ -782,7 +782,8 @@ function riskIcon(d){return d.level==='severe'?'⛈️':d.level==='high'?'🌩�
 function renderProvince(){
  if(radarIntel?.districts){
    const rows=radarIntel.districts;
-   const top=[...rows].sort((a,b)=>b.risk-a.risk)[0];
+   const backendTopName=radarIntel?.province?.top_district;
+   const top=(backendTopName&&rows.find(d=>d.name===backendTopName))||[...rows].sort((a,b)=>b.risk-a.risk)[0];
    provinceText.textContent=top.risk>=85?`🚨 ${top.name} ต้องระวังฝนมาก`:top.risk>=70?`⚠️ ${top.name} มีความเสี่ยงฝนสูง`:top.risk>=60?`🌦️ เริ่มจับตา ${top.name}`:'✅ ตอนนี้ภาพรวมยังไม่น่ากังวล';
    provinceSub.textContent=`พื้นที่ที่ต้องจับตามากที่สุด: ${top.name} • ความเสี่ยง ${top.risk}/100`;
    provinceGrid.innerHTML=rows.map(d=>{
@@ -882,7 +883,7 @@ function renderRadarIntel(){
  renderStationRadarClock();
  syncRadarLiveBadge();
  const p=radarIntel.province||{}, rows=radarIntel.districts||[];
- const top=[...rows].sort((a,b)=>(b.risk||0)-(a.risk||0))[0];
+ const top=(p.top_district&&rows.find(d=>d.name===p.top_district))||[...rows].sort((a,b)=>(b.risk||0)-(a.risk||0))[0];
  intelBadge.className='intel-badge '+(p.level||'normal');
  intelBadge.textContent=p.level==='severe'?'ต้องระวังมาก':p.level==='high'?'เสี่ยงสูง':p.level==='watch'?'เริ่มเฝ้าระวัง':'สถานการณ์ปกติ';
  intelSummary.textContent=p.summary||'ยังไม่พบแนวฝนเด่น';
