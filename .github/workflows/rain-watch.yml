@@ -58,7 +58,7 @@ jobs:
         run: |
           git config user.name "nongfon-radar-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add data/radar_status.json data/radar_state.json data/alert_history.json push-config.js
+          git add data/radar_status.json data/radar_state.json data/alert_history.json data/verification.json data/decision_log.json push-config.js
           if git diff --cached --quiet; then
             echo "No public status change"
           else
