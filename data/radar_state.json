@@ -1,28 +1,28 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "f2265b38dd4ec20ae21d19ed0e80dcd1fbdb93f9",
-      "changed_at": "2026-09-02T05:57:29.179676+00:00",
+      "hash": "283017266a4b830cbbf577b0e7708986d5f4197a",
+      "changed_at": "2026-09-02T09:19:46.989715+00:00",
       "verified": true,
-      "bytes": 94595
+      "bytes": 94879
     },
     "nongkhame": {
-      "hash": "0ef1ce13be2ada7a6f97d969eddf6ee364638c6b",
-      "changed_at": "2026-09-02T05:57:30.001251+00:00",
+      "hash": "3467ccaa34f91af635dfed6b0677a7f773dc2bb9",
+      "changed_at": "2026-09-02T09:19:48.810842+00:00",
       "verified": true,
-      "bytes": 99706
+      "bytes": 99956
     },
     "suvarnabhumi": {
-      "hash": "db451fd19324b1a75a7cdaebac55034fad7d770b",
-      "changed_at": "2026-09-02T05:57:30.316660+00:00",
+      "hash": "88a6bf9814a992292c1d77a90f59135aaec82e6a",
+      "changed_at": "2026-09-02T09:19:49.123581+00:00",
       "verified": true,
-      "bytes": 271513
+      "bytes": 270751
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-09-01T11:49:06.512112+00:00",
         "last_push_tier": "imminent",
@@ -49,7 +49,7 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-08-30T07:23:55.412421+00:00",
         "last_push_tier": "imminent",
@@ -58,15 +58,15 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0
       },
       "บางเสาธง": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0
       }
     }
   },
-  "last_success_at": "2026-09-02T05:57:40.935760+00:00",
+  "last_success_at": "2026-09-02T09:19:57.799057+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
