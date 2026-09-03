@@ -368,5 +368,19 @@
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
     "tier": null,
     "district": null
+  },
+  {
+    "time": "2026-09-03T13:31:11.858475+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "imminent",
+    "district": "บางบ่อ",
+    "p15": 95,
+    "p30": 95,
+    "p60": 95,
+    "data_quality": 98,
+    "model_confidence": 97,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
