@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "07d03fad67e2789dbd8947a99550ea1a2470eb13",
-      "changed_at": "2026-09-04T20:09:38.867264+00:00",
+      "hash": "6ab1e9fe6124db908b401468270156b3c5e25cb5",
+      "changed_at": "2026-09-04T21:01:59.847753+00:00",
       "verified": true,
-      "bytes": 93568
+      "bytes": 93564
     },
     "nongkhame": {
-      "hash": "a8d6688ae09551fbb9c1f92c1f7b33d14507f74f",
-      "changed_at": "2026-09-04T20:09:39.965402+00:00",
+      "hash": "7619604c20d8209387e5b56de076fa028086a0de",
+      "changed_at": "2026-09-04T21:02:01.164560+00:00",
       "verified": true,
-      "bytes": 99432
+      "bytes": 99477
     },
     "suvarnabhumi": {
-      "hash": "241e4d0df2ce08b4ad297efa4caab528434f3576",
-      "changed_at": "2026-09-04T20:09:40.275065+00:00",
+      "hash": "679076cf8360fe733f29d5c71d487134f0a23782",
+      "changed_at": "2026-09-04T21:02:02.307225+00:00",
       "verified": true,
-      "bytes": 261413
+      "bytes": 261261
     }
   },
   "alert_engine": {
@@ -67,6 +67,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-04T20:09:49.962851+00:00",
+  "last_success_at": "2026-09-04T21:02:12.410742+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
