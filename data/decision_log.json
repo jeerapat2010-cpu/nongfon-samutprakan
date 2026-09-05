@@ -660,5 +660,13 @@
     "data_quality": 98,
     "model_confidence": 97,
     "cooldown_remaining_min": 48
+  },
+  {
+    "time": "2026-09-05T14:15:02.218255+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
   }
 ]
