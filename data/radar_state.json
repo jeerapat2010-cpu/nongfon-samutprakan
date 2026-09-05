@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "d5896728fb534e20ebecfa548c26e2d64daf69b5",
-      "changed_at": "2026-09-05T22:15:37.011209+00:00",
+      "hash": "35656043cdf33a38b4d67a3e4f08a1041252cbf3",
+      "changed_at": "2026-09-05T23:59:08.907872+00:00",
       "verified": true,
-      "bytes": 93795
+      "bytes": 93696
     },
     "nongkhame": {
-      "hash": "b456401163196bfdffe42eade36d85cc15bd325e",
-      "changed_at": "2026-09-05T22:15:38.254475+00:00",
+      "hash": "4ff23a67dafd805cd7a85734343e478f469ed5a5",
+      "changed_at": "2026-09-05T23:59:09.750556+00:00",
       "verified": true,
-      "bytes": 99462
+      "bytes": 99454
     },
     "suvarnabhumi": {
-      "hash": "2b38a83684d61f8fd17087c6cad5f59e7ed03ade",
-      "changed_at": "2026-09-05T22:15:38.506058+00:00",
+      "hash": "29ff975cd8f88535f03e6f7b18e0bc2e90cadb97",
+      "changed_at": "2026-09-05T23:59:10.056300+00:00",
       "verified": true,
-      "bytes": 261555
+      "bytes": 264203
     }
   },
   "alert_engine": {
@@ -58,7 +58,7 @@
         "last_severity": "none"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0
       },
       "บางเสาธง": {
@@ -67,6 +67,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-05T22:19:09.935101+00:00",
+  "last_success_at": "2026-09-05T23:59:20.167167+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
