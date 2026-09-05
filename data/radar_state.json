@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "2146ef5c5b2615b28012b6724d52b2c0fec24c58",
-      "changed_at": "2026-09-05T16:00:40.867747+00:00",
+      "hash": "e3dd480409eae40224365ef4e4dc00f9ae6877f1",
+      "changed_at": "2026-09-05T16:50:46.911801+00:00",
       "verified": true,
-      "bytes": 96123
+      "bytes": 97371
     },
     "nongkhame": {
-      "hash": "81487fbc830789af988f8aefddcab9705ff2e194",
-      "changed_at": "2026-09-05T16:00:41.321594+00:00",
+      "hash": "b93d1b860f1a8cf83c42b6ccfe363a60bbce2130",
+      "changed_at": "2026-09-05T16:50:48.916972+00:00",
       "verified": true,
-      "bytes": 100940
+      "bytes": 100972
     },
     "suvarnabhumi": {
-      "hash": "1e601a9f03ecb71a8ff15e8cd4482f02243f4b11",
-      "changed_at": "2026-09-05T16:00:41.571585+00:00",
+      "hash": "280ca01314c1cc9f0e26f30c7626b1f94026e7cf",
+      "changed_at": "2026-09-05T16:50:49.515579+00:00",
       "verified": true,
-      "bytes": 289473
+      "bytes": 302864
     }
   },
   "alert_engine": {
@@ -31,7 +31,7 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": null,
+        "active_tier": "prepare",
         "below_count": 0,
         "last_push_at": "2026-09-05T12:50:10.851925+00:00",
         "last_push_tier": "imminent",
@@ -40,7 +40,7 @@
         "last_severity": "moderate"
       },
       "บางบ่อ": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-03T17:10:47.586055+00:00",
         "last_push_tier": "imminent",
@@ -62,11 +62,11 @@
         "below_count": 0
       },
       "บางเสาธง": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0
       }
     }
   },
-  "last_success_at": "2026-09-05T16:00:51.990538+00:00",
+  "last_success_at": "2026-09-05T16:51:00.945198+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
