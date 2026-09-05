@@ -414,5 +414,23 @@
     "push_status": "failed",
     "status": "failed",
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-09-05T11:55:44.278541+00:00",
+    "event_key": "f1b9855f0c153a",
+    "district": "บางพลี",
+    "tier": "imminent",
+    "risk": 78,
+    "p15": 99,
+    "p30": 99,
+    "p60": 99,
+    "confidence": 96,
+    "data_quality": 94,
+    "eta_min": 0,
+    "severity": "moderate",
+    "satellite_score": 34,
+    "push_status": "failed",
+    "status": "failed",
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
