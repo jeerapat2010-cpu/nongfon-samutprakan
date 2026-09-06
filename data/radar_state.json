@@ -1,16 +1,16 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "f41703c76488de2ce0beb72a7bbecf732a75d856",
-      "changed_at": "2026-09-06T11:55:34.636645+00:00",
+      "hash": "ecceaf3379b9d6cc5eb58cef5431e08a4902acf0",
+      "changed_at": "2026-09-06T12:52:11.673869+00:00",
       "verified": true,
-      "bytes": 78536
+      "bytes": 105601
     },
     "nongkhame": {
-      "hash": "7455d39ca30c61802db46ab01e8b414d145ce313",
-      "changed_at": "2026-09-06T11:55:35.144598+00:00",
+      "hash": "7ef611a714027e6c4458100831eba6b1d8129ba8",
+      "changed_at": "2026-09-06T12:52:13.291954+00:00",
       "verified": true,
-      "bytes": 109626
+      "bytes": 108932
     },
     "suvarnabhumi": {
       "hash": "b81e5ed8f191b507b59da9e5d94ca4ae0174eba5",
@@ -22,8 +22,8 @@
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": "imminent",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-06T09:20:30.231863+00:00",
         "last_push_tier": "imminent",
         "last_p15": 99,
@@ -41,7 +41,7 @@
       },
       "บางบ่อ": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-05T17:33:49.383253+00:00",
         "last_push_tier": "imminent",
         "last_p15": 84,
@@ -50,7 +50,7 @@
       },
       "พระประแดง": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-05T09:22:39.335134+00:00",
         "last_push_tier": "early",
         "last_p15": 37,
@@ -58,8 +58,8 @@
         "last_severity": "none"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": "imminent",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-06T00:43:21.710539+00:00",
         "last_push_tier": "early",
         "last_p15": 70,
@@ -68,10 +68,10 @@
       },
       "บางเสาธง": {
         "active_tier": "imminent",
-        "below_count": 0
+        "below_count": 1
       }
     }
   },
-  "last_success_at": "2026-09-06T11:55:47.455310+00:00",
+  "last_success_at": "2026-09-06T12:52:22.132606+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
