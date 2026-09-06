@@ -640,5 +640,23 @@
     "push_status": "failed",
     "status": "failed",
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-09-06T19:18:58.207755+00:00",
+    "event_key": "54cc12401b52eb",
+    "district": "บางบ่อ",
+    "tier": "imminent",
+    "risk": 62,
+    "p15": 84,
+    "p30": 84,
+    "p60": 84,
+    "confidence": 98,
+    "data_quality": 100,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 72,
+    "push_status": "failed",
+    "status": "failed",
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
