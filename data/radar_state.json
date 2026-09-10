@@ -42,9 +42,9 @@
       "บางบ่อ": {
         "active_tier": "imminent",
         "below_count": 0,
-        "last_push_at": "2026-09-06T23:07:24.430280+00:00",
-        "last_push_tier": "early",
-        "last_p15": 89,
+        "last_push_at": "2026-09-10T18:25:03.539660+00:00",
+        "last_push_tier": "imminent",
+        "last_p15": 99,
         "last_eta": 0,
         "last_severity": "light"
       },
