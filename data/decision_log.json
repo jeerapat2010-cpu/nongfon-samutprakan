@@ -1236,5 +1236,19 @@
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
     "tier": null,
     "district": null
+  },
+  {
+    "time": "2026-09-12T10:42:49.075392+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "imminent",
+    "district": "บางพลี",
+    "p15": 99,
+    "p30": 99,
+    "p60": 99,
+    "data_quality": 93,
+    "model_confidence": 95,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
