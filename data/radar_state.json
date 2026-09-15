@@ -24,11 +24,11 @@
       "เมืองสมุทรปราการ": {
         "active_tier": "imminent",
         "below_count": 1,
-        "last_push_at": "2026-09-10T11:45:13.503192+00:00",
-        "last_push_tier": "imminent",
-        "last_p15": 99,
-        "last_eta": 0,
-        "last_severity": "moderate"
+        "last_push_at": "2026-09-15T05:09:10.826781+00:00",
+        "last_push_tier": "early",
+        "last_p15": 33,
+        "last_eta": null,
+        "last_severity": "none"
       },
       "บางพลี": {
         "active_tier": "imminent",
