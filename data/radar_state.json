@@ -42,11 +42,11 @@
       "บางบ่อ": {
         "active_tier": "imminent",
         "below_count": 0,
-        "last_push_at": "2026-09-14T22:04:03.047654+00:00",
+        "last_push_at": "2026-09-15T00:29:17.881710+00:00",
         "last_push_tier": "imminent",
-        "last_p15": 95,
+        "last_p15": 97,
         "last_eta": 0,
-        "last_severity": "moderate"
+        "last_severity": "light"
       },
       "พระประแดง": {
         "active_tier": "imminent",
