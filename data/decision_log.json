@@ -1426,5 +1426,19 @@
     "data_quality": 93,
     "model_confidence": 94,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-09-16T19:46:18.159106+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "early",
+    "district": "บางบ่อ",
+    "p15": 77,
+    "p30": 77,
+    "p60": 77,
+    "data_quality": 96,
+    "model_confidence": 87,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
