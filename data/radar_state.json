@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "440cd919a1f1cf35e0ab1a6aff2754d88a3edb0d",
-      "changed_at": "2026-09-16T10:05:45.786906+00:00",
+      "hash": "42ab48947d15aff4edeb400f354c6daa41377e59",
+      "changed_at": "2026-09-16T12:09:31.175740+00:00",
       "verified": true,
-      "bytes": 101464
+      "bytes": 112780
     },
     "nongkhame": {
-      "hash": "ce7e88a8e7d21faedd83b9334ab276f66eee9115",
-      "changed_at": "2026-09-16T10:05:49.268234+00:00",
+      "hash": "a173ab5ae077891eb8867d4e3276c2e0ca30b779",
+      "changed_at": "2026-09-16T12:09:32.919548+00:00",
       "verified": true,
-      "bytes": 110457
+      "bytes": 117367
     },
     "suvarnabhumi": {
-      "hash": "aa718db3dc583f9f8a9efa9adbfaf5410b6eed0e",
-      "changed_at": "2026-09-16T10:05:51.267641+00:00",
+      "hash": "12eb5b2a47756a5c73e9957cd226a36426787257",
+      "changed_at": "2026-09-16T12:09:34.522836+00:00",
       "verified": true,
-      "bytes": 331094
+      "bytes": 414939
     }
   },
   "alert_engine": {
@@ -31,7 +31,7 @@
         "last_severity": "none"
       },
       "บางพลี": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-14T18:44:01.236983+00:00",
         "last_push_tier": "imminent",
@@ -40,7 +40,7 @@
         "last_severity": "moderate"
       },
       "บางบ่อ": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-15T00:29:17.881710+00:00",
         "last_push_tier": "imminent",
@@ -58,7 +58,7 @@
         "last_severity": "heavy"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-06T00:43:21.710539+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-16T10:06:05.378123+00:00",
+  "last_success_at": "2026-09-16T12:09:46.883707+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
