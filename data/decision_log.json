@@ -1536,5 +1536,19 @@
     "data_quality": 93,
     "model_confidence": 94,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-09-17T14:57:45.625258+00:00",
+    "configured": true,
+    "action": "suppressed",
+    "reason": "ผ่านเกณฑ์ แต่ยังอยู่ใน cooldown อีกประมาณ 24 นาที",
+    "tier": "imminent",
+    "district": "บางบ่อ",
+    "p15": 85,
+    "p30": 85,
+    "p60": 85,
+    "data_quality": 94,
+    "model_confidence": 94,
+    "cooldown_remaining_min": 24
   }
 ]
