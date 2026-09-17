@@ -1550,5 +1550,19 @@
     "data_quality": 94,
     "model_confidence": 94,
     "cooldown_remaining_min": 24
+  },
+  {
+    "time": "2026-09-17T18:33:34.329877+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "imminent",
+    "district": "บางบ่อ",
+    "p15": 80,
+    "p30": 80,
+    "p60": 80,
+    "data_quality": 98,
+    "model_confidence": 97,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
