@@ -1,28 +1,28 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "508de7fbd4f8fb92384ce7a9ab5ea5df7aac58be",
-      "changed_at": "2026-09-22T11:27:35.052577+00:00",
+      "hash": "64e210413742efa1c4282c2417c64029d27fb723",
+      "changed_at": "2026-09-22T12:07:33.482277+00:00",
       "verified": true,
-      "bytes": 96459
+      "bytes": 96177
     },
     "nongkhame": {
-      "hash": "0373ffb325747f20683b01deeb090f4f131b98ad",
-      "changed_at": "2026-09-22T11:27:36.693424+00:00",
+      "hash": "e9c98255af5564fa502ecafd30f396d92975c616",
+      "changed_at": "2026-09-22T12:07:36.292197+00:00",
       "verified": true,
-      "bytes": 102271
+      "bytes": 101855
     },
     "suvarnabhumi": {
-      "hash": "f341cb833a28723242197271160d110538abd1d5",
-      "changed_at": "2026-09-22T11:27:38.115129+00:00",
+      "hash": "85ddbd2f312d860e96d6b8871b5a32b63435ba9f",
+      "changed_at": "2026-09-22T12:07:38.769031+00:00",
       "verified": true,
-      "bytes": 282015
+      "bytes": 285339
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": "prepare",
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-17T00:37:54.781064+00:00",
         "last_push_tier": "early",
@@ -31,7 +31,7 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-20T19:16:42.990436+00:00",
         "last_push_tier": "imminent",
@@ -58,7 +58,7 @@
         "last_severity": "moderate"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": "early",
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-06T00:43:21.710539+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-22T11:27:49.549657+00:00",
+  "last_success_at": "2026-09-22T12:07:48.395298+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
