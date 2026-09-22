@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "c62fcb93a659c45d9b8e635394c5be846baca60c",
-      "changed_at": "2026-09-22T06:04:31.926164+00:00",
+      "hash": "b94173e874eb976b3e6a79c61ae135c1b7bcc664",
+      "changed_at": "2026-09-22T06:47:42.051315+00:00",
       "verified": true,
-      "bytes": 94729
+      "bytes": 94407
     },
     "nongkhame": {
-      "hash": "a4e7d1d50f538436b00c2778ee7cda43c45d1a20",
-      "changed_at": "2026-09-22T06:04:34.142062+00:00",
+      "hash": "e19861c7955ca0387357257a3b9746e3be320b31",
+      "changed_at": "2026-09-22T06:47:44.414990+00:00",
       "verified": true,
-      "bytes": 100573
+      "bytes": 100648
     },
     "suvarnabhumi": {
-      "hash": "ce69efc0cafad4ce9ba1822bf0f70c237bcf8d1f",
-      "changed_at": "2026-09-22T06:04:35.829549+00:00",
+      "hash": "866f657d310986fc49ed9cc5d6cc38ef679df7cc",
+      "changed_at": "2026-09-22T06:47:46.812814+00:00",
       "verified": true,
-      "bytes": 286310
+      "bytes": 289046
     }
   },
   "alert_engine": {
@@ -31,8 +31,8 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-20T19:16:42.990436+00:00",
         "last_push_tier": "imminent",
         "last_p15": 87,
@@ -40,8 +40,8 @@
         "last_severity": "light"
       },
       "บางบ่อ": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-22T05:28:10.333674+00:00",
         "last_push_tier": "early",
         "last_p15": 76,
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-06T00:43:21.710539+00:00",
         "last_push_tier": "early",
         "last_p15": 70,
@@ -67,8 +67,8 @@
         "last_severity": "light"
       },
       "บางเสาธง": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-07T05:29:28.553752+00:00",
         "last_push_tier": "early",
         "last_p15": 35,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-22T06:04:47.787293+00:00",
+  "last_success_at": "2026-09-22T06:47:59.210029+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
