@@ -1794,5 +1794,19 @@
     "data_quality": 99,
     "model_confidence": 89,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-09-22T06:04:47.787933+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "early",
+    "district": "พระสมุทรเจดีย์",
+    "p15": 82,
+    "p30": 82,
+    "p60": 82,
+    "data_quality": 97,
+    "model_confidence": 88,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
