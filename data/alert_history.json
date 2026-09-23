@@ -1492,5 +1492,23 @@
     "push_status": "failed",
     "status": "failed",
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-09-23T04:48:36.785164+00:00",
+    "event_key": "631c05e63b28af",
+    "district": "บางเสาธง",
+    "tier": "imminent",
+    "risk": 64,
+    "p15": 90,
+    "p30": 90,
+    "p60": 90,
+    "confidence": 97,
+    "data_quality": 98,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 31,
+    "push_status": "failed",
+    "status": "failed",
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
