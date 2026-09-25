@@ -1934,7 +1934,7 @@
     "recovered": true
   },
   {
-    "time": "2026-09-25T12:45:49.150223+00:00",
+    "time": "2026-09-25T15:18:28.989257+00:00",
     "event_key": "1941f8861de574",
     "district": "เมืองสมุทรปราการ",
     "tier": "imminent",
@@ -1947,8 +1947,12 @@
     "eta_min": 0,
     "severity": "moderate",
     "satellite_score": 81,
-    "push_status": "failed",
-    "status": "failed",
-    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+    "push_status": "sent",
+    "status": "sent",
+    "error": null,
+    "previous_error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n",
+    "auth_method": "app-key",
+    "message_id": "",
+    "recovered": true
   }
 ]
