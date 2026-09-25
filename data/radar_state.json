@@ -1,29 +1,29 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "b90c6729073d049288e5f9089f9de50d3a83073a",
-      "changed_at": "2026-09-25T21:31:40.835508+00:00",
+      "hash": "fe5b6e8eceb92a334ab13acbcc5316c19fcf433e",
+      "changed_at": "2026-09-25T23:35:07.423275+00:00",
       "verified": true,
-      "bytes": 115086
+      "bytes": 114816
     },
     "nongkhame": {
-      "hash": "639157a42cb2ecb3cfdda2b94c972c4f18dc9b27",
-      "changed_at": "2026-09-25T21:31:43.048932+00:00",
+      "hash": "dc8bad89bfd03bb5efc956fb6b611981a4a660ad",
+      "changed_at": "2026-09-25T23:35:09.587435+00:00",
       "verified": true,
-      "bytes": 122468
+      "bytes": 120427
     },
     "suvarnabhumi": {
-      "hash": "8bd446944e2ce327ff9bbc799b1da2bfcd3ce51d",
-      "changed_at": "2026-09-25T21:31:45.060630+00:00",
+      "hash": "3916e2d3f53d78b794b3729cf9fcf0925da8587f",
+      "changed_at": "2026-09-25T23:35:12.619704+00:00",
       "verified": true,
-      "bytes": 398292
+      "bytes": 442106
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-25T22:26:36.574073+00:00",
         "last_push_tier": "imminent",
         "last_p15": 99,
@@ -50,7 +50,7 @@
       },
       "พระประแดง": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-25T19:18:04.147039+00:00",
         "last_push_tier": "early",
         "last_p15": 38,
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-23T06:44:08.385727+00:00",
         "last_push_tier": "imminent",
         "last_p15": 99,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-25T21:31:58.763887+00:00",
+  "last_success_at": "2026-09-25T23:35:23.759725+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
