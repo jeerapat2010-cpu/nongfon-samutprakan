@@ -51,11 +51,11 @@
       "พระประแดง": {
         "active_tier": "early",
         "below_count": 0,
-        "last_push_at": "2026-09-23T16:57:17.556440+00:00",
+        "last_push_at": "2026-09-25T19:18:04.147039+00:00",
         "last_push_tier": "early",
-        "last_p15": 31,
-        "last_eta": 90,
-        "last_severity": "light"
+        "last_p15": 38,
+        "last_eta": null,
+        "last_severity": "none"
       },
       "พระสมุทรเจดีย์": {
         "active_tier": null,
