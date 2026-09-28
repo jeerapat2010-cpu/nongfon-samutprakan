@@ -13,10 +13,10 @@
       "bytes": 0
     },
     "suvarnabhumi": {
-      "hash": "53ad3ae95181fc627f2bab95a4e79989aaab9c86",
-      "changed_at": "2026-09-28T17:04:28.414790+00:00",
+      "hash": "6c9e7ea43c33b18d49305ef6f12cb1d874cf7209",
+      "changed_at": "2026-09-28T21:27:14.812432+00:00",
       "verified": true,
-      "bytes": 276935
+      "bytes": 276691
     }
   },
   "alert_engine": {
@@ -49,8 +49,8 @@
         "last_severity": "none"
       },
       "พระประแดง": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-26T17:49:52.121774+00:00",
         "last_push_tier": "imminent",
         "last_p15": 95,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-28T17:04:39.027882+00:00",
+  "last_success_at": "2026-09-28T21:27:25.964992+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
