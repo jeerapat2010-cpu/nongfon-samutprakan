@@ -13,17 +13,17 @@
       "bytes": 0
     },
     "suvarnabhumi": {
-      "hash": "a7dd9f1321412e5c15109fb16802264c53021e34",
-      "changed_at": "2026-09-28T08:39:03.663204+00:00",
+      "hash": "fddc1e4c04cf44cadbbd71b86e6ed9ff780f66a4",
+      "changed_at": "2026-09-28T15:54:47.003750+00:00",
       "verified": true,
-      "bytes": 299050
+      "bytes": 274149
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-27T22:18:23.338691+00:00",
         "last_push_tier": "imminent",
         "last_p15": 99,
@@ -32,7 +32,7 @@
       },
       "บางพลี": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-27T19:19:15.746843+00:00",
         "last_push_tier": "imminent",
         "last_p15": 97,
@@ -41,7 +41,7 @@
       },
       "บางบ่อ": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-28T00:50:51.668092+00:00",
         "last_push_tier": "early",
         "last_p15": 41,
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-23T06:44:08.385727+00:00",
         "last_push_tier": "imminent",
         "last_p15": 99,
@@ -68,7 +68,7 @@
       },
       "บางเสาธง": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-28T12:49:07.060019+00:00",
         "last_push_tier": "imminent",
         "last_p15": 88,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-28T08:39:16.100195+00:00",
+  "last_success_at": "2026-09-28T15:54:58.015356+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
