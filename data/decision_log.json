@@ -2680,5 +2680,19 @@
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
     "tier": null,
     "district": null
+  },
+  {
+    "time": "2026-09-29T01:08:30.130296+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "early",
+    "district": "พระสมุทรเจดีย์",
+    "p15": 33,
+    "p30": 49,
+    "p60": 65,
+    "data_quality": 93,
+    "model_confidence": 85,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
