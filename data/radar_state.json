@@ -13,10 +13,10 @@
       "bytes": 0
     },
     "suvarnabhumi": {
-      "hash": "7366d3e73103637cba2d992d7c5dab4f925f40ba",
-      "changed_at": "2026-09-29T15:09:52.893654+00:00",
+      "hash": "f33889f7d907239666d98d1faa0d1c7c1610f5ab",
+      "changed_at": "2026-09-29T18:46:15.993004+00:00",
       "verified": true,
-      "bytes": 268469
+      "bytes": 270338
     }
   },
   "alert_engine": {
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-29T16:38:46.865639+00:00",
         "last_push_tier": "early",
         "last_p15": 57,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-09-29T15:10:06.850923+00:00",
+  "last_success_at": "2026-09-29T18:46:27.025751+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
