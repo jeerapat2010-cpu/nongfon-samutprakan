@@ -2702,5 +2702,13 @@
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
     "tier": null,
     "district": null
+  },
+  {
+    "time": "2026-09-29T06:51:34.717744+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
   }
 ]
