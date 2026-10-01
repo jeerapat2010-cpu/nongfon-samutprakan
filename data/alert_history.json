@@ -2584,5 +2584,23 @@
     "auth_method": "app-key",
     "message_id": "",
     "recovered": true
+  },
+  {
+    "time": "2026-10-01T19:02:10.981969+00:00",
+    "event_key": "3bc590b8aa7048",
+    "district": "พระสมุทรเจดีย์",
+    "tier": "early",
+    "risk": 55,
+    "p15": 63,
+    "p30": 63,
+    "p60": 63,
+    "confidence": 86,
+    "data_quality": 95,
+    "eta_min": 15,
+    "severity": "light",
+    "satellite_score": 5,
+    "push_status": "failed",
+    "status": "failed",
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
