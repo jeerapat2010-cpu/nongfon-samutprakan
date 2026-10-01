@@ -24,9 +24,9 @@
       "เมืองสมุทรปราการ": {
         "active_tier": "early",
         "below_count": 0,
-        "last_push_at": "2026-09-27T22:18:23.338691+00:00",
-        "last_push_tier": "imminent",
-        "last_p15": 99,
+        "last_push_at": "2026-10-01T13:31:52.066357+00:00",
+        "last_push_tier": "early",
+        "last_p15": 77,
         "last_eta": 0,
         "last_severity": "moderate"
       },
