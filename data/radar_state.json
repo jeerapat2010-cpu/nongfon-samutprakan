@@ -13,10 +13,10 @@
       "bytes": 99467
     },
     "suvarnabhumi": {
-      "hash": "6d8fe1508162a2f7b9454f4485aa260718517929",
-      "changed_at": "2026-10-02T02:20:34.814693+00:00",
+      "hash": "4dfa21bdaeef52c9acd600757b9d5b22ffc25731",
+      "changed_at": "2026-10-02T02:30:06.600285+00:00",
       "verified": true,
-      "bytes": 271024
+      "bytes": 270955
     }
   },
   "alert_engine": {
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-02T02:20:44.504505+00:00",
+  "last_success_at": "2026-10-02T02:30:17.588567+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
