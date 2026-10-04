@@ -1,29 +1,29 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "075a40a786c50873b1cf190500b58ee89643ad9d",
-      "changed_at": "2026-10-04T14:06:51.114250+00:00",
+      "hash": "e7aa05f31e7a321dda19c6ce6869a3414160be89",
+      "changed_at": "2026-10-04T15:54:56.870289+00:00",
       "verified": true,
-      "bytes": 95027
+      "bytes": 93672
     },
     "nongkhame": {
-      "hash": "ff39256b0915a650144aef3805661f0028c47d27",
-      "changed_at": "2026-10-04T14:06:53.550723+00:00",
+      "hash": "cc659810b25e55a47c987b54d48d1fde53878a01",
+      "changed_at": "2026-10-04T15:55:00.693447+00:00",
       "verified": true,
-      "bytes": 100747
+      "bytes": 99499
     },
     "suvarnabhumi": {
-      "hash": "80d1c455903238573485f7b63f46a5cca983e3ec",
-      "changed_at": "2026-10-04T14:06:55.693289+00:00",
+      "hash": "fb48d7cf196743c9de7de9195ee8233139b31f81",
+      "changed_at": "2026-10-04T15:55:03.479652+00:00",
       "verified": true,
-      "bytes": 274234
+      "bytes": 268635
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
         "active_tier": "prepare",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-10-03T22:13:38.948847+00:00",
         "last_push_tier": "early",
         "last_p15": 68,
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-29T16:38:46.865639+00:00",
         "last_push_tier": "early",
         "last_p15": 57,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-04T14:07:09.710514+00:00",
+  "last_success_at": "2026-10-04T15:55:10.634591+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
