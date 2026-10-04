@@ -1,28 +1,28 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "a88cba6b5e3adc3893cf7246e60af6c60bcd77f7",
-      "changed_at": "2026-10-04T05:44:43.248268+00:00",
+      "hash": "264eb0f2c8a2a234d8e9deb06407b7ede5374f11",
+      "changed_at": "2026-10-04T08:16:15.941062+00:00",
       "verified": true,
-      "bytes": 94924
+      "bytes": 96100
     },
     "nongkhame": {
-      "hash": "9604bff629ef80de4ec5cbdaf74f3677a6f18b13",
-      "changed_at": "2026-10-04T05:44:45.575528+00:00",
+      "hash": "6a75d75a081d76cdd99d6241e8704af94d603388",
+      "changed_at": "2026-10-04T08:16:18.784334+00:00",
       "verified": true,
-      "bytes": 100005
+      "bytes": 102432
     },
     "suvarnabhumi": {
-      "hash": "67177fca9b0c8603360910761fd8eb2c947ee370",
-      "changed_at": "2026-10-04T05:44:47.143696+00:00",
+      "hash": "7340d61661bd14d6491249fe08425e451b8b7e60",
+      "changed_at": "2026-10-04T08:16:20.447162+00:00",
       "verified": true,
-      "bytes": 283835
+      "bytes": 287904
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-03T22:13:38.948847+00:00",
         "last_push_tier": "early",
@@ -31,7 +31,7 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-02T14:48:16.455476+00:00",
         "last_push_tier": "imminent",
@@ -49,7 +49,7 @@
         "last_severity": "none"
       },
       "พระประแดง": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-03T12:35:29.355594+00:00",
         "last_push_tier": "imminent",
@@ -58,7 +58,7 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-29T16:38:46.865639+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-04T05:44:59.726634+00:00",
+  "last_success_at": "2026-10-04T08:16:33.994162+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
