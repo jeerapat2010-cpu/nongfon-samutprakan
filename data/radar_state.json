@@ -33,11 +33,11 @@
       "บางพลี": {
         "active_tier": "imminent",
         "below_count": 0,
-        "last_push_at": "2026-10-04T19:50:27.672471+00:00",
-        "last_push_tier": "early",
-        "last_p15": 69,
+        "last_push_at": "2026-10-05T15:34:01.548273+00:00",
+        "last_push_tier": "imminent",
+        "last_p15": 90,
         "last_eta": 0,
-        "last_severity": "moderate"
+        "last_severity": "light"
       },
       "บางบ่อ": {
         "active_tier": "imminent",
