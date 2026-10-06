@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "4d438c0ef48c2d810adbd4a3f69f0da573fa41ab",
-      "changed_at": "2026-10-05T22:47:22.259901+00:00",
+      "hash": "ce95b47cc8433b25ec60e9f2fdd65c8f0af7d2de",
+      "changed_at": "2026-10-06T00:59:29.113943+00:00",
       "verified": true,
-      "bytes": 106706
+      "bytes": 107181
     },
     "nongkhame": {
-      "hash": "1e29cd47516f120f48acd18dc3aa92e146841085",
-      "changed_at": "2026-10-05T22:47:25.004915+00:00",
+      "hash": "0f9d2fbd631ec295ff6517831054116efd83b4da",
+      "changed_at": "2026-10-06T00:59:31.139992+00:00",
       "verified": true,
-      "bytes": 117357
+      "bytes": 113286
     },
     "suvarnabhumi": {
-      "hash": "765c09733a5c9ec1e15f1c1f33fcd98c2bce32e5",
-      "changed_at": "2026-10-05T22:47:27.762162+00:00",
+      "hash": "652b54153812f90670d489fae71a654c185c1ccc",
+      "changed_at": "2026-10-06T00:59:32.945130+00:00",
       "verified": true,
-      "bytes": 368004
+      "bytes": 346993
     }
   },
   "alert_engine": {
@@ -32,7 +32,7 @@
       },
       "บางพลี": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-10-05T15:34:01.548273+00:00",
         "last_push_tier": "imminent",
         "last_p15": 90,
@@ -41,7 +41,7 @@
       },
       "บางบ่อ": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-28T00:50:51.668092+00:00",
         "last_push_tier": "early",
         "last_p15": 41,
@@ -68,7 +68,7 @@
       },
       "บางเสาธง": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-28T12:49:07.060019+00:00",
         "last_push_tier": "imminent",
         "last_p15": 88,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-05T22:47:38.720693+00:00",
+  "last_success_at": "2026-10-06T00:59:45.647542+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
