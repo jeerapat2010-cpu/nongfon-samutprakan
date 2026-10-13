@@ -320,6 +320,17 @@ html.intro-on #intro{display:block}
 .pm-legend div{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:#5a3a1a;line-height:1.35}
 .pm-legend i{flex:none;width:14px;height:14px;border-radius:50%;margin-top:2px}
 
+.pm-alert-card{background:linear-gradient(180deg,#fff,#fff7ee);border:1px solid #f4dcc0}
+.pm-alert-state{margin-top:10px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #f1dfc9;font-size:13px;line-height:1.55;color:#5a3a1a}
+.pm-alert-state b{font-size:14px}
+.pm-alert-rules{margin:10px 0 0;padding-left:18px;font-size:12px;color:#7a5c3c;line-height:1.6}
+.pm-alert-hist{margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.pm-alert-hist .row{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:#5a3a1a;background:#fff;border:1px solid #f1dfc9;border-radius:12px;padding:8px 10px;line-height:1.45}
+.pm-alert-hist .t{flex:none;font-weight:900;color:#a85a14;min-width:92px}
+.pm-alert-hist .st-failed{color:#c0392b;font-weight:900}
+.pm-alert-empty{font-size:12px;color:#8a6a4a;padding:6px 2px}
+.pm-alert-cta{margin-top:10px}
+.pm-alert-cta button{border:0;border-radius:14px;padding:10px 14px;font-weight:900;font-family:inherit;background:#ff8a3d;color:#fff;box-shadow:0 4px 0 #c9621c;cursor:pointer}
 /* ===== PM2.5 card ===== */
 .pm-card{background:linear-gradient(180deg,#fffaf3,#fff3e4);border:1px solid #f4dcc0}
 .pm-card .pm-summary{margin-top:10px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #f1dfc9;font-weight:1000;font-size:14px;color:#5a3a1a}
@@ -676,6 +687,15 @@ html.intro-on #intro{display:block}
     <div id="pmGrid" class="simple-grid"></div>
     <div class="pm-foot">ข้อมูลจากแบบจำลองคุณภาพอากาศ CAMS ผ่าน Open-Meteo เป็นค่าประมาณรายพื้นที่ ไม่ใช่ค่าจากเครื่องวัดจริง • เกณฑ์ระดับตามกรมควบคุมมลพิษ (ค่ามาตรฐาน 24 ชม. = 37.5 µg/m³) • ดูค่าจากสถานีวัดจริงได้ที่ <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener">Air4Thai</a></div>
   </div>
+  </div>
+
+  <div class="card pm-alert-card" id="pmAlertCard">
+    <div class="province-title">🔔 แจ้งเตือนฝุ่นอัตโนมัติ</div>
+    <div class="province-note">ระบบตรวจฝุ่นทุกชั่วโมงและส่ง Push ให้ผู้ที่เปิดแจ้งเตือนไว้</div>
+    <div class="pm-alert-state" id="pmAlertState">กำลังอ่านสถานะ…</div>
+    <ul class="pm-alert-rules" id="pmAlertRules"></ul>
+    <div class="pm-alert-hist" id="pmAlertHist"></div>
+    <div class="pm-alert-cta"><button type="button" id="pmAlertEnable">🔔 เปิดแจ้งเตือน</button></div>
   </div>
 
   <div class="actions">
@@ -1091,7 +1111,7 @@ function renderPM(){
   </div>`}).join('');
  if(typeof renderPMMap==='function')renderPMMap();
 }
-async function refresh(){loadPM();refreshBtn.disabled=true;if(radarMode!=='loop')radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
+async function refresh(){loadPM();if(!document.getElementById('pagePM').hidden)loadPMAlertStatus();refreshBtn.disabled=true;if(radarMode!=='loop')radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
 function tierThai(t){return t==='severe'?'ฝนหนัก/รุนแรง':t==='imminent'?'ฝนใกล้ถึง':t==='prepare'?'เตรียมรับฝน':t==='early'?'เฝ้าระวัง':'แจ้งเตือน'}
 function pushStatusThai(s){return s==='sent'?'ส่งสำเร็จ ✅':'ส่งไม่สำเร็จ ⚠️'}
 function severityHistoryThai(s){return s==='very_heavy'?'หนักมาก':s==='heavy'?'หนัก':s==='moderate'?'ปานกลาง':s==='light'?'เบา':'ยังไม่ชัด'}
@@ -1148,6 +1168,35 @@ loopBtn.onclick=async()=>{latestBtn.className='soft';loopBtn.className='blue';aw
 refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast('v10: P15/P30/P60 + Multi-Radar + Himawari + Forecast + Data Quality + Verification + Push Hysteresis')
 ;(async()=>{if('serviceWorker'in navigator){try{swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await navigator.serviceWorker.ready;try{await swReg.update()}catch(e){}}catch(e){}}updateNotifyUI()})();
 
+/* ===== PM2.5 alert status (data/pm25_status.json written hourly by GitHub Actions) ===== */
+async function loadPMAlertStatus(){
+ const stEl=document.getElementById('pmAlertState');if(!stEl)return;
+ try{
+  const r=await fetch('data/pm25_status.json?t='+Date.now(),{cache:'no-store'});
+  if(!r.ok)throw new Error('http '+r.status);
+  renderPMAlertStatus(await r.json());
+ }catch(e){renderPMAlertStatus(null)}
+}
+function renderPMAlertStatus(s){
+ const stEl=document.getElementById('pmAlertState'),rules=document.getElementById('pmAlertRules'),hist=document.getElementById('pmAlertHist');
+ if(!stEl)return;
+ const th=s?.thresholds||{alert_above_ugm3:37.5,critical_above_ugm3:75,smoothing_hours:3,remind_hours:12,quiet_hours:'22:00-06:00',max_push_per_day:4};
+ rules.innerHTML=`<li>เตือนเมื่อค่าเฉลี่ย ${th.smoothing_hours} ชม. ล่าสุดของอำเภอใดเกิน <b>${th.alert_above_ugm3}</b> µg/ลบ.ม. (เริ่มมีผลกระทบ) และเตือนอีกครั้งเมื่อเกิน <b>${th.critical_above_ugm3}</b> (มีผลกระทบต่อสุขภาพ)</li>
+  <li>ไม่ส่งช่วง ${th.quiet_hours} น. • ถ้ายังสูงค้างจะเตือนซ้ำทุก ${th.remind_hours} ชม. • ไม่เกิน ${th.max_push_per_day} ครั้ง/วัน</li>
+  <li>ค่าจากแบบจำลอง CAMS (Open-Meteo) ไม่ใช่เครื่องวัดจริง</li>`;
+ if(!s){
+  stEl.innerHTML='ยังไม่มีข้อมูลสถานะการแจ้งเตือนฝุ่น <small style="color:#8a6a4a">(ระบบจะสร้างหลังรอบตรวจแรก)</small>';
+  hist.innerHTML='';return;
+ }
+ const p=s.province, d=s.push?.last_decision||{};
+ const lvlTxt=p?`${p.level>=3?'⚠️':'✅'} ตอนนี้ระดับจังหวัด: <b>${p.label}</b> (สูงสุด ${p.max_district} ${Number(p.max_value).toFixed(1)} µg/ลบ.ม.)`:'ยังไม่มีค่าฝุ่นล่าสุด';
+ const actionTxt={sent:'ส่งแจ้งเตือนแล้ว',skipped:'ไม่ต้องส่ง (เคยแจ้งระดับนี้แล้ว)',none:'ยังไม่เข้าเกณฑ์แจ้งเตือน',suppressed:'รอส่ง (ช่วงพัก/ครบโควตา)',failed:'ส่งไม่สำเร็จ จะลองใหม่รอบถัดไป',fetch_failed:'ดึงข้อมูลฝุ่นไม่สำเร็จ',no_data:'ไม่มีข้อมูล',test_sent:'ส่งข้อความทดสอบแล้ว',dry_run:'ซ้อมคำนวณ'}[d.action]||d.action||'—';
+ const last=s.push?.last_sent_at;
+ stEl.innerHTML=`${lvlTxt}<br>สถานะรอบล่าสุด: ${actionTxt}${d.time?` • ตรวจเมื่อ ${formatThaiDateTime(d.time)}`:''}<br>แจ้งเตือนล่าสุด: ${last?formatThaiDateTime(last):'ยังไม่เคยส่ง'}`;
+ const rows=(s.push?.history||[]).slice(-6).reverse();
+ hist.innerHTML=rows.length?rows.map(h=>`<div class="row"><span class="t">${formatThaiDateTime(h.time)}</span><span>${h.status==='failed'?'<span class="st-failed">ส่งไม่สำเร็จ</span> ':''}${String(h.title||'').replace(/[<>&]/g,'')}<br><span style="color:#8a6a4a">${String(h.body||'').replace(/[<>&]/g,'')}</span></span></div>`).join(''):'<div class="pm-alert-empty">ยังไม่มีประวัติการส่งแจ้งเตือนฝุ่น</div>';
+}
+
 /* ===== GA4 helper ===== */
 function gaEvent(name,params){try{if(window.gtag)gtag('event',name,params||{})}catch(e){}}
 
@@ -1159,7 +1208,7 @@ function showPage(name,updateHash){
  r.hidden=name!=='rain';m.hidden=name!=='pm';
  document.querySelectorAll('#pageTabs button').forEach(b=>{const on=b.dataset.page===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false')});
  if(updateHash!==false){try{history.replaceState(null,'','#'+name)}catch(e){}}
- if(name==='pm'){initPMMap();gaEvent('view_pm_page')}
+ if(name==='pm'){initPMMap();loadPMAlertStatus();gaEvent('view_pm_page')}
  if(updateHash!==false)window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1193,7 +1242,15 @@ function initPMMap(){
   if(pmMap)return;
   el.innerHTML='';
   pmMap=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,zoomDelta:.5,tap:false}).setView([13.62,100.68],10);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:17,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(pmMap);
+  /* พื้นหลังแผนที่: OpenStreetMap (ไม่ต้องใช้ API key) - ถ้าโหลดกระเบื้องไม่ได้หลายแผ่นจะสลับไปใช้ Esri อัตโนมัติ */
+  const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'});
+  let tileErr=0,swapped=false;
+  osm.on('tileerror',()=>{
+   if(swapped||++tileErr<4)return;
+   swapped=true;pmMap.removeLayer(osm);
+   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}).addTo(pmMap);
+  });
+  osm.addTo(pmMap);
   pmLayer=L.layerGroup().addTo(pmMap);
   setTimeout(()=>{pmMap.invalidateSize();fitPMMap()},60);
   renderPMMap();
@@ -1258,6 +1315,7 @@ function startIntro(manual){
 (function wireUI(){
  document.querySelectorAll('#pageTabs button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
  const sk=document.getElementById('introSkip'),gb=document.getElementById('introGo'),rp=document.getElementById('replayIntro');
+ const en=document.getElementById('pmAlertEnable');if(en)en.addEventListener('click',()=>{const b=document.getElementById('notifyBtn');if(b)b.click()});
  if(sk)sk.addEventListener('click',closeIntro);
  if(gb)gb.addEventListener('click',closeIntro);
  if(rp)rp.addEventListener('click',()=>startIntro(true));
