@@ -692,7 +692,7 @@ def push_decision(status,state):
     if not escalated and last_at and elapsed<cooldown and not (meaningful and elapsed>=15):
         decision.update({"action":"suppressed","reason":f"ผ่านเกณฑ์ แต่ยังอยู่ใน cooldown อีกประมาณ {max(1,round(cooldown-elapsed))} นาที","cooldown_remaining_min":max(0,round(cooldown-elapsed))})
         status["push_engine"]={"configured":True,"decision":decision,"policy":"v10 probabilistic + consensus + hysteresis"};append_json_log(DECISION_LOG_PATH,decision);return False,state
-    icon={"early":"🌦️","prepare":"☔","imminent":"🌧️","severe":"🚨"}[tier];title=f"{icon} เฝ้าน้องฝน: {tier_label(tier)} • {d['short']}"
+    icon={"early":"🌦️","prepare":"☔","imminent":"🌧️","severe":"🚨"}[tier];title=f"{icon} น้องมายด์เฝ้าฝน: {tier_label(tier)} • {d['short']}"
     eta_txt="มีฝนแล้ว" if eta==0 else (f"~{eta} นาที" if eta is not None else "ภายใน 60 นาที")
     body=f"P15 {d['p15']}% • P30 {d['p30']}% • P60 {d['p60']}% • {eta_txt} • เชื่อมั่น {d['model_confidence']}%"
     payload={"app_id":app,"target_channel":"push","included_segments":["Subscribed Users"],"headings":{"en":title,"th":title},"contents":{"en":body,"th":body},"url":site,"data":{"event_key":status.get("event_key"),"tier":tier,"district":d["name"]}}
