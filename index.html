@@ -13,7 +13,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DT9E54XRZZ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-DT9E54XRZZ');</script>
 <script>/* show the intro clip only on the first visit (and never for reduced-motion users) */
-try{var _rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;var _seen=false;try{_seen=!!localStorage.getItem('nongfon_intro_seen_v2')}catch(e){}if(!_rm&&!_seen)document.documentElement.classList.add('intro-on')}catch(e){}</script>
+try{var _rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;var _seen=false;try{_seen=!!localStorage.getItem('nongfon_intro_seen_v3')}catch(e){}if(!_rm&&!_seen)document.documentElement.classList.add('intro-on')}catch(e){}</script>
 <style>
 :root{
  --blue:#238ff3;--blue2:#51bff8;--pink:#ff5f9e;--yellow:#ffc737;--green:#22b965;
@@ -260,43 +260,79 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .clear-weather .intel-districts,.clear-weather .intel-source{display:none!important}
 
 
-/* ===== Intro clip (first visit) ===== */
-#intro{display:none;position:fixed;inset:0;z-index:10000;background:linear-gradient(180deg,#0b2a44,#14507a);opacity:1;transition:opacity .6s ease}
+/* ===== Intro clip (first visit) : ประภาคารสมุทรปราการ + ฝน + ฝุ่น ===== */
+#intro{display:none;position:fixed;inset:0;z-index:10000;background:#1d3a5c;opacity:1;transition:opacity .6s ease;overflow:hidden;font-family:inherit}
 html.intro-on #intro{display:block}
 #intro.closing{opacity:0;pointer-events:none}
-#intro .illustration{position:absolute;inset:0;border-radius:0;border:0;min-height:0;box-shadow:none}
-#intro .motion-stage{bottom:84px}
-#intro .slide{position:absolute;inset:0}
-#intro:not(.play) .slide.s-girl{transform:translateX(-130vw)}
-#intro:not(.play) .slide.s-dog{transform:translateX(130vw)}
-#intro.play .slide.s-girl{animation:introEnterL 2.3s cubic-bezier(.18,.85,.25,1) both}
-#intro.play .slide.s-dog{animation:introEnterR 2.3s .5s cubic-bezier(.18,.85,.25,1) both}
-@keyframes introEnterL{from{transform:translateX(-130vw)}to{transform:translateX(0)}}
-@keyframes introEnterR{from{transform:translateX(130vw)}to{transform:translateX(0)}}
-#intro:not(.play) .hero-copy{opacity:0}
-#intro.play .hero-copy{animation:introDrop 1s 1s cubic-bezier(.3,1.5,.5,1) both}
+#intro .lh-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+#intro:not(.play) .lh-scene,#intro:not(.play) .lh-rain,#intro:not(.play) .lh-dust,#intro:not(.play) .lh-haze{opacity:0}
+#intro.play .lh-scene{animation:lhFade 1s ease both}
+@keyframes lhFade{from{opacity:0}to{opacity:1}}
+/* lighthouse beams: left = rain side (cool), right = dust side (warm); they alternate like a rotating lamp */
+#intro .beam{transform-origin:0 0;animation:lhBeam 4s ease-in-out infinite;animation-play-state:paused}
+#intro .beam.l{animation-delay:-2s}
+#intro.play .beam{animation-play-state:running}
+@keyframes lhBeam{0%,100%{transform:scaleX(1);opacity:.95}50%{transform:scaleX(.04);opacity:.1}}
+#intro .lamp-glow{transform-origin:600px 262px;animation:lhPulse 1.6s ease-in-out infinite alternate}
+@keyframes lhPulse{from{opacity:.55;transform:scale(.92)}to{opacity:1;transform:scale(1.12)}}
+#intro .cloud{animation:lhCloud 40s linear infinite alternate}
+#intro .cloud.c2{animation-duration:55s}#intro .cloud.c3{animation-duration:47s}#intro .cloud.c4{animation-duration:62s}
+@keyframes lhCloud{from{transform:translateX(-40px)}to{transform:translateX(60px)}}
+#intro .wave{animation:lhWave 9s linear infinite}
+#intro .wave.w2{animation-duration:13s;animation-direction:reverse}
+#intro .wave.w3{animation-duration:7s}
+@keyframes lhWave{from{transform:translateX(0)}to{transform:translateX(-120px)}}
+#intro .foam{transform-origin:600px 650px;animation:lhFoam 3s ease-in-out infinite alternate}
+@keyframes lhFoam{from{opacity:.35;transform:scale(.97)}to{opacity:.75;transform:scale(1.04)}}
+/* weather layers */
+#intro .lh-rain{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 38%,transparent 82%);mask-image:linear-gradient(90deg,#000 38%,transparent 82%)}
+#intro.play .lh-rain{animation:lhFade 1.6s .5s both}
+#intro .lh-rain i{position:absolute;top:-12%;width:2px;height:clamp(18px,3.2vw,30px);border-radius:2px;background:linear-gradient(180deg,rgba(210,235,255,0),rgba(210,235,255,.85));transform:rotate(12deg);animation:lhDrop linear infinite;animation-play-state:paused}
+#intro.play .lh-rain i{animation-play-state:running}
+@keyframes lhDrop{to{transform:translate(-60px,115vh) rotate(12deg)}}
+#intro .lh-haze{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(70% 55% at 88% 58%,rgba(214,160,92,.55),rgba(214,160,92,0) 72%),linear-gradient(90deg,rgba(0,0,0,0) 52%,rgba(190,140,80,.30))}
+#intro.play .lh-haze{animation:lhFade 2.2s 1.1s both}
+#intro .lh-dust{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+#intro.play .lh-dust{animation:lhFade 1.6s 1.1s both}
+#intro .lh-dust i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(226,178,112,.9),rgba(190,140,80,0) 70%);opacity:0;animation:lhDust linear infinite;animation-play-state:paused}
+#intro.play .lh-dust i{animation-play-state:running}
+@keyframes lhDust{from{transform:translate(40px,0) scale(.7);opacity:0}20%{opacity:.85}to{transform:translate(-130px,-60px) scale(1.2);opacity:0}}
+/* title */
+#intro .lh-title{position:absolute;z-index:6;left:14px;right:14px;top:max(18px,env(safe-area-inset-top));text-align:center}
+#intro:not(.play) .lh-title{opacity:0}
+#intro.play .lh-title{animation:introDrop 1s .8s cubic-bezier(.3,1.5,.5,1) both}
 @keyframes introDrop{from{transform:translateY(-190%);opacity:0}to{transform:none;opacity:1}}
-#intro .logo{max-width:100%}
-#intro .logo .t1{font-size:clamp(23px,5.2vw,50px)}
-#intro .logo .t2{font-size:clamp(21px,4.4vw,42px)}
-#intro .location{font-size:clamp(12px,2.4vw,16px)}
-#intro .speech{left:50%;top:35%;bottom:auto;width:min(86vw,400px);text-align:center;font-size:clamp(14px,3.6vw,18px);line-height:1.45;transform:translateX(-50%);animation:none;opacity:0}
-#intro.play .speech{animation:introBubble .55s 2.8s cubic-bezier(.3,1.6,.5,1) both,introPop 1.2s 3.4s ease-in-out infinite alternate}
-@keyframes introBubble{from{opacity:0;transform:translateX(-50%) scale(.3)}to{opacity:1;transform:translateX(-50%) scale(1)}}
-@keyframes introPop{from{transform:translateX(-50%) scale(.98) rotate(-.8deg)}to{transform:translateX(-50%) scale(1.03) rotate(.8deg)}}
-#intro .dust{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
-#intro .dust i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(205,160,105,.8),rgba(160,115,70,0) 70%);opacity:0;animation:dustFloat 7s linear infinite}
-#intro:not(.play) .dust i{animation-play-state:paused}
-@keyframes dustFloat{from{transform:translate(0,0);opacity:0}20%{opacity:.85}to{transform:translate(140px,-170px);opacity:0}}
+#intro .lh-card{display:inline-block;max-width:100%;background:rgba(255,255,255,.95);padding:9px 18px 11px;border-radius:24px;border:4px solid #fff;box-shadow:0 8px 22px rgba(0,0,0,.28)}
+#intro .lh-card .t1{font-size:clamp(22px,5vw,48px);font-weight:1000;color:#227ecf;line-height:1}
+#intro .lh-card .t2{font-size:clamp(20px,4.3vw,40px);font-weight:1000;color:#ff5f9e;line-height:1.05}
+#intro .lh-sub{margin-top:8px;display:inline-block;background:rgba(10,30,50,.55);color:#fff;font-weight:800;font-size:clamp(12px,2.3vw,16px);padding:5px 13px;border-radius:999px;backdrop-filter:blur(4px)}
+/* weather tags beside the lamp */
+#intro .lh-tag{position:absolute;z-index:6;top:30%;font-weight:1000;font-size:clamp(13px,2.6vw,19px);padding:7px 13px;border-radius:16px;color:#fff;box-shadow:0 5px 14px rgba(0,0,0,.3);opacity:0;white-space:nowrap}
+#intro .lh-tag small{display:block;font-size:.66em;font-weight:800;opacity:.92}
+#intro .lh-tag.t-rain{left:max(10px,calc(50% - 400px));background:#2f86d6}
+#intro .lh-tag.t-dust{right:max(10px,calc(50% - 400px));background:#d98a2b}
+#intro.play .lh-tag.t-rain{animation:lhTag .6s 3.5s cubic-bezier(.3,1.6,.5,1) both}
+#intro.play .lh-tag.t-dust{animation:lhTag .6s 4.0s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes lhTag{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+/* mascot on the pier */
+#intro .lh-girl{position:absolute;z-index:5;left:max(0px,calc(50% - 470px));bottom:calc(max(20px,env(safe-area-inset-bottom)) + 58px);width:clamp(180px,52vw,310px);aspect-ratio:400/470;background:url('character-girl-hd.png') center bottom/contain no-repeat;filter:drop-shadow(0 12px 10px rgba(0,0,0,.35))}
+#intro:not(.play) .lh-girl{transform:translateX(-130vw)}
+#intro.play .lh-girl{animation:lhGirlIn 2.2s .9s cubic-bezier(.18,.85,.25,1) both,lhBob .9s 3.1s ease-in-out infinite alternate}
+@keyframes lhGirlIn{from{transform:translateX(-130vw) rotate(-4deg)}to{transform:none}}
+@keyframes lhBob{from{transform:translateY(0) rotate(-1deg)}to{transform:translateY(-9px) rotate(1.2deg)}}
+#intro .lh-speech{position:absolute;z-index:7;left:max(calc(clamp(180px,52vw,310px) - 40px),calc(50% - 470px + clamp(180px,52vw,310px) - 40px));bottom:calc(max(20px,env(safe-area-inset-bottom)) + 58px + clamp(110px,31vw,190px));width:min(52vw,270px);background:#fff;color:#26617e;font-weight:900;font-size:clamp(13px,3.3vw,17px);line-height:1.4;padding:10px 14px;border-radius:20px;box-shadow:0 8px 20px rgba(0,0,0,.3);opacity:0;transform-origin:0 100%}
+#intro .lh-speech:after{content:"";position:absolute;left:-9px;bottom:16px;border:9px solid transparent;border-right-color:#fff;border-left:0}
+#intro.play .lh-speech{animation:lhBubble .55s 3.1s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes lhBubble{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
 .intro-btn{position:absolute;z-index:20;border:0;font-weight:900;font-family:inherit;cursor:pointer}
 .intro-btn.skip{top:max(12px,env(safe-area-inset-top));right:12px;background:rgba(255,255,255,.9);color:#176686;padding:8px 15px;border-radius:999px;font-size:14px;box-shadow:0 3px 10px rgba(0,0,0,.25)}
 .intro-btn.go{left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);background:#ff5f9e;color:#fff;padding:13px 28px;border-radius:999px;font-size:18px;box-shadow:0 6px 0 #c63c76,0 12px 24px rgba(0,0,0,.28);opacity:0;pointer-events:none}
 #intro.ready .intro-btn.go{pointer-events:auto;animation:introGoIn .5s both,introGoPulse 1.1s .5s ease-in-out infinite alternate}
 @keyframes introGoIn{from{opacity:0;transform:translateX(-50%) translateY(22px)}to{opacity:1;transform:translateX(-50%)}}
 @keyframes introGoPulse{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.06)}}
-@media(max-width:600px){#intro .hero-copy{top:max(56px,calc(env(safe-area-inset-top) + 48px))}}
-@media(max-height:560px){#intro .motion-stage{height:62%;bottom:64px}#intro .runner.girl{width:170px;height:220px}#intro .runner.dog{width:120px;height:135px}#intro .speech{top:30%}}
-@media(prefers-reduced-motion:reduce){#intro .slide,#intro .hero-copy,#intro .speech{animation:none!important;opacity:1!important;transform:none!important}#intro .speech{transform:translateX(-50%)!important}}
+@media(max-width:600px){#intro .lh-tag{top:27%}}
+@media(max-height:560px){#intro .lh-girl{width:150px}#intro .lh-speech{bottom:calc(max(20px,env(safe-area-inset-bottom)) + 150px);font-size:12px}#intro .lh-tag,#intro .lh-sub{display:none}#intro .lh-card{padding:5px 14px 7px}#intro .lh-card .t1{font-size:20px}#intro .lh-card .t2{font-size:17px}}
+@media(prefers-reduced-motion:reduce){#intro .lh-title,#intro .lh-girl,#intro .lh-speech,#intro .lh-tag,#intro .lh-scene{animation:none!important;opacity:1!important;transform:none!important}#intro .beam,#intro .cloud,#intro .wave,#intro .lh-rain i,#intro .lh-dust i{animation:none!important}}
 
 /* ===== Header mascot + page tabs ===== */
 .headbar h1{display:flex;align-items:center;gap:10px}
@@ -524,21 +560,64 @@ html.intro-on #intro{display:block}
 </head>
 <body>
 <div id="intro" role="dialog" aria-label="แนะนำน้องมายด์">
-<section class="illustration">
-  <div class="city"></div>
-  <img class="scene-bg" src="scene-clay-bg-hd.png" alt="">
-  <div class="motion-stage" aria-hidden="true">
-    <div class="slide s-girl"><div class="runner girl"></div></div>
-    <div class="slide s-dog"><div class="runner dog"></div></div>
-  </div>
-  <div class="hero-copy">
-    <div class="logo"><div class="t1">น้องมายด์เฝ้าฝนและฝุ่น</div><div class="t2">สมุทรปราการ 💗</div></div>
-    <div class="location">📍 เฝ้าครบทั้ง 6 อำเภอ • ฝน ☔ + ฝุ่น PM2.5 😷</div>
-  </div>
-  <div class="speech">สวัสดีค่ะ น้องมายด์มาเฝ้าฝนและฝุ่นให้คนสมุทรปราการนะคะ ☔😷💗</div>
-  <div class="rain" id="rainFx"></div>
-  <div class="dust" id="dustFx"></div>
-</section>
+<svg class="lh-svg lh-scene" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+ <defs>
+  <linearGradient id="lhSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b3556"/><stop offset=".55" stop-color="#4d7799"/><stop offset="1" stop-color="#efb98f"/></linearGradient>
+  <linearGradient id="lhSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a7e9a"/><stop offset="1" stop-color="#0b3350"/></linearGradient>
+  <linearGradient id="lhBeamR" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffd98a" stop-opacity=".95"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></linearGradient>
+  <linearGradient id="lhBeamL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e4f3ff" stop-opacity=".95"/><stop offset="1" stop-color="#bfe0ff" stop-opacity="0"/></linearGradient>
+  <radialGradient id="lhGlow"><stop offset="0" stop-color="#fff6c8" stop-opacity="1"/><stop offset="1" stop-color="#ffd98a" stop-opacity="0"/></radialGradient>
+  <radialGradient id="lhSun"><stop offset="0" stop-color="#ffd7a0" stop-opacity=".9"/><stop offset="1" stop-color="#ffd7a0" stop-opacity="0"/></radialGradient>
+  <clipPath id="lhTower"><polygon points="548,560 652,560 633,290 567,290"/></clipPath>
+  <pattern id="lhPlank" width="60" height="26" patternUnits="userSpaceOnUse"><rect width="60" height="26" fill="#8d6b49"/><rect width="60" height="3" fill="#5f4630"/><rect x="0" width="2" height="26" fill="#5f4630" opacity=".6"/></pattern>
+ </defs>
+ <rect width="1200" height="560" fill="url(#lhSky)"/>
+ <circle cx="930" cy="470" r="150" fill="url(#lhSun)"/>
+ <g class="cloud c1" fill="#53697e"><ellipse cx="150" cy="120" rx="140" ry="46"/><ellipse cx="250" cy="96" rx="100" ry="46"/><ellipse cx="70" cy="108" rx="80" ry="36"/></g>
+ <g class="cloud c2" fill="#657c91"><ellipse cx="420" cy="190" rx="130" ry="38"/><ellipse cx="500" cy="170" rx="80" ry="36"/></g>
+ <g class="cloud c3" fill="#c9a77f" opacity=".85"><ellipse cx="900" cy="150" rx="130" ry="36"/><ellipse cx="980" cy="132" rx="90" ry="34"/></g>
+ <g class="cloud c4" fill="#b99468" opacity=".8"><ellipse cx="1090" cy="240" rx="110" ry="30"/><ellipse cx="730" cy="260" rx="80" ry="24"/></g>
+ <rect y="540" width="1200" height="26" fill="#0e3a52" opacity=".55"/>
+ <g fill="#16384f"><polygon points="150,540 330,540 320,520 262,520 262,498 246,498 246,520 176,520"/><rect x="214" y="476" width="6" height="44"/><rect x="288" y="500" width="5" height="20"/></g>
+ <rect y="520" width="1200" height="290" fill="url(#lhSea)" opacity=".0"/>
+ <rect y="545" width="1200" height="260" fill="url(#lhSea)"/>
+ <g stroke="rgba(255,255,255,.28)" stroke-width="2.5" fill="none" stroke-linecap="round">
+  <g class="wave"><path d="M-120 585 q30 -9 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0"/></g>
+  <g class="wave w2"><path d="M-120 625 q40 -11 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0" stroke="rgba(255,255,255,.2)"/></g>
+  <g class="wave w3"><path d="M-120 668 q30 -9 60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0 t60 0" stroke="rgba(255,255,255,.18)"/></g>
+ </g>
+ <ellipse class="foam" cx="600" cy="650" rx="190" ry="26" fill="#fff" opacity=".5"/>
+ <path d="M452 612 Q482 560 552 562 L648 562 Q718 560 748 612 Q778 650 700 660 L500 660 Q420 652 452 612Z" fill="#5b5a52"/>
+ <path d="M490 585 Q520 566 560 566 L640 566 Q690 566 712 590 Q650 600 600 598 Q540 600 490 585Z" fill="#6f9457"/>
+ <polygon points="548,560 652,560 633,290 567,290" fill="#f7f2e7"/>
+ <g clip-path="url(#lhTower)"><rect x="540" y="352" width="120" height="44" fill="#d9473f"/><rect x="540" y="450" width="120" height="44" fill="#d9473f"/></g>
+ <polygon points="600,290 633,290 652,560 600,560" fill="#000" opacity=".11"/>
+ <rect x="594" y="404" width="12" height="22" rx="6" fill="#26394d"/><rect x="594" y="500" width="12" height="22" rx="6" fill="#26394d"/>
+ <path d="M586 560 v-26 a14 14 0 0 1 28 0 v26z" fill="#6b4a30"/>
+ <rect x="553" y="282" width="94" height="9" rx="2" fill="#35465a"/>
+ <g stroke="#35465a" stroke-width="2.4"><line x1="560" y1="266" x2="560" y2="282"/><line x1="580" y1="266" x2="580" y2="282"/><line x1="600" y1="266" x2="600" y2="282"/><line x1="620" y1="266" x2="620" y2="282"/><line x1="640" y1="266" x2="640" y2="282"/><line x1="556" y1="266" x2="644" y2="266"/></g>
+ <rect x="577" y="238" width="46" height="44" rx="3" fill="#ffe9a8" stroke="#35465a" stroke-width="3"/>
+ <line x1="600" y1="238" x2="600" y2="282" stroke="#35465a" stroke-width="2.4"/>
+ <path d="M568 238 L632 238 L600 204 Z" fill="#d9473f"/><circle cx="600" cy="200" r="4.5" fill="#35465a"/>
+ <circle class="lamp-glow" cx="600" cy="262" r="62" fill="url(#lhGlow)"/>
+ <g transform="translate(600 262)"><g class="beam r"><polygon points="0,-12 760,-84 760,84 0,12" fill="url(#lhBeamR)"/></g></g>
+ <g transform="translate(600 262) scale(-1 1)"><g class="beam l"><polygon points="0,-12 760,-84 760,84 0,12" fill="url(#lhBeamL)"/></g></g>
+ <rect y="706" width="1200" height="100" fill="url(#lhPlank)"/>
+ <rect y="698" width="1200" height="10" fill="#5f4630"/>
+ <g fill="#4a3624"><rect x="60" y="640" width="12" height="64" rx="3"/><rect x="330" y="640" width="12" height="64" rx="3"/><rect x="860" y="640" width="12" height="64" rx="3"/><rect x="1130" y="640" width="12" height="64" rx="3"/></g>
+ <path d="M66 652 Q198 676 336 652 M866 652 Q998 676 1136 652" stroke="#d9c9a8" stroke-width="4" fill="none"/>
+</svg>
+<div class="lh-haze"></div>
+<div class="lh-rain" id="lhRain"></div>
+<div class="lh-dust" id="lhDust"></div>
+<div class="lh-title">
+  <div class="lh-card"><div class="t1">น้องมายด์เฝ้าฝนและฝุ่น</div><div class="t2">สมุทรปราการ 💗</div></div><br>
+  <div class="lh-sub">📍 เฝ้าครบทั้ง 6 อำเภอ</div>
+</div>
+<div class="lh-tag t-rain">☔ ฝน<small>เรดาร์ + ดาวเทียม</small></div>
+<div class="lh-tag t-dust">😷 ฝุ่น PM2.5<small>ค่าวัดจริงรายอำเภอ</small></div>
+<div class="lh-girl" aria-hidden="true"></div>
+<div class="lh-speech">สวัสดีค่ะ น้องมายด์ส่องไฟเฝ้าฝนและฝุ่นให้คนสมุทรปราการนะคะ ☔😷💗</div>
 <button type="button" id="introSkip" class="intro-btn skip">ข้าม ›</button>
 <button type="button" id="introGo" class="intro-btn go">เข้าดูข้อมูล ▶</button>
 </div>
@@ -906,7 +985,7 @@ function applyMetroZoom(){
  radarImg.style.top=(-sy*dh)+'px';
 }
 function refreshRadarImage(){radarImg.src=radarUrl()}
-function fx(){const w=rainFx;for(let i=0;i<28;i++){const d=document.createElement('span');d.className='drop';d.style.left=Math.random()*110+'%';d.style.top=(-40-Math.random()*600)+'px';d.style.animationDelay=Math.random()*1.3+'s';d.style.animationDuration=(.8+Math.random()*.8)+'s';w.appendChild(d)}}
+function fx(){const w=document.getElementById('rainFx');if(!w)return;for(let i=0;i<28;i++){const d=document.createElement('span');d.className='drop';d.style.left=Math.random()*110+'%';d.style.top=(-40-Math.random()*600)+'px';d.style.animationDelay=Math.random()*1.3+'s';d.style.animationDuration=(.8+Math.random()*.8)+'s';w.appendChild(d)}}
 function tabs(){districtTabs.innerHTML=DISTRICTS.map((d,i)=>`<button class="dbtn ${i===selected?'active':''}" data-i="${i}">${d.short}</button>`).join('');districtTabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=+b.dataset.i;tabs();renderSelected();renderIntelSelected();renderV10Trust();placeSatMarker()})}
 async function load(d){const r=await fetch(api(d),{cache:'no-store'});if(!r.ok)throw 0;const x=await r.json(),now=new Date();const rows=x.hourly.time.map((t,i)=>({t,date:new Date(t),p:x.hourly.precipitation_probability[i]??0,mm:x.hourly.precipitation[i]??0})).filter(v=>v.date>=new Date(now-20*60000)).slice(0,5);const two=rows.slice(0,2);return {...d,temp:x.current.temperature_2m??0,current:x.current.precipitation??0,maxP:Math.max(0,...two.map(v=>v.p)),sum:two.reduce((a,v)=>a+v.mm,0),rows}}
 function levelThai(l){return l==='severe'?'เตือนสูง':l==='high'?'เสี่ยงสูง':l==='watch'?'เฝ้าระวัง':'ปกติ'}
@@ -1307,14 +1386,23 @@ function renderPMMap(){
 }
 
 /* ===== Intro clip (first visit only) ===== */
-const INTRO_KEY='nongfon_intro_seen_v2';
+const INTRO_KEY='nongfon_intro_seen_v3';
 let introTimers=[];
 function buildDust(){
- const w=document.getElementById('dustFx');if(!w||w.childElementCount)return;
- for(let i=0;i<26;i++){
-  const d=document.createElement('i'),s=7+Math.random()*16;
-  d.style.cssText=`left:${Math.random()*100}%;top:${35+Math.random()*60}%;width:${s}px;height:${s}px;animation-delay:${(Math.random()*6).toFixed(2)}s;animation-duration:${(5+Math.random()*4).toFixed(1)}s`;
-  w.appendChild(d);
+ const R=document.getElementById('lhRain'),D=document.getElementById('lhDust');
+ if(R&&!R.childElementCount){
+  for(let i=0;i<70;i++){
+   const d=document.createElement('i');
+   d.style.cssText=`left:${(Math.random()*100).toFixed(1)}%;animation-duration:${(0.7+Math.random()*0.6).toFixed(2)}s;animation-delay:${(-Math.random()*1.4).toFixed(2)}s;opacity:${(0.45+Math.random()*0.5).toFixed(2)}`;
+   R.appendChild(d);
+  }
+ }
+ if(D&&!D.childElementCount){
+  for(let i=0;i<26;i++){
+   const d=document.createElement('i'),s=7+Math.random()*16;
+   d.style.cssText=`left:${(45+Math.random()*58).toFixed(1)}%;top:${(25+Math.random()*60).toFixed(1)}%;width:${s}px;height:${s}px;animation-delay:${(-Math.random()*6).toFixed(2)}s;animation-duration:${(5+Math.random()*4).toFixed(1)}s`;
+   D.appendChild(d);
+  }
  }
 }
 function closeIntro(){
@@ -1340,7 +1428,7 @@ function startIntro(manual){
   introTimers.push(setTimeout(()=>el.classList.add('ready'),4400),setTimeout(closeIntro,10500));
   gaEvent('intro_play',{replay:!!manual});
  };
- Promise.all(['scene-clay-bg-hd.png','character-girl-hd.png','character-dog-hd.png'].map(src=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=src}))).then(go);
+ Promise.all(['character-girl-hd.png'].map(src=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=src}))).then(go);
  introTimers.push(setTimeout(go,3000));
 }
 (function wireUI(){
