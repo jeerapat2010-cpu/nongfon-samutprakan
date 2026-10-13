@@ -44,8 +44,8 @@ jobs:
       SITE_URL: https://${{ github.repository_owner }}.github.io/nongfon-samutprakan/
       PM25_TEST_PUSH: ${{ github.event.inputs.test_push || 'false' }}
       PM25_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
-      # Air4Thai ส่งสายใบรับรอง SSL ไม่ครบ -> ตั้ง Repository variable ชื่อ AIR4THAI_INSECURE_TLS = true เพื่ออนุญาตดึงแบบไม่ตรวจใบรับรอง (ค่าเริ่มต้น false)
-      AIR4THAI_INSECURE_TLS: ${{ vars.AIR4THAI_INSECURE_TLS || 'false' }}
+      # Air4Thai ส่งสายใบรับรอง SSL ไม่ครบ -> ตั้ง Repository variable ชื่อ AIR4THAI_INSECURE_TLS = true เพื่ออนุญาตดึงแบบไม่ตรวจใบรับรอง (ค่าเริ่มต้น true ตามที่เจ้าของเลือก - ตั้งเป็น false เพื่อปิด)
+      AIR4THAI_INSECURE_TLS: ${{ vars.AIR4THAI_INSECURE_TLS || 'true' }}
     steps:
       - uses: actions/checkout@v4
         with:
