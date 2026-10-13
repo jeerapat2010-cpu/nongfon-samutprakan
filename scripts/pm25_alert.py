@@ -152,20 +152,38 @@ def fetch_aq():
 
 
 def fetch_air4thai():
-    """คืนรายการสถานีทั้งหมดจาก Air4Thai (list ของ dict) - ลอง http แล้วค่อย https"""
+    """คืนรายการสถานีทั้งหมดจาก Air4Thai (list ของ dict) - ลอง http แล้วค่อย https
+
+    เซิร์ฟเวอร์ Air4Thai ส่งสายใบรับรอง SSL ไม่ครบ ทำให้ requests ตรวจไม่ผ่าน (CERTIFICATE_VERIFY_FAILED)
+    ถ้าตั้ง AIR4THAI_INSECURE_TLS=true จะลองอีกครั้งแบบไม่ตรวจใบรับรอง "เฉพาะโดเมนนี้" เมื่อแบบปกติล้มเหลวเท่านั้น
+    (ข้อมูลเป็นสาธารณะ ไม่ส่งรหัสผ่านหรือข้อมูลส่วนตัว ความเสี่ยงคือถูกดักแก้ค่า จึงตั้งปิดไว้เป็นค่าเริ่มต้น)
+    """
+    allow_insecure = os.getenv("AIR4THAI_INSECURE_TLS", "").strip().lower() in ("1", "true", "yes")
     last = None
-    for u in AIR4THAI_URLS:
+    attempts = [(u, True) for u in AIR4THAI_URLS]
+    if allow_insecure:
+        attempts += [(u, False) for u in AIR4THAI_URLS]
+    for u, verify in attempts:
         try:
-            r = requests.get(u, headers=UA, timeout=25)
+            if not verify:
+                import urllib3
+                urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+            r = requests.get(u, headers=UA, timeout=25, verify=verify)
             r.raise_for_status()
             j = r.json()
             st = j.get("stations") if isinstance(j, dict) else j
             if isinstance(st, list) and st:
+                if not verify:
+                    print("WARNING: Air4Thai fetched WITHOUT TLS verification (AIR4THAI_INSECURE_TLS=true)")
+                    fetch_air4thai.insecure_used = True
                 return st
             last = ValueError("no stations in response")
         except Exception as e:  # noqa: BLE001
             last = e
     raise last or RuntimeError("air4thai unavailable")
+
+
+fetch_air4thai.insecure_used = False
 
 
 def km_between(lat1, lon1, lat2, lon2):
@@ -428,6 +446,8 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
         return status
     status["measured_count"] = sum(1 for r in rows if r.get("source") == "measured")
     status["air4thai"] = {"ok": obs_err is None, **obs_diag}
+    if getattr(fetch_air4thai, "insecure_used", False) and obs_err is None:
+        status["air4thai"]["insecure_tls"] = True
 
     # 2) ระดับรายอำเภอ (มี hysteresis) และระดับจังหวัด
     for r in rows:
