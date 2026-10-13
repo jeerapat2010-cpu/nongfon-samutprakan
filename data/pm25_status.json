@@ -1,0 +1,94 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-10-13T15:49:34.208881+07:00",
+  "source": "Open-Meteo Air Quality (CAMS model) - ไม่ใช่ค่าจากเครื่องวัดจริง",
+  "thresholds": {
+    "alert_min_level": 3,
+    "alert_above_ugm3": 37.5,
+    "critical_above_ugm3": 75.0,
+    "hysteresis_ugm3": 3.0,
+    "smoothing_hours": 3,
+    "remind_hours": 12,
+    "quiet_hours": "22:00-06:00",
+    "max_push_per_day": 4
+  },
+  "province": {
+    "level": 2,
+    "label": "ปานกลาง",
+    "max_district": "เมืองสมุทรปราการ",
+    "max_value": 29.4
+  },
+  "districts": [
+    {
+      "name": "เมืองสมุทรปราการ",
+      "short": "เมืองฯ",
+      "now": 28.7,
+      "avg3": 29.4,
+      "avg24": 31.1,
+      "max6": 27.9,
+      "level": 2,
+      "label": "ปานกลาง"
+    },
+    {
+      "name": "บางพลี",
+      "short": "บางพลี",
+      "now": 11.8,
+      "avg3": 12.0,
+      "avg24": 26.8,
+      "max6": 13.6,
+      "level": 0,
+      "label": "ดีมาก"
+    },
+    {
+      "name": "บางบ่อ",
+      "short": "บางบ่อ",
+      "now": 11.8,
+      "avg3": 12.0,
+      "avg24": 26.8,
+      "max6": 13.6,
+      "level": 0,
+      "label": "ดีมาก"
+    },
+    {
+      "name": "พระประแดง",
+      "short": "พระประแดง",
+      "now": 28.7,
+      "avg3": 29.4,
+      "avg24": 31.1,
+      "max6": 27.9,
+      "level": 2,
+      "label": "ปานกลาง"
+    },
+    {
+      "name": "พระสมุทรเจดีย์",
+      "short": "พระสมุทรเจดีย์",
+      "now": 28.7,
+      "avg3": 29.4,
+      "avg24": 31.1,
+      "max6": 27.9,
+      "level": 2,
+      "label": "ปานกลาง"
+    },
+    {
+      "name": "บางเสาธง",
+      "short": "บางเสาธง",
+      "now": 11.8,
+      "avg3": 12.0,
+      "avg24": 26.8,
+      "max6": 13.6,
+      "level": 0,
+      "label": "ดีมาก"
+    }
+  ],
+  "push": {
+    "last_decision": {
+      "time": "2026-10-13T15:49:34.208881+07:00",
+      "action": "none",
+      "reason": "ฝุ่นต่ำกว่าเกณฑ์แจ้งเตือน",
+      "level": 2,
+      "kind": null
+    },
+    "last_sent_at": null,
+    "history": []
+  }
+}
