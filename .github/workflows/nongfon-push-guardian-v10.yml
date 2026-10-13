@@ -146,7 +146,7 @@ jobs:
           icons={"early":"🌦️","prepare":"☔","imminent":"🌧️","severe":"🚨"}
           eta=d.get("eta_min")
           eta_txt="มีฝนแล้ว" if eta==0 else (f"~{eta} นาที" if eta is not None else "ภายใน 60 นาที")
-          title=f"{icons.get(tier,'🌧️')} เฝ้าน้องฝน: {labels.get(tier,tier)} • {d.get('short',district)}"
+          title=f"{icons.get(tier,'🌧️')} น้องมายด์เฝ้าฝน: {labels.get(tier,tier)} • {d.get('short',district)}"
           body=f"P15 {d.get('p15',0)}% • P30 {d.get('p30',0)}% • P60 {d.get('p60',0)}% • {eta_txt} • เชื่อมั่น {d.get('model_confidence',d.get('confidence',0))}%"
           payload={
               "app_id":app,
