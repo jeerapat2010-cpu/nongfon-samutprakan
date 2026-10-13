@@ -1,19 +1,5 @@
 [
   {
-    "time": "2026-09-05T13:01:41.290852+00:00",
-    "configured": true,
-    "action": "suppressed",
-    "reason": "ผ่านเกณฑ์ แต่ยังอยู่ใน cooldown อีกประมาณ 48 นาที",
-    "tier": "early",
-    "district": "บางพลี",
-    "p15": 38,
-    "p30": 51,
-    "p60": 60,
-    "data_quality": 98,
-    "model_confidence": 97,
-    "cooldown_remaining_min": 48
-  },
-  {
     "time": "2026-09-05T14:15:02.218255+00:00",
     "configured": true,
     "action": "none",
@@ -3251,6 +3237,14 @@
   },
   {
     "time": "2026-10-13T08:27:11.281619+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
+  },
+  {
+    "time": "2026-10-13T08:30:54.986276+00:00",
     "configured": true,
     "action": "none",
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
