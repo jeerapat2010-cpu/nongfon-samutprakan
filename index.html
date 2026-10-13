@@ -342,6 +342,10 @@ html.intro-on #intro{display:block}
 .pm-item .pm-lvl{display:inline-block;margin-top:6px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:1000;color:#fff}
 .pm-item .pm-bar{height:8px;background:#f3e8da;border-radius:99px;overflow:hidden;margin:9px 0}
 .pm-item .pm-fill{height:100%;border-radius:inherit}
+.pm-item .pm-src{margin-top:7px;font-size:10.5px;line-height:1.35;color:#8a6a4a}
+.pm-item .pm-src.ok{color:#0f7a4a;font-weight:800}
+.pm-station{width:20px;height:20px;border-radius:5px;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:1000;transform:rotate(45deg)}
+.pm-station b{transform:rotate(-45deg);display:block}
 .pm-item .pm-meta{font-size:11px;color:#7a5c3c;display:flex;justify-content:space-between;gap:6px}
 .pm-foot{font-size:10.5px;color:#8a6a4a;margin-top:10px;line-height:1.5}
 .pm-foot a{color:#a85a14;font-weight:800}
@@ -685,7 +689,7 @@ html.intro-on #intro{display:block}
     <div class="province-note" id="pmNote">กำลังโหลดข้อมูลฝุ่น…</div>
     <div id="pmSummary" class="pm-summary" hidden></div>
     <div id="pmGrid" class="simple-grid"></div>
-    <div class="pm-foot">ข้อมูลจากแบบจำลองคุณภาพอากาศ CAMS ผ่าน Open-Meteo เป็นค่าประมาณรายพื้นที่ ไม่ใช่ค่าจากเครื่องวัดจริง • เกณฑ์ระดับตามกรมควบคุมมลพิษ (ค่ามาตรฐาน 24 ชม. = 37.5 µg/m³) • ดูค่าจากสถานีวัดจริงได้ที่ <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener">Air4Thai</a></div>
+    <div class="pm-foot">ค่าวัดจริงจากสถานีตรวจวัดของกรมควบคุมมลพิษ (<a href="http://air4thai.pcd.go.th" target="_blank" rel="noopener">Air4Thai</a>) ใช้แทนอำเภอที่มีสถานีใกล้ ส่วนอำเภอที่ไม่มีสถานีใกล้พอใช้ค่าประมาณจากแบบจำลอง CAMS (Open-Meteo) • สี่เหลี่ยมเล็กบนแผนที่คือตำแหน่งสถานีวัดจริง • เกณฑ์ระดับตามกรมควบคุมมลพิษ (ค่ามาตรฐาน 24 ชม. = 37.5 µg/m³)</div>
   </div>
   </div>
 
@@ -1060,14 +1064,19 @@ const PM_LEVELS=[
 ];
 const pmLevel=v=>PM_LEVELS.find(l=>v<=l.max);
 const pmApi=()=>`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${DISTRICTS.map(d=>d.lat).join(',')}&longitude=${DISTRICTS.map(d=>d.lon).join(',')}&current=pm2_5&hourly=pm2_5&past_days=1&forecast_days=2&timezone=Asia%2FBangkok`;
-let pmCache=null;
+let pmCache=null,pmStations=[];
+const OBS_MAX_AGE_MS=3.5*3600e3;
 async function loadPM(){
- try{
-  const r=await fetch(pmApi(),{cache:'no-store'});
-  if(!r.ok)throw new Error('pm http '+r.status);
-  const j=await r.json(), arr=Array.isArray(j)?j:[j], now=Date.now(), H=3600e3;
-  pmCache=arr.map((x,i)=>{
-   const d=DISTRICTS[i]||{name:'—',short:'—'};
+ const [m,o]=await Promise.allSettled([
+  fetch(pmApi(),{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('pm http '+r.status);return r.json()}),
+  fetch(`./data/air4thai.json?t=${Math.floor(Date.now()/60000)}`,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error('obs http '+r.status);return r.json()})
+ ]);
+ const now=Date.now(), H=3600e3;
+ // 1) แบบจำลอง CAMS (ค่าสำรอง + แนวโน้ม + เฉลี่ย 24 ชม.)
+ if(m.status==='fulfilled'){
+  const j=m.value, arr=Array.isArray(j)?j:[j];
+  pmCache=DISTRICTS.map((d,i)=>{
+   const x=arr[i]||{};
    const t=x.hourly?.time||[], v=x.hourly?.pm2_5||[];
    const past=[], next=[];
    t.forEach((ts,k)=>{
@@ -1079,15 +1088,29 @@ async function loadPM(){
    const cur=x.current?.pm2_5;
    const avg24=past.length?past.reduce((a,b)=>a+b,0)/past.length:null;
    const max6=next.length?Math.max(...next):null;
-   return {name:d.name,short:d.short,now:cur==null?(past.length?past[past.length-1]:null):cur,avg24,max6};
+   return {name:d.name,short:d.short,now:cur==null?(past.length?past[past.length-1]:null):cur,avg24,max6,src:'model'};
   });
- }catch(e){pmCache=null}
+ }else{
+  pmCache=DISTRICTS.map(d=>({name:d.name,short:d.short,now:null,avg24:null,max6:null,src:'model'}));
+ }
+ // 2) ค่าวัดจริง Air4Thai (ไฟล์ที่ GitHub Actions ดึงให้ทุกชั่วโมง) ทับค่าโมเดลเมื่อสถานีใกล้และข้อมูลยังสด
+ pmStations=[];
+ if(o.status==='fulfilled'&&o.value){
+  const j=o.value, fresh=t=>{const ms=Date.parse(t);return !Number.isNaN(ms)&&now-ms<=OBS_MAX_AGE_MS&&ms-now<H};
+  (j.districts||[]).forEach((x,i)=>{
+   if(!x||!pmCache[i]||typeof x.pm25!=='number'||!fresh(x.time))return;
+   const row=pmCache[i];
+   row.modelNow=row.now; row.now=x.pm25; row.src='measured'; row.station={name:x.name,km:x.km,time:x.time};
+  });
+  pmStations=(j.stations||[]).filter(x=>typeof x.pm25==='number'&&fresh(x.time));
+ }
  renderPM();
 }
 function renderPM(){
  const grid=document.getElementById('pmGrid'), note=document.getElementById('pmNote'), sum=document.getElementById('pmSummary');
  if(!grid)return;
  const rows=(pmCache||[]).filter(d=>d.now!=null);
+ const nMeas=rows.filter(d=>d.src==='measured').length;
  if(!rows.length){
   grid.innerHTML='';sum.hidden=true;
   note.textContent='ดึงข้อมูลฝุ่นไม่สำเร็จ ลองกด "ตรวจใหม่" อีกครั้งภายหลัง';
@@ -1095,19 +1118,21 @@ function renderPM(){
   return;
  }
  const top=[...rows].sort((a,b)=>b.now-a.now)[0], lv=pmLevel(top.now);
- note.textContent='ค่า PM2.5 ล่าสุดรายอำเภอ (µg/m³) พร้อมค่าเฉลี่ย 24 ชม. และแนวโน้ม 6 ชม. ข้างหน้า • อัปเดต '+formatThaiTime(new Date());
+ note.textContent=(nMeas?`📍 ค่าวัดจริงจากสถานีตรวจวัด คพ. (Air4Thai) ${nMeas}/${rows.length} อำเภอ ส่วนที่เหลือใช้ค่าแบบจำลอง`:'🧪 ตอนนี้ใช้ค่าแบบจำลอง (ยังไม่มีค่าวัดจริงจากสถานีใกล้เคียง)')+' • เฉลี่ย 24 ชม./แนวโน้มมาจากแบบจำลอง • อัปเดต '+formatThaiTime(new Date());
  sum.hidden=false;
  sum.innerHTML=`${top.now>37.5?'⚠️':'😷'} สูงสุดตอนนี้: ${top.name} ${top.now.toFixed(1)} µg/m³ (${lv.label})<small>${lv.tip}</small>`;
  grid.innerHTML=rows.map(d=>{
   const l=pmLevel(d.now), w=Math.max(3,Math.min(100,d.now/75*100));
   let trend='—';
-  if(d.max6!=null){const diff=d.max6-d.now;trend=diff>=5?`↑ อาจสูงขึ้นถึง ${d.max6.toFixed(0)}`:diff<=-5?'↓ มีแนวโน้มลดลง':'→ ใกล้เคียงเดิม'}
+  if(d.max6!=null){const base=d.modelNow!=null?d.modelNow:d.now,diff=d.max6-base;trend=diff>=5?`↑ อาจสูงขึ้นถึง ${d.max6.toFixed(0)}`:diff<=-5?'↓ มีแนวโน้มลดลง':'→ ใกล้เคียงเดิม'}
+  const srcLine=d.src==='measured'?`<div class="pm-src ok">📍 วัดจริง: ${d.station.name.trim()}${d.station.km!=null?` (${d.station.km} กม.)`:''} • ${new Date(d.station.time).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Bangkok'})} น.</div>`:`<div class="pm-src">🧪 แบบจำลอง (ไม่มีสถานีใกล้)</div>`;
   return `<div class="pm-item">
    <div class="pm-name">${d.short||d.name}</div>
    <div class="pm-val" style="color:${l.color}">${d.now.toFixed(1)}<span>µg/m³</span></div>
    <span class="pm-lvl" style="background:${l.color};color:${l.fg||'#fff'}">${l.label}</span>
    <div class="pm-bar"><div class="pm-fill" style="width:${w}%;background:${l.color}"></div></div>
    <div class="pm-meta"><span>เฉลี่ย 24 ชม. <b>${d.avg24==null?'—':d.avg24.toFixed(1)}</b></span><span>${trend}</span></div>
+   ${srcLine}
   </div>`}).join('');
  if(typeof renderPMMap==='function')renderPMMap();
 }
@@ -1183,7 +1208,7 @@ function renderPMAlertStatus(s){
  const th=s?.thresholds||{alert_above_ugm3:37.5,critical_above_ugm3:75,smoothing_hours:3,remind_hours:12,quiet_hours:'22:00-06:00',max_push_per_day:4};
  rules.innerHTML=`<li>เตือนเมื่อค่าเฉลี่ย ${th.smoothing_hours} ชม. ล่าสุดของอำเภอใดเกิน <b>${th.alert_above_ugm3}</b> µg/ลบ.ม. (เริ่มมีผลกระทบ) และเตือนอีกครั้งเมื่อเกิน <b>${th.critical_above_ugm3}</b> (มีผลกระทบต่อสุขภาพ)</li>
   <li>ไม่ส่งช่วง ${th.quiet_hours} น. • ถ้ายังสูงค้างจะเตือนซ้ำทุก ${th.remind_hours} ชม. • ไม่เกิน ${th.max_push_per_day} ครั้ง/วัน</li>
-  <li>ค่าจากแบบจำลอง CAMS (Open-Meteo) ไม่ใช่เครื่องวัดจริง</li>`;
+  <li>ใช้ค่าวัดจริงจากสถานี คพ. (Air4Thai) ที่ใกล้อำเภอที่สุด ถ้าไม่มีสถานีใกล้หรือข้อมูลค้างเก่าจะใช้ค่าแบบจำลอง CAMS แทน</li>`;
  if(!s){
   stEl.innerHTML='ยังไม่มีข้อมูลสถานะการแจ้งเตือนฝุ่น <small style="color:#8a6a4a">(ระบบจะสร้างหลังรอบตรวจแรก)</small>';
   hist.innerHTML='';return;
@@ -1269,9 +1294,15 @@ function renderPMMap(){
   L.circle([D.lat,D.lon],{radius:4800,color:l.color,weight:1.5,fillColor:l.color,fillOpacity:.28}).addTo(pmLayer);
   const icon=L.divIcon({className:'',html:`<div class="pm-pin" style="background:${l.color};color:${fg}">${Math.round(d.now)}</div>`,iconSize:[36,36],iconAnchor:[18,18]});
   let trend='';
-  if(d.max6!=null){const diff=d.max6-d.now;trend=diff>=5?`↑ 6 ชม. ข้างหน้าอาจสูงถึง ${d.max6.toFixed(0)}`:diff<=-5?'↓ มีแนวโน้มลดลง':'→ ใกล้เคียงเดิม'}
+  if(d.max6!=null){const base=d.modelNow!=null?d.modelNow:d.now,diff=d.max6-base;trend=diff>=5?`↑ 6 ชม. ข้างหน้าอาจสูงถึง ${d.max6.toFixed(0)}`:diff<=-5?'↓ มีแนวโน้มลดลง':'→ ใกล้เคียงเดิม'}
+  const srcTxt=d.src==='measured'?`<br>📍 วัดจริง: ${d.station.name.trim()}${d.station.km!=null?` (${d.station.km} กม.)`:''}`:'<br>🧪 ค่าแบบจำลอง';
   L.marker([D.lat,D.lon],{icon,title:D.name}).addTo(pmLayer).bindPopup(
-   `<div class="pm-pop"><b>${D.name}</b><br>PM2.5 ตอนนี้ <b style="color:${l.color}">${d.now.toFixed(1)}</b> µg/m³<br>ระดับ: ${l.label}<br>เฉลี่ย 24 ชม.: ${d.avg24==null?'—':d.avg24.toFixed(1)}<br>${trend}</div>`);
+   `<div class="pm-pop"><b>${D.name}</b><br>PM2.5 ตอนนี้ <b style="color:${l.color}">${d.now.toFixed(1)}</b> µg/m³<br>ระดับ: ${l.label}<br>เฉลี่ย 24 ชม.: ${d.avg24==null?'—':d.avg24.toFixed(1)}<br>${trend}${srcTxt}</div>`);
+ });
+ (pmStations||[]).forEach(st=>{
+  const l=pmLevel(st.pm25),fg=l.fg||'#fff';
+  const icon=L.divIcon({className:'',html:`<div class="pm-station" style="background:${l.color};color:${fg}"><b>${Math.round(st.pm25)}</b></div>`,iconSize:[20,20],iconAnchor:[10,10]});
+  L.marker([st.lat,st.lon],{icon,title:st.name,zIndexOffset:-500}).addTo(pmLayer).bindPopup(`<div class="pm-pop"><b>สถานี ${String(st.name).trim()}</b><br>${String(st.area||'').trim()}<br>PM2.5 วัดจริง <b style="color:${l.color}">${st.pm25.toFixed(1)}</b> µg/m³<br>${new Date(st.time).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Bangkok'})} น. • กรมควบคุมมลพิษ</div>`);
  });
 }
 
