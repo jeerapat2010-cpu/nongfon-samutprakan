@@ -1,0 +1,76 @@
+name: NongFon PM2.5 Watch
+
+# ตรวจฝุ่น PM2.5 รายอำเภอทุกชั่วโมง แล้วส่ง Push (OneSignal) เมื่อฝุ่นเข้าเกณฑ์ - ดูกติกาที่ scripts/pm25_alert.py
+# กด "Run workflow" เองได้:
+#   test_push = true  -> ส่งข้อความทดสอบถึงผู้ที่เปิดแจ้งเตือนทุกคน 1 ครั้ง (ใช้เช็กว่า OneSignal ใช้งานได้)
+#   dry_run   = true  -> คำนวณและพิมพ์ข้อความ แต่ไม่ส่งจริงและไม่เปลี่ยนสถานะการเตือน
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_push:
+        description: 'ส่ง Push ทดสอบ 1 ครั้ง (true/false)'
+        required: false
+        default: 'false'
+      dry_run:
+        description: 'ซ้อมคำนวณ ไม่ส่งจริง (true/false)'
+        required: false
+        default: 'false'
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/pm25_alert.py'
+      - '.github/workflows/pm25-watch.yml'
+  schedule:
+    - cron: '17 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nongfon-pm25-watch
+  cancel-in-progress: false
+
+jobs:
+  pm25:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    env:
+      ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+      ONESIGNAL_APP_API_KEY: ${{ secrets.ONESIGNAL_APP_API_KEY }}
+      ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+      ONESIGNAL_LEGACY_REST_API_KEY: ${{ secrets.ONESIGNAL_LEGACY_REST_API_KEY }}
+      SITE_URL: https://${{ github.repository_owner }}.github.io/nongfon-samutprakan/
+      PM25_TEST_PUSH: ${{ github.event.inputs.test_push || 'false' }}
+      PM25_DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install HTTP client
+        run: pip install "requests>=2.31,<3"
+
+      - name: Check PM2.5 and send alert when needed
+        run: python scripts/pm25_alert.py
+
+      # สำคัญ: ต้อง add ทั้ง state และ status ทุกครั้ง ไม่เช่นนั้นระบบจะ "ลืม" ว่าเตือนไปแล้วและเตือนซ้ำทุกชั่วโมง
+      - name: Commit PM2.5 status and state
+        run: |
+          git config user.name "nongfon-pm25-bot"
+          git config user.email "actions@users.noreply.github.com"
+          for f in data/pm25_state.json data/pm25_status.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --cached --quiet; then
+            echo "No PM2.5 change"
+          else
+            git commit -m "chore: update NongFon PM2.5 status"
+            git pull --rebase origin main
+            git push origin main
+          fi
