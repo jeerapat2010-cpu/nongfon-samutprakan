@@ -1,12 +1,15 @@
 {
-  "name": "เฝ้าน้องฝน สมุทรปราการ",
-  "short_name": "น้องฝน SPK",
-  "description": "ติดตามและวิเคราะห์แนวฝนในจังหวัดสมุทรปราการจากเรดาร์ TMD และข้อมูลพยากรณ์",
+  "name": "น้องมายด์เฝ้าฝนและฝุ่น สมุทรปราการ",
+  "short_name": "น้องมายด์ SPK",
+  "description": "น้องมายด์เฝ้าฝนและฝุ่น PM2.5 ในจังหวัดสมุทรปราการ จากเรดาร์ TMD และข้อมูลพยากรณ์",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#c7ecff",
   "theme_color": "#48b9f6",
+  "shortcuts": [
+    {"name": "แผนที่ฝุ่น PM2.5", "short_name": "ฝุ่น PM2.5", "url": "./#pm"}
+  ],
   "icons": [
     {
       "src": "icon-192.png",

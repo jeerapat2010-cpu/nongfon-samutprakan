@@ -5,10 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#48b9f6">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="เฝ้าน้องฝน สมุทรปราการ">
+<meta name="apple-mobile-web-app-title" content="น้องมายด์เฝ้าฝนและฝุ่น สมุทรปราการ">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-192.png">
-<title>เฝ้าน้องฝน สมุทรปราการ</title>
+<title>น้องมายด์เฝ้าฝนและฝุ่น สมุทรปราการ</title>
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DT9E54XRZZ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-DT9E54XRZZ');</script>
+<script>/* show the intro clip only on the first visit (and never for reduced-motion users) */
+try{var _rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;var _seen=false;try{_seen=!!localStorage.getItem('nongfon_intro_seen_v2')}catch(e){}if(!_rm&&!_seen)document.documentElement.classList.add('intro-on')}catch(e){}</script>
 <style>
 :root{
  --blue:#238ff3;--blue2:#51bff8;--pink:#ff5f9e;--yellow:#ffc737;--green:#22b965;
@@ -19,7 +24,7 @@
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Thai",Tahoma,sans-serif;
  background:linear-gradient(180deg,#c7ecff 0,#effaff 55%,#dff6ff 100%);color:var(--ink)}
 .app{max-width:1220px;margin:auto;padding:10px}
-.shell{display:grid;grid-template-columns:43% 57%;gap:10px;align-items:stretch}
+.shell{display:block;max-width:880px;margin:0 auto}
 @media(max-width:880px){.shell{grid-template-columns:1fr}}
 .illustration{position:relative;overflow:hidden;border-radius:30px;min-height:760px;
  background:
@@ -254,6 +259,82 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 .clear-source .shelp{font-size:10px;color:#6a8798;margin-top:2px;line-height:1.35}
 .clear-weather .intel-districts,.clear-weather .intel-source{display:none!important}
 
+
+/* ===== Intro clip (first visit) ===== */
+#intro{display:none;position:fixed;inset:0;z-index:10000;background:linear-gradient(180deg,#0b2a44,#14507a);opacity:1;transition:opacity .6s ease}
+html.intro-on #intro{display:block}
+#intro.closing{opacity:0;pointer-events:none}
+#intro .illustration{position:absolute;inset:0;border-radius:0;border:0;min-height:0;box-shadow:none}
+#intro .motion-stage{bottom:84px}
+#intro .slide{position:absolute;inset:0}
+#intro:not(.play) .slide.s-girl{transform:translateX(-130vw)}
+#intro:not(.play) .slide.s-dog{transform:translateX(130vw)}
+#intro.play .slide.s-girl{animation:introEnterL 2.3s cubic-bezier(.18,.85,.25,1) both}
+#intro.play .slide.s-dog{animation:introEnterR 2.3s .5s cubic-bezier(.18,.85,.25,1) both}
+@keyframes introEnterL{from{transform:translateX(-130vw)}to{transform:translateX(0)}}
+@keyframes introEnterR{from{transform:translateX(130vw)}to{transform:translateX(0)}}
+#intro:not(.play) .hero-copy{opacity:0}
+#intro.play .hero-copy{animation:introDrop 1s 1s cubic-bezier(.3,1.5,.5,1) both}
+@keyframes introDrop{from{transform:translateY(-190%);opacity:0}to{transform:none;opacity:1}}
+#intro .logo{max-width:100%}
+#intro .logo .t1{font-size:clamp(23px,5.2vw,50px)}
+#intro .logo .t2{font-size:clamp(21px,4.4vw,42px)}
+#intro .location{font-size:clamp(12px,2.4vw,16px)}
+#intro .speech{left:50%;top:35%;bottom:auto;width:min(86vw,400px);text-align:center;font-size:clamp(14px,3.6vw,18px);line-height:1.45;transform:translateX(-50%);animation:none;opacity:0}
+#intro.play .speech{animation:introBubble .55s 2.8s cubic-bezier(.3,1.6,.5,1) both,introPop 1.2s 3.4s ease-in-out infinite alternate}
+@keyframes introBubble{from{opacity:0;transform:translateX(-50%) scale(.3)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+@keyframes introPop{from{transform:translateX(-50%) scale(.98) rotate(-.8deg)}to{transform:translateX(-50%) scale(1.03) rotate(.8deg)}}
+#intro .dust{position:absolute;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+#intro .dust i{position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(205,160,105,.8),rgba(160,115,70,0) 70%);opacity:0;animation:dustFloat 7s linear infinite}
+#intro:not(.play) .dust i{animation-play-state:paused}
+@keyframes dustFloat{from{transform:translate(0,0);opacity:0}20%{opacity:.85}to{transform:translate(140px,-170px);opacity:0}}
+.intro-btn{position:absolute;z-index:20;border:0;font-weight:900;font-family:inherit;cursor:pointer}
+.intro-btn.skip{top:max(12px,env(safe-area-inset-top));right:12px;background:rgba(255,255,255,.9);color:#176686;padding:8px 15px;border-radius:999px;font-size:14px;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+.intro-btn.go{left:50%;bottom:max(20px,env(safe-area-inset-bottom));transform:translateX(-50%);background:#ff5f9e;color:#fff;padding:13px 28px;border-radius:999px;font-size:18px;box-shadow:0 6px 0 #c63c76,0 12px 24px rgba(0,0,0,.28);opacity:0;pointer-events:none}
+#intro.ready .intro-btn.go{pointer-events:auto;animation:introGoIn .5s both,introGoPulse 1.1s .5s ease-in-out infinite alternate}
+@keyframes introGoIn{from{opacity:0;transform:translateX(-50%) translateY(22px)}to{opacity:1;transform:translateX(-50%)}}
+@keyframes introGoPulse{from{transform:translateX(-50%) scale(1)}to{transform:translateX(-50%) scale(1.06)}}
+@media(max-width:600px){#intro .hero-copy{top:max(56px,calc(env(safe-area-inset-top) + 48px))}}
+@media(max-height:560px){#intro .motion-stage{height:62%;bottom:64px}#intro .runner.girl{width:170px;height:220px}#intro .runner.dog{width:120px;height:135px}#intro .speech{top:30%}}
+@media(prefers-reduced-motion:reduce){#intro .slide,#intro .hero-copy,#intro .speech{animation:none!important;opacity:1!important;transform:none!important}#intro .speech{transform:translateX(-50%)!important}}
+
+/* ===== Header mascot + page tabs ===== */
+.headbar h1{display:flex;align-items:center;gap:10px}
+.mascot-mini{width:52px;height:60px;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,60,100,.3));flex:none}
+@media(max-width:520px){.headbar h1{font-size:21px}.mascot-mini{width:42px;height:48px}}
+.page-tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:sticky;top:6px;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:7px;border-radius:22px;border:2px solid #d8eef8;box-shadow:var(--shadow)}
+.page-tabs button{border:0;border-radius:16px;padding:11px 8px;font-size:15px;font-weight:900;font-family:inherit;background:#eaf8fe;color:#176686;cursor:pointer}
+.page-tabs button.on{background:#238ff3;color:#fff;box-shadow:0 4px 0 #1668b3}
+.page-tabs button[data-page="pm"].on{background:#ff8a3d;box-shadow:0 4px 0 #c9621c}
+.page{display:flex;flex-direction:column;gap:10px}
+.page[hidden]{display:none!important}
+.linkbtn{border:0;background:none;color:#1d78c8;font-weight:900;font-size:13px;cursor:pointer;text-decoration:underline;font-family:inherit}
+
+/* ===== PM map ===== */
+.pm-map{height:400px;border-radius:18px;overflow:hidden;margin-top:10px;border:2px solid #f1dfc9;background:#eef3f6}
+.pm-map-fail{padding:30px 16px;text-align:center;color:#7a5c3c;font-weight:800;font-size:14px}
+.pm-pin{min-width:36px;height:36px;padding:0 3px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:1000;font-size:14px;border:3px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.pm-pop{font-family:inherit;line-height:1.5;min-width:150px}
+.pm-pop b{font-size:15px}
+.pm-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px;margin-top:10px}
+.pm-legend div{display:flex;align-items:flex-start;gap:7px;font-size:11.5px;color:#5a3a1a;line-height:1.35}
+.pm-legend i{flex:none;width:14px;height:14px;border-radius:50%;margin-top:2px}
+
+/* ===== PM2.5 card ===== */
+.pm-card{background:linear-gradient(180deg,#fffaf3,#fff3e4);border:1px solid #f4dcc0}
+.pm-card .pm-summary{margin-top:10px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #f1dfc9;font-weight:1000;font-size:14px;color:#5a3a1a}
+.pm-card .pm-summary small{display:block;font-weight:700;font-size:11px;color:#8a6a4a;margin-top:3px}
+.pm-item{background:#fff;border:1px solid #f1dfc9;border-radius:16px;padding:11px;box-shadow:0 6px 16px rgba(120,80,30,.07)}
+.pm-item .pm-name{font-size:15px;font-weight:1000;color:#5a3a1a}
+.pm-item .pm-val{font-size:30px;font-weight:1000;line-height:1;margin-top:8px}
+.pm-item .pm-val span{font-size:10px;font-weight:700;color:#8a6a4a;margin-left:3px}
+.pm-item .pm-lvl{display:inline-block;margin-top:6px;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:1000;color:#fff}
+.pm-item .pm-bar{height:8px;background:#f3e8da;border-radius:99px;overflow:hidden;margin:9px 0}
+.pm-item .pm-fill{height:100%;border-radius:inherit}
+.pm-item .pm-meta{font-size:11px;color:#7a5c3c;display:flex;justify-content:space-between;gap:6px}
+.pm-foot{font-size:10.5px;color:#8a6a4a;margin-top:10px;line-height:1.5}
+.pm-foot a{color:#a85a14;font-weight:800}
+
 /* ===== Simple district cards ===== */
 .simple-province{background:linear-gradient(180deg,#f8fdff,#eef8fc);border:1px solid #cfe9f4}
 .simple-province .province-title{font-size:20px;font-weight:1000;color:#153e5b}
@@ -427,27 +508,38 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 </style>
 </head>
 <body>
-<div class="app"><div class="shell">
+<div id="intro" role="dialog" aria-label="แนะนำน้องมายด์">
 <section class="illustration">
   <div class="city"></div>
-  <img class="scene-bg" src="scene-clay-bg-hd.png" alt="ฉากสมุทรปราการสไตล์ดินน้ำมันยามฝนตก">
-  <div class="motion-stage" aria-label="น้องฝนและน้องหมากำลังวิ่งหนีฝนแบบเคลื่อนไหว">
-    <div class="runner girl" aria-hidden="true"></div>
-    <div class="runner dog" aria-hidden="true"></div>
+  <img class="scene-bg" src="scene-clay-bg-hd.png" alt="">
+  <div class="motion-stage" aria-hidden="true">
+    <div class="slide s-girl"><div class="runner girl"></div></div>
+    <div class="slide s-dog"><div class="runner dog"></div></div>
   </div>
   <div class="hero-copy">
-    <div class="logo"><div class="t1">เฝ้าน้องฝน</div><div class="t2">สมุทรปราการ 💗</div></div>
-    <div class="location">📍 เฝ้าครบทั้งจังหวัด • 6 อำเภอ</div>
+    <div class="logo"><div class="t1">น้องมายด์เฝ้าฝนและฝุ่น</div><div class="t2">สมุทรปราการ 💗</div></div>
+    <div class="location">📍 เฝ้าครบทั้ง 6 อำเภอ • ฝน ☔ + ฝุ่น PM2.5 😷</div>
   </div>
-  <div class="speech">ฝนมาแล้ววว~ น้องฝนกับน้องหมาวิ่งดุ๊กดิ๊กแบบ HD! ☔🐶💗</div>
+  <div class="speech">สวัสดีค่ะ น้องมายด์มาเฝ้าฝนและฝุ่นให้คนสมุทรปราการนะคะ ☔😷💗</div>
   <div class="rain" id="rainFx"></div>
+  <div class="dust" id="dustFx"></div>
 </section>
+<button type="button" id="introSkip" class="intro-btn skip">ข้าม ›</button>
+<button type="button" id="introGo" class="intro-btn go">เข้าดูข้อมูล ▶</button>
+</div>
 
+<div class="app"><div class="shell">
 <section class="panel">
-  <div class="headbar"><h1>🌤️ เฝ้าน้องฝน สมุทรปราการ 💗</h1>
-    <div class="sub">วิเคราะห์ฝนจากหลายแหล่ง • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v10 Final Accuracy</span> • Clear View</b></div>
+  <div class="headbar"><h1><img class="mascot-mini" src="character-girl-hd.png" alt="น้องมายด์"><span>น้องมายด์เฝ้าฝนและฝุ่น สมุทรปราการ 💗</span></h1>
+    <div class="sub">วิเคราะห์ฝนและฝุ่น PM2.5 • เรดาร์ TMD + ภาพเมฆดาวเทียม + พยากรณ์รายจุด • <b><span class="app-version-slot">v10 Final Accuracy</span> • Clear View</b></div>
   </div>
 
+  <nav class="page-tabs" id="pageTabs" role="tablist" aria-label="เลือกหน้าข้อมูล">
+    <button type="button" role="tab" data-page="rain" class="on" aria-selected="true">🌧️ ข้อมูลฝน</button>
+    <button type="button" role="tab" data-page="pm" aria-selected="false">😷 ฝุ่น PM2.5 + แผนที่</button>
+  </nav>
+
+  <div id="pageRain" class="page">
   <div class="card"><div class="districts" id="districtTabs"></div></div>
 
   <div class="card summary">
@@ -567,6 +659,25 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     </div>
   </div>
 
+  </div>
+
+  <div id="pagePM" class="page" hidden>
+  <div class="card pm-card">
+    <div class="province-title">🗺️ แผนที่ฝุ่น PM2.5 สมุทรปราการ</div>
+    <div class="province-note">วงกลมสีแสดงระดับฝุ่นรายอำเภอ แตะที่วงกลมเพื่อดูรายละเอียด</div>
+    <div id="pmMap" class="pm-map"><div class="pm-map-fail">กำลังโหลดแผนที่…</div></div>
+    <div id="pmLegend" class="pm-legend"></div>
+  </div>
+
+  <div class="card pm-card" id="pmCard">
+    <div class="province-title">😷 ฝุ่น PM2.5 รายอำเภอ</div>
+    <div class="province-note" id="pmNote">กำลังโหลดข้อมูลฝุ่น…</div>
+    <div id="pmSummary" class="pm-summary" hidden></div>
+    <div id="pmGrid" class="simple-grid"></div>
+    <div class="pm-foot">ข้อมูลจากแบบจำลองคุณภาพอากาศ CAMS ผ่าน Open-Meteo เป็นค่าประมาณรายพื้นที่ ไม่ใช่ค่าจากเครื่องวัดจริง • เกณฑ์ระดับตามกรมควบคุมมลพิษ (ค่ามาตรฐาน 24 ชม. = 37.5 µg/m³) • ดูค่าจากสถานีวัดจริงได้ที่ <a href="https://air4thai.pcd.go.th" target="_blank" rel="noopener">Air4Thai</a></div>
+  </div>
+  </div>
+
   <div class="actions">
     <button class="action blue" id="refreshBtn"><span>📡</span>ตรวจใหม่</button>
     <button class="action pink" id="forecastBtn"><span>☁️</span>พยากรณ์</button>
@@ -576,6 +687,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
     <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
   </div>
   <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v10 Final Accuracy</span> • 30 AUG 2026</div>
+  <div class="footer"><button type="button" class="linkbtn" id="replayIntro">🎬 ดูอินโทรน้องมายด์อีกครั้ง</button></div>
 </section>
 </div></div>
 
@@ -583,7 +695,7 @@ button,.btn{border:0;border-radius:14px;padding:10px 12px;font-weight:900;font-s
 <div id="installModal" style="display:none;position:fixed;inset:0;z-index:9998;background:rgba(10,45,68,.45);padding:18px;align-items:center;justify-content:center">
  <div style="position:relative;width:min(92vw,440px);background:#fff;border-radius:24px;padding:20px;box-shadow:0 18px 48px rgba(0,0,0,.25)">
   <button id="installModalX" style="position:absolute;right:12px;top:10px;width:42px;height:42px;border:0;border-radius:50%;background:#eef7fb;font-size:22px">×</button>
-  <div style="font-size:24px;font-weight:1000;color:#176686;padding-right:46px">📲 ติดตั้ง “เฝ้าน้องฝน”</div><div id="installHelpText" style="margin-top:10px;line-height:1.65;color:#3f6074"></div>
+  <div style="font-size:24px;font-weight:1000;color:#176686;padding-right:46px">📲 ติดตั้ง “น้องมายด์เฝ้าฝนและฝุ่น”</div><div id="installHelpText" style="margin-top:10px;line-height:1.65;color:#3f6074"></div>
   <button id="closeInstallModal" style="margin-top:14px;width:100%;background:#238ff3;color:#fff">เข้าใจแล้วค่ะ</button>
  </div>
 </div>
@@ -918,7 +1030,68 @@ function renderSatTiles(){if(!satLatest)return;let h='';for(let y=13;y<=15;y++)f
 function placeSatMarker(){const d=DISTRICTS[selected],q=tileXY(d.lat,d.lon,5);const left=((q.x-23)/3)*100,top=((q.y-13)/3)*100;satMarker.style.left=left+'%';satMarker.style.top=top+'%';satLabel.style.left=left+'%';satLabel.style.top=top+'%';satLabel.textContent=d.short}
 satIRBtn.onclick=()=>{satMode='ir';satIRBtn.className='blue';satCloudBtn.className='soft';renderSatTiles()}
 satCloudBtn.onclick=()=>{satMode='cloud';satCloudBtn.className='blue';satIRBtn.className='soft';renderSatTiles()}
-async function refresh(){refreshBtn.disabled=true;if(radarMode!=='loop')radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
+/* ===== PM2.5 (Open-Meteo Air Quality / CAMS) ===== */
+const PM_LEVELS=[
+ {max:15,label:'ดีมาก',color:'#2fb7e8',range:'0–15',tip:'อากาศดีมาก ทำกิจกรรมกลางแจ้งได้ตามปกติ'},
+ {max:25,label:'ดี',color:'#3cc47c',range:'15.1–25',tip:'อากาศดี ทำกิจกรรมกลางแจ้งได้ตามปกติ'},
+ {max:37.5,label:'ปานกลาง',color:'#e0a800',fg:'#3a2a00',range:'25.1–37.5',tip:'กลุ่มเสี่ยงควรสังเกตอาการผิดปกติ'},
+ {max:75,label:'เริ่มมีผลกระทบ',color:'#ff8a3d',range:'37.6–75',tip:'กลุ่มเสี่ยงควรลดกิจกรรมกลางแจ้งและสวมหน้ากาก N95'},
+ {max:Infinity,label:'มีผลกระทบต่อสุขภาพ',color:'#e5484d',range:'มากกว่า 75',tip:'ทุกคนควรลดกิจกรรมกลางแจ้งและสวมหน้ากาก N95'}
+];
+const pmLevel=v=>PM_LEVELS.find(l=>v<=l.max);
+const pmApi=()=>`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${DISTRICTS.map(d=>d.lat).join(',')}&longitude=${DISTRICTS.map(d=>d.lon).join(',')}&current=pm2_5&hourly=pm2_5&past_days=1&forecast_days=2&timezone=Asia%2FBangkok`;
+let pmCache=null;
+async function loadPM(){
+ try{
+  const r=await fetch(pmApi(),{cache:'no-store'});
+  if(!r.ok)throw new Error('pm http '+r.status);
+  const j=await r.json(), arr=Array.isArray(j)?j:[j], now=Date.now(), H=3600e3;
+  pmCache=arr.map((x,i)=>{
+   const d=DISTRICTS[i]||{name:'—',short:'—'};
+   const t=x.hourly?.time||[], v=x.hourly?.pm2_5||[];
+   const past=[], next=[];
+   t.forEach((ts,k)=>{
+    const val=v[k]; if(val==null||Number.isNaN(val))return;
+    const ms=new Date(ts+'+07:00').getTime();
+    if(ms>now-24*H&&ms<=now)past.push(val);
+    else if(ms>now&&ms<=now+6*H)next.push(val);
+   });
+   const cur=x.current?.pm2_5;
+   const avg24=past.length?past.reduce((a,b)=>a+b,0)/past.length:null;
+   const max6=next.length?Math.max(...next):null;
+   return {name:d.name,short:d.short,now:cur==null?(past.length?past[past.length-1]:null):cur,avg24,max6};
+  });
+ }catch(e){pmCache=null}
+ renderPM();
+}
+function renderPM(){
+ const grid=document.getElementById('pmGrid'), note=document.getElementById('pmNote'), sum=document.getElementById('pmSummary');
+ if(!grid)return;
+ const rows=(pmCache||[]).filter(d=>d.now!=null);
+ if(!rows.length){
+  grid.innerHTML='';sum.hidden=true;
+  note.textContent='ดึงข้อมูลฝุ่นไม่สำเร็จ ลองกด "ตรวจใหม่" อีกครั้งภายหลัง';
+  if(typeof renderPMMap==='function')renderPMMap();
+  return;
+ }
+ const top=[...rows].sort((a,b)=>b.now-a.now)[0], lv=pmLevel(top.now);
+ note.textContent='ค่า PM2.5 ล่าสุดรายอำเภอ (µg/m³) พร้อมค่าเฉลี่ย 24 ชม. และแนวโน้ม 6 ชม. ข้างหน้า • อัปเดต '+formatThaiTime(new Date());
+ sum.hidden=false;
+ sum.innerHTML=`${top.now>37.5?'⚠️':'😷'} สูงสุดตอนนี้: ${top.name} ${top.now.toFixed(1)} µg/m³ (${lv.label})<small>${lv.tip}</small>`;
+ grid.innerHTML=rows.map(d=>{
+  const l=pmLevel(d.now), w=Math.max(3,Math.min(100,d.now/75*100));
+  let trend='—';
+  if(d.max6!=null){const diff=d.max6-d.now;trend=diff>=5?`↑ อาจสูงขึ้นถึง ${d.max6.toFixed(0)}`:diff<=-5?'↓ มีแนวโน้มลดลง':'→ ใกล้เคียงเดิม'}
+  return `<div class="pm-item">
+   <div class="pm-name">${d.short||d.name}</div>
+   <div class="pm-val" style="color:${l.color}">${d.now.toFixed(1)}<span>µg/m³</span></div>
+   <span class="pm-lvl" style="background:${l.color};color:${l.fg||'#fff'}">${l.label}</span>
+   <div class="pm-bar"><div class="pm-fill" style="width:${w}%;background:${l.color}"></div></div>
+   <div class="pm-meta"><span>เฉลี่ย 24 ชม. <b>${d.avg24==null?'—':d.avg24.toFixed(1)}</b></span><span>${trend}</span></div>
+  </div>`}).join('');
+ if(typeof renderPMMap==='function')renderPMMap();
+}
+async function refresh(){loadPM();refreshBtn.disabled=true;if(radarMode!=='loop')radarImg.src=radarUrl();try{const r=await Promise.all([Promise.all(DISTRICTS.map(load)),loadRadarIntelligence(),loadSatellite()]);cache=r[0];renderSelected();renderProvince()}catch(e){}finally{refreshBtn.disabled=false;refreshBtn.innerHTML='<span>📡</span>ตรวจใหม่'}}
 function tierThai(t){return t==='severe'?'ฝนหนัก/รุนแรง':t==='imminent'?'ฝนใกล้ถึง':t==='prepare'?'เตรียมรับฝน':t==='early'?'เฝ้าระวัง':'แจ้งเตือน'}
 function pushStatusThai(s){return s==='sent'?'ส่งสำเร็จ ✅':'ส่งไม่สำเร็จ ⚠️'}
 function severityHistoryThai(s){return s==='very_heavy'?'หนักมาก':s==='heavy'?'หนัก':s==='moderate'?'ปานกลาง':s==='light'?'เบา':'ยังไม่ชัด'}
@@ -974,6 +1147,126 @@ latestBtn.onclick=showLatestRadar;
 loopBtn.onclick=async()=>{latestBtn.className='soft';loopBtn.className='blue';await startRadarAnimation()};
 refreshBtn.onclick=refresh;forecastBtn.onclick=()=>forecast.scrollIntoView({behavior:'smooth',block:'center'});notifyBtn.onclick=enableNotification;installBtn.onclick=installApp;closeInstallModal.onclick=closeModal;installModalX.onclick=closeModal;installModal.onclick=e=>{if(e.target===installModal)closeModal()};settingsBtn.onclick=()=>showToast('v10: P15/P30/P60 + Multi-Radar + Himawari + Forecast + Data Quality + Verification + Push Hysteresis')
 ;(async()=>{if('serviceWorker'in navigator){try{swReg=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});await navigator.serviceWorker.ready;try{await swReg.update()}catch(e){}}catch(e){}}updateNotifyUI()})();
+
+/* ===== GA4 helper ===== */
+function gaEvent(name,params){try{if(window.gtag)gtag('event',name,params||{})}catch(e){}}
+
+/* ===== Page tabs (rain / PM2.5) ===== */
+function showPage(name,updateHash){
+ if(name!=='pm')name='rain';
+ const r=document.getElementById('pageRain'),m=document.getElementById('pagePM');
+ if(!r||!m)return;
+ r.hidden=name!=='rain';m.hidden=name!=='pm';
+ document.querySelectorAll('#pageTabs button').forEach(b=>{const on=b.dataset.page===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false')});
+ if(updateHash!==false){try{history.replaceState(null,'','#'+name)}catch(e){}}
+ if(name==='pm'){initPMMap();gaEvent('view_pm_page')}
+ if(updateHash!==false)window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ===== PM2.5 map (Leaflet loaded lazily the first time the PM page opens) ===== */
+let pmMap=null,pmLayer=null,_leafP=null;
+function loadLeaflet(){
+ if(window.L)return Promise.resolve();
+ if(_leafP)return _leafP;
+ _leafP=new Promise((res,rej)=>{
+  const css=document.createElement('link');css.rel='stylesheet';
+  css.href='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+  css.integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';css.crossOrigin='';
+  document.head.appendChild(css);
+  const s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+  s.integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';s.crossOrigin='';
+  s.onload=()=>res();s.onerror=()=>{_leafP=null;rej(new Error('leaflet load failed'))};
+  document.head.appendChild(s);
+ });
+ return _leafP;
+}
+function renderPMLegend(){
+ const el=document.getElementById('pmLegend');if(!el)return;
+ el.innerHTML=PM_LEVELS.map(l=>`<div><i style="background:${l.color}"></i><span><b>${l.label}</b> (${l.range} µg/m³)<br>${l.tip}</span></div>`).join('');
+}
+function initPMMap(){
+ renderPMLegend();
+ const el=document.getElementById('pmMap');if(!el)return;
+ if(pmMap){setTimeout(()=>{pmMap.invalidateSize();fitPMMap()},60);renderPMMap();return}
+ loadLeaflet().then(()=>{
+  if(pmMap)return;
+  el.innerHTML='';
+  pmMap=L.map(el,{scrollWheelZoom:false,zoomSnap:.25,zoomDelta:.5,tap:false}).setView([13.62,100.68],10);
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:17,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(pmMap);
+  pmLayer=L.layerGroup().addTo(pmMap);
+  setTimeout(()=>{pmMap.invalidateSize();fitPMMap()},60);
+  renderPMMap();
+ }).catch(()=>{el.innerHTML='<div class="pm-map-fail">โหลดแผนที่ไม่สำเร็จ (ต้องเชื่อมต่ออินเทอร์เน็ต)<br>ดูค่าฝุ่นรายอำเภอจากการ์ดด้านล่างได้ตามปกติค่ะ</div>'});
+}
+function fitPMMap(){
+ if(!pmMap)return;
+ try{pmMap.fitBounds(L.latLngBounds(DISTRICTS.map(d=>[d.lat,d.lon])).pad(.12),{maxZoom:12})}catch(e){}
+}
+function renderPMMap(){
+ if(!pmMap||!pmLayer)return;
+ pmLayer.clearLayers();
+ (pmCache||[]).forEach((d,i)=>{
+  if(d.now==null)return;
+  const D=DISTRICTS[i],l=pmLevel(d.now),fg=l.fg||'#fff';
+  L.circle([D.lat,D.lon],{radius:4800,color:l.color,weight:1.5,fillColor:l.color,fillOpacity:.28}).addTo(pmLayer);
+  const icon=L.divIcon({className:'',html:`<div class="pm-pin" style="background:${l.color};color:${fg}">${Math.round(d.now)}</div>`,iconSize:[36,36],iconAnchor:[18,18]});
+  let trend='';
+  if(d.max6!=null){const diff=d.max6-d.now;trend=diff>=5?`↑ 6 ชม. ข้างหน้าอาจสูงถึง ${d.max6.toFixed(0)}`:diff<=-5?'↓ มีแนวโน้มลดลง':'→ ใกล้เคียงเดิม'}
+  L.marker([D.lat,D.lon],{icon,title:D.name}).addTo(pmLayer).bindPopup(
+   `<div class="pm-pop"><b>${D.name}</b><br>PM2.5 ตอนนี้ <b style="color:${l.color}">${d.now.toFixed(1)}</b> µg/m³<br>ระดับ: ${l.label}<br>เฉลี่ย 24 ชม.: ${d.avg24==null?'—':d.avg24.toFixed(1)}<br>${trend}</div>`);
+ });
+}
+
+/* ===== Intro clip (first visit only) ===== */
+const INTRO_KEY='nongfon_intro_seen_v2';
+let introTimers=[];
+function buildDust(){
+ const w=document.getElementById('dustFx');if(!w||w.childElementCount)return;
+ for(let i=0;i<26;i++){
+  const d=document.createElement('i'),s=7+Math.random()*16;
+  d.style.cssText=`left:${Math.random()*100}%;top:${35+Math.random()*60}%;width:${s}px;height:${s}px;animation-delay:${(Math.random()*6).toFixed(2)}s;animation-duration:${(5+Math.random()*4).toFixed(1)}s`;
+  w.appendChild(d);
+ }
+}
+function closeIntro(){
+ introTimers.forEach(clearTimeout);introTimers=[];
+ const el=document.getElementById('intro');
+ if(!el||el.classList.contains('closing'))return;
+ el.classList.add('closing');
+ setTimeout(()=>{document.documentElement.classList.remove('intro-on');el.classList.remove('play','ready','closing');document.body.style.overflow=''},650);
+}
+function startIntro(manual){
+ const el=document.getElementById('intro');if(!el)return;
+ buildDust();
+ introTimers.forEach(clearTimeout);introTimers=[];
+ el.classList.remove('play','ready','closing');
+ document.documentElement.classList.add('intro-on');
+ document.body.style.overflow='hidden';
+ void el.offsetWidth;
+ try{localStorage.setItem(INTRO_KEY,'1')}catch(e){}
+ let started=false;
+ const go=()=>{
+  if(started)return;started=true;
+  el.classList.add('play');
+  introTimers.push(setTimeout(()=>el.classList.add('ready'),4400),setTimeout(closeIntro,10500));
+  gaEvent('intro_play',{replay:!!manual});
+ };
+ Promise.all(['scene-clay-bg-hd.png','character-girl-hd.png','character-dog-hd.png'].map(src=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=src}))).then(go);
+ introTimers.push(setTimeout(go,3000));
+}
+(function wireUI(){
+ document.querySelectorAll('#pageTabs button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+ const sk=document.getElementById('introSkip'),gb=document.getElementById('introGo'),rp=document.getElementById('replayIntro');
+ if(sk)sk.addEventListener('click',closeIntro);
+ if(gb)gb.addEventListener('click',closeIntro);
+ if(rp)rp.addEventListener('click',()=>startIntro(true));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeIntro()});
+ window.addEventListener('hashchange',()=>showPage(location.hash==='#pm'?'pm':'rain',false));
+ showPage(location.hash==='#pm'?'pm':'rain',false);
+ if(document.documentElement.classList.contains('intro-on'))startIntro(false);
+})();
+
 fx();tabs();radarMode='latest';radarImg.src=radarUrl();refresh();loadAlertHistory();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,2*60*1000);setInterval(loadAlertHistory,5*60*1000);initOneSignal();
 </script>
 </body></html>
