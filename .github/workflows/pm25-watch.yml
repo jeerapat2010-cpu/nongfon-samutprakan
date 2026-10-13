@@ -59,12 +59,12 @@ jobs:
       - name: Check PM2.5 and send alert when needed
         run: python scripts/pm25_alert.py
 
-      # สำคัญ: ต้อง add ทั้ง state และ status ทุกครั้ง ไม่เช่นนั้นระบบจะ "ลืม" ว่าเตือนไปแล้วและเตือนซ้ำทุกชั่วโมง
+      # สำคัญ: ต้อง add ทั้ง state, status และ air4thai ทุกครั้ง ไม่เช่นนั้นระบบจะ "ลืม" ว่าเตือนไปแล้วและเตือนซ้ำทุกชั่วโมง
       - name: Commit PM2.5 status and state
         run: |
           git config user.name "nongfon-pm25-bot"
           git config user.email "actions@users.noreply.github.com"
-          for f in data/pm25_state.json data/pm25_status.json; do
+          for f in data/pm25_state.json data/pm25_status.json data/air4thai.json; do
             [ -f "$f" ] && git add "$f"
           done
           if git diff --cached --quiet; then
