@@ -1,7 +1,7 @@
 {
   "version": "1.0",
-  "generated_at": "2026-10-13T15:49:34.208881+07:00",
-  "source": "Open-Meteo Air Quality (CAMS model) - ไม่ใช่ค่าจากเครื่องวัดจริง",
+  "generated_at": "2026-10-13T16:13:36.253460+07:00",
+  "source": "Air4Thai (ค่าวัดจริง คพ.) เมื่อมีสถานีใกล้และข้อมูลสด มิฉะนั้นใช้ Open-Meteo CAMS (แบบจำลอง)",
   "thresholds": {
     "alert_min_level": 3,
     "alert_above_ugm3": 37.5,
@@ -12,77 +12,84 @@
     "quiet_hours": "22:00-06:00",
     "max_push_per_day": 4
   },
+  "measured_count": 0,
   "province": {
     "level": 2,
     "label": "ปานกลาง",
     "max_district": "เมืองสมุทรปราการ",
-    "max_value": 29.4
+    "max_value": 28.6
   },
   "districts": [
     {
       "name": "เมืองสมุทรปราการ",
       "short": "เมืองฯ",
-      "now": 28.7,
-      "avg3": 29.4,
-      "avg24": 31.1,
-      "max6": 27.9,
+      "now": 27.9,
+      "avg3": 28.6,
+      "avg24": 30.2,
+      "max6": 27.1,
+      "source": "model",
       "level": 2,
       "label": "ปานกลาง"
     },
     {
       "name": "บางพลี",
       "short": "บางพลี",
-      "now": 11.8,
+      "now": 12.4,
       "avg3": 12.0,
-      "avg24": 26.8,
+      "avg24": 26.0,
       "max6": 13.6,
+      "source": "model",
       "level": 0,
       "label": "ดีมาก"
     },
     {
       "name": "บางบ่อ",
       "short": "บางบ่อ",
-      "now": 11.8,
+      "now": 12.4,
       "avg3": 12.0,
-      "avg24": 26.8,
+      "avg24": 26.0,
       "max6": 13.6,
+      "source": "model",
       "level": 0,
       "label": "ดีมาก"
     },
     {
       "name": "พระประแดง",
       "short": "พระประแดง",
-      "now": 28.7,
-      "avg3": 29.4,
-      "avg24": 31.1,
-      "max6": 27.9,
+      "now": 27.9,
+      "avg3": 28.6,
+      "avg24": 30.2,
+      "max6": 27.1,
+      "source": "model",
       "level": 2,
       "label": "ปานกลาง"
     },
     {
       "name": "พระสมุทรเจดีย์",
       "short": "พระสมุทรเจดีย์",
-      "now": 28.7,
-      "avg3": 29.4,
-      "avg24": 31.1,
-      "max6": 27.9,
+      "now": 27.9,
+      "avg3": 28.6,
+      "avg24": 30.2,
+      "max6": 27.1,
+      "source": "model",
       "level": 2,
       "label": "ปานกลาง"
     },
     {
       "name": "บางเสาธง",
       "short": "บางเสาธง",
-      "now": 11.8,
+      "now": 12.4,
       "avg3": 12.0,
-      "avg24": 26.8,
+      "avg24": 26.0,
       "max6": 13.6,
+      "source": "model",
       "level": 0,
       "label": "ดีมาก"
     }
   ],
   "push": {
     "last_decision": {
-      "time": "2026-10-13T15:49:34.208881+07:00",
+      "time": "2026-10-13T16:13:36.253460+07:00",
       "action": "none",
       "reason": "ฝุ่นต่ำกว่าเกณฑ์แจ้งเตือน",
       "level": 2,
