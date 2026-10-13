@@ -2,10 +2,11 @@
 """
 น้องมายด์เฝ้าฝนและฝุ่น สมุทรปราการ - PM2.5 alert engine (v1.0)
 
-ดึงค่า PM2.5 รายอำเภอจาก Open-Meteo Air Quality (แบบจำลอง CAMS) แล้วตัดสินใจว่าจะส่ง Push (OneSignal)
-หรือไม่ โดยออกแบบให้ "ไม่เตือนรัว" และ "ไม่เตือนจากค่าที่กระโดดชั่วคราว":
+ดึงค่า PM2.5 "วัดจริง" จากสถานีตรวจวัดของกรมควบคุมมลพิษ (Air4Thai) ที่ใกล้แต่ละอำเภอที่สุด
+และใช้ Open-Meteo Air Quality (แบบจำลอง CAMS) เป็นตัวสำรองเมื่อไม่มีสถานีใกล้พอหรือข้อมูลสถานีค้างเก่า
+แล้วตัดสินใจว่าจะส่ง Push (OneSignal) หรือไม่ โดยออกแบบให้ "ไม่เตือนรัว" และ "ไม่เตือนจากค่าที่กระโดดชั่วคราว":
 
-  * ใช้ค่าเฉลี่ย 3 ชั่วโมงล่าสุดของแต่ละอำเภอ (กันค่ากระโดดชั่วโมงเดียว)
+  * ใช้ค่าเฉลี่ย 3 ชั่วโมงล่าสุดของแต่ละอำเภอ (กันค่ากระโดดชั่วโมงเดียว) - ค่าวัดจริงเก็บสะสมรายชั่วโมงใน state
   * เกณฑ์ตามกรมควบคุมมลพิษ: >37.5 = เริ่มมีผลกระทบต่อสุขภาพ (ระดับ 3), >75 = มีผลกระทบต่อสุขภาพ (ระดับ 4)
   * Hysteresis: เมื่ออยู่ในระดับเตือนแล้ว ต้องลดต่ำกว่าเกณฑ์เกิน HYST_UGM3 จึงจะถือว่าออกจากระดับนั้น
   * ส่ง Push เมื่อ "ระดับของจังหวัดสูงขึ้น" (escalation) หรือยังสูงค้างครบ REMIND_HOURS ชม. (reminder)
@@ -13,7 +14,7 @@
   * จำกัดไม่เกิน MAX_PUSH_PER_DAY ครั้งต่อวัน
   * ถ้าส่งไม่สำเร็จ จะไม่บันทึกว่า "เตือนแล้ว" เพื่อให้ลองใหม่รอบถัดไป
 
-ไฟล์ที่เขียน: data/pm25_state.json (ภายใน) และ data/pm25_status.json (สาธารณะ ให้หน้าเว็บอ่าน)
+ไฟล์ที่เขียน: data/pm25_state.json (ภายใน), data/pm25_status.json และ data/air4thai.json (สาธารณะ ให้หน้าเว็บอ่าน)
 
 ตัวแปรสภาพแวดล้อม:
   ONESIGNAL_APP_ID, ONESIGNAL_APP_API_KEY / ONESIGNAL_REST_API_KEY / ONESIGNAL_LEGACY_REST_API_KEY, SITE_URL
@@ -33,6 +34,7 @@ BKK = timezone(timedelta(hours=7))
 DATA = Path("data")
 STATE_FILE = DATA / "pm25_state.json"
 STATUS_FILE = DATA / "pm25_status.json"
+OBS_FILE = DATA / "air4thai.json"
 UA = {"User-Agent": "NongFon-SamutPrakan-PM25/1.0"}
 DEFAULT_SITE = "https://jeerapat2010-cpu.github.io/nongfon-samutprakan/"
 
@@ -57,6 +59,17 @@ MAX_PUSH_PER_DAY = 4         # เพดานจำนวน Push ต่อว�
 QUIET_START_H, QUIET_END_H = 22, 6   # ช่วงพัก 22:00-06:00
 SMOOTH_HOURS = 3             # เฉลี่ยกี่ชั่วโมงล่าสุดเพื่อตัดสินระดับ
 HISTORY_KEEP = 20
+
+# Air4Thai (ค่าวัดจริงจากสถานี คพ.)
+AIR4THAI_URLS = [
+    "http://air4thai.pcd.go.th/services/getNewAQI_JSON.php",
+    "https://air4thai.pcd.go.th/services/getNewAQI_JSON.php",
+]
+OBS_MAX_AGE_H = 3            # ค่าวัดเก่ากว่านี้ถือว่าค้าง ไม่ใช้
+OBS_MAX_KM_IN = 12.0         # สถานีในสมุทรปราการ ใช้แทนอำเภอได้ถ้าห่างไม่เกินเท่านี้
+OBS_MAX_KM_OUT = 6.0         # สถานีนอกจังหวัด ใช้ได้เฉพาะที่อยู่ใกล้มาก
+OBS_NEARBY_KM = 25.0         # สถานีที่เก็บลงไฟล์ให้หน้าเว็บวาดบนแผนที่
+OBS_HIST_KEEP = 3
 
 
 # ----------------------------------------------------------------------------- helpers
@@ -138,6 +151,82 @@ def fetch_aq():
     return arr
 
 
+def fetch_air4thai():
+    """คืนรายการสถานีทั้งหมดจาก Air4Thai (list ของ dict) - ลอง http แล้วค่อย https"""
+    last = None
+    for u in AIR4THAI_URLS:
+        try:
+            r = requests.get(u, headers=UA, timeout=25)
+            r.raise_for_status()
+            j = r.json()
+            st = j.get("stations") if isinstance(j, dict) else j
+            if isinstance(st, list) and st:
+                return st
+            last = ValueError("no stations in response")
+        except Exception as e:  # noqa: BLE001
+            last = e
+    raise last or RuntimeError("air4thai unavailable")
+
+
+def km_between(lat1, lon1, lat2, lon2):
+    from math import radians, sin, cos, asin, sqrt
+    p1, p2 = radians(lat1), radians(lat2)
+    a = sin((p2 - p1) / 2) ** 2 + cos(p1) * cos(p2) * sin(radians(lon2 - lon1) / 2) ** 2
+    return 2 * 6371.0 * asin(sqrt(a))
+
+
+def parse_station(st):
+    """แปลง 1 สถานี -> dict ที่ใช้งานได้ หรือ None ถ้าไม่มีค่า PM2.5 / รูปแบบผิด"""
+    try:
+        lat, lon = float(st["lat"]), float(st["long"])
+        aq = st.get("AQILast") or {}
+        val = float((aq.get("PM25") or {}).get("value"))
+        if not (0 < val < 1000):
+            return None
+        t = datetime.strptime(f"{aq['date']} {aq['time']}", "%Y-%m-%d %H:%M").replace(tzinfo=BKK)
+    except Exception:  # noqa: BLE001
+        return None
+    area = str(st.get("areaTH") or "")
+    return {
+        "id": str(st.get("stationID") or "").strip(),
+        "name": str(st.get("nameTH") or st.get("nameEN") or "").strip(),
+        "area": area.strip(),
+        "in_province": "สมุทรปราการ" in area,
+        "lat": lat, "lon": lon, "pm25": round(val, 1), "time": t,
+    }
+
+
+def pick_obs(stations, now):
+    """ต่ออำเภอ: สถานีที่ 'สด' และใกล้ที่สุด (ในจังหวัดก่อน) หรือ None ; พร้อมรายการสถานีใกล้เคียงสำหรับแผนที่"""
+    parsed = [p for p in (parse_station(s) for s in stations or []) if p]
+    for p in parsed:
+        p["fresh"] = timedelta(0) <= now - p["time"] <= timedelta(hours=OBS_MAX_AGE_H)
+    per = []
+    for d in DISTRICTS:
+        best = None
+        for p in parsed:
+            if not p["fresh"]:
+                continue
+            km = km_between(d["lat"], d["lon"], p["lat"], p["lon"])
+            if km > (OBS_MAX_KM_IN if p["in_province"] else OBS_MAX_KM_OUT):
+                continue
+            key = (0 if p["in_province"] else 1, km)
+            if best is None or key < best[0]:
+                best = (key, p, km)
+        per.append(None if best is None else {**best[1], "km": round(best[2], 1)})
+    nearby = []
+    for p in parsed:
+        if p["in_province"] or any(km_between(d["lat"], d["lon"], p["lat"], p["lon"]) <= OBS_NEARBY_KM for d in DISTRICTS):
+            if p["in_province"] or p["fresh"]:
+                nearby.append(p)
+    return per, nearby
+
+
+def obs_public(p):
+    return {"id": p["id"], "name": p["name"], "area": p["area"], "lat": p["lat"], "lon": p["lon"],
+            "pm25": p["pm25"], "time": p["time"].isoformat(), "fresh": bool(p.get("fresh"))}
+
+
 def summarize(payload, d, now):
     """สรุปค่าของหนึ่งอำเภอ: now / avg3 / avg24 / max6 (None ถ้าไม่มีข้อมูล)"""
     times = (payload.get("hourly") or {}).get("time") or []
@@ -206,7 +295,8 @@ def build_message(rows, kind):
         title += " (ยังสูงต่อเนื่อง)"
     where = "ทั้ง 6 อำเภอ" if len(alerting) == len(DISTRICTS) else f"{len(alerting)}/6 อำเภอ ({', '.join(r['short'] for r in alerting)})"
     advice = "ทุกคนควรลดกิจกรรมกลางแจ้ง สวมหน้ากาก N95" if lvl >= 4 else "กลุ่มเสี่ยงควรลดกิจกรรมกลางแจ้ง สวมหน้ากาก N95"
-    body = f"สูงสุด {top['short']} {top['avg3']:.0f} µg/ลบ.ม. • เกินเกณฑ์ {where} • {advice}"
+    src = " (ค่าวัดจริง)" if top.get("source") == "measured" else ""
+    body = f"สูงสุด {top['short']} {top['avg3']:.0f} µg/ลบ.ม.{src} • เกินเกณฑ์ {where} • {advice}"
     return title, body, lvl
 
 
@@ -248,10 +338,11 @@ def send_push(title, body, url, extra_data, key):
 
 
 # ----------------------------------------------------------------------------- main
-def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=False, data_dir=None):
-    global STATE_FILE, STATUS_FILE
+def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=False, data_dir=None, fetch_obs=fetch_air4thai):
+    global STATE_FILE, STATUS_FILE, OBS_FILE
     if data_dir:
         STATE_FILE, STATUS_FILE = Path(data_dir) / "pm25_state.json", Path(data_dir) / "pm25_status.json"
+        OBS_FILE = Path(data_dir) / "air4thai.json"
     now = (now or datetime.now(BKK)).astimezone(BKK)
     site = os.getenv("SITE_URL", "").strip() or DEFAULT_SITE
     url = site.rstrip("/") + "/#pm"
@@ -262,7 +353,7 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
     status = {
         "version": "1.0",
         "generated_at": now.isoformat(),
-        "source": "Open-Meteo Air Quality (CAMS model) - ไม่ใช่ค่าจากเครื่องวัดจริง",
+        "source": "Air4Thai (ค่าวัดจริง คพ.) เมื่อมีสถานีใกล้และข้อมูลสด มิฉะนั้นใช้ Open-Meteo CAMS (แบบจำลอง)",
         "thresholds": {
             "alert_min_level": ALERT_MIN_LEVEL, "alert_above_ugm3": LEVEL_LOWER[3], "critical_above_ugm3": LEVEL_LOWER[4],
             "hysteresis_ugm3": HYST_UGM3, "smoothing_hours": SMOOTH_HOURS, "remind_hours": REMIND_HOURS,
@@ -270,24 +361,61 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
         },
     }
 
-    # 1) ดึงข้อมูล
+    # 1) ดึงข้อมูล : แบบจำลอง (CAMS) และค่าวัดจริง (Air4Thai) - อย่างใดอย่างหนึ่งล้มเหลวได้ ไม่ทำให้ระบบหยุด
+    payloads, model_err = None, None
     try:
         payloads = fetch()
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
+        model_err = f"{type(e).__name__}"
+        print("model fetch failed:", type(e).__name__, str(e)[:160])
+    picks, nearby, obs_err = [None] * len(DISTRICTS), [], None
+    try:
+        picks, nearby = pick_obs(fetch_obs(), now)
+        write_json(OBS_FILE, {
+            "version": "1.0", "generated_at": now.isoformat(),
+            "source": "Air4Thai - กรมควบคุมมลพิษ (ค่าวัดจริงรายชั่วโมง)",
+            "max_age_hours": OBS_MAX_AGE_H,
+            "districts": [None if o is None else {**obs_public(o), "km": o["km"]} for o in picks],
+            "stations": [obs_public(p) for p in nearby],
+        })
+    except Exception as e:  # noqa: BLE001
+        obs_err = f"{type(e).__name__}"
+        print("air4thai fetch failed:", type(e).__name__, str(e)[:160])
+
+    if payloads is None and not any(picks):
         status["province"] = prev_status.get("province")
         status["districts"] = prev_status.get("districts", [])
         status["push"] = {"last_decision": {"time": now.isoformat(), "action": "fetch_failed",
-                                            "reason": f"ดึงข้อมูลฝุ่นไม่สำเร็จ: {type(e).__name__}"},
+                                            "reason": f"ดึงข้อมูลฝุ่นไม่สำเร็จ: {model_err or obs_err or 'unknown'}"},
                           "last_sent_at": state.get("last_push_at"), "history": history[-HISTORY_KEEP:]}
         write_json(STATUS_FILE, status)
-        print("fetch failed:", type(e).__name__, str(e)[:160])
         return status
 
     rows = []
-    for d, p in zip(DISTRICTS, payloads):
-        s = summarize(p, d, now)
-        if s:
-            rows.append(s)
+    for i, d in enumerate(DISTRICTS):
+        s_model = summarize(payloads[i], d, now) if payloads and i < len(payloads) else None
+        o = picks[i]
+        hist = list((state["districts"].get(d["name"]) or {}).get("obs_hist") or [])
+        if o:
+            t_iso = o["time"].isoformat()
+            if not hist or hist[-1][0] != t_iso:
+                hist.append([t_iso, o["pm25"]])
+            hist = [h for h in hist if (parse_iso(h[0]) or now) >= now - timedelta(hours=OBS_MAX_AGE_H + OBS_HIST_KEEP)][-OBS_HIST_KEEP:]
+            vals = [h[1] for h in hist]
+            row = s_model or {"name": d["name"], "short": d["short"], "avg24": None, "max6": None}
+            row.update({
+                "model_now": None if not s_model else s_model["now"],
+                "now": o["pm25"], "avg3": round(sum(vals) / len(vals), 1), "source": "measured",
+                "station": {"id": o["id"], "name": o["name"], "km": o["km"], "time": o["time"].isoformat()},
+            })
+            rows.append(row)
+        elif s_model:
+            hist = []
+            s_model["source"] = "model"
+            rows.append(s_model)
+        else:
+            hist = []
+        state["districts"].setdefault(d["name"], {})["obs_hist"] = hist
     if not rows:
         status["province"] = None
         status["districts"] = []
@@ -295,13 +423,14 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
                           "last_sent_at": state.get("last_push_at"), "history": history[-HISTORY_KEEP:]}
         write_json(STATUS_FILE, status)
         return status
+    status["measured_count"] = sum(1 for r in rows if r.get("source") == "measured")
 
     # 2) ระดับรายอำเภอ (มี hysteresis) และระดับจังหวัด
     for r in rows:
         prev = (state["districts"].get(r["name"]) or {}).get("level")
         r["level"] = level_with_hysteresis(r["avg3"], prev)
         r["label"] = LEVEL_LABEL[r["level"]]
-        state["districts"][r["name"]] = {"level": r["level"]}
+        state["districts"].setdefault(r["name"], {})["level"] = r["level"]
     prov_level = max(r["level"] for r in rows)
     top = max(rows, key=lambda r: r["avg3"])
     status["province"] = {"level": prov_level, "label": LEVEL_LABEL[prov_level],
