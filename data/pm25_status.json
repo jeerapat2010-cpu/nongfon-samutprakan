@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-10-13T23:59:38.935117+07:00",
+  "generated_at": "2026-10-14T04:53:00.974630+07:00",
   "source": "Air4Thai (ค่าวัดจริง คพ.) เมื่อมีสถานีใกล้และข้อมูลสด มิฉะนั้นใช้ Open-Meteo CAMS (แบบจำลอง)",
   "thresholds": {
     "alert_min_level": 3,
@@ -12,7 +12,7 @@
     "quiet_hours": "22:00-06:00",
     "max_push_per_day": 4
   },
-  "measured_count": 6,
+  "measured_count": 3,
   "air4thai": {
     "ok": true,
     "stations_total": 173,
@@ -21,78 +21,64 @@
   "province": {
     "level": 2,
     "label": "ปานกลาง",
-    "max_district": "บางพลี",
-    "max_value": 27.9
+    "max_district": "พระประแดง",
+    "max_value": 23.9
   },
   "districts": [
     {
       "name": "เมืองสมุทรปราการ",
       "short": "เมืองฯ",
-      "now": 23.7,
-      "avg3": 23.7,
-      "avg24": 23.1,
-      "max6": 15.1,
-      "model_now": 18.4,
+      "now": 20.4,
+      "avg3": 22.0,
+      "avg24": 21.2,
+      "max6": 14.3,
+      "model_now": 8.1,
       "source": "measured",
       "station": {
         "id": "16t",
         "name": "โรงไฟฟ้าพระนครใต้",
         "km": 4.8,
-        "time": "2026-10-13T23:00:00+07:00"
+        "time": "2026-10-14T04:00:00+07:00"
       },
-      "level": 2,
-      "label": "ปานกลาง"
+      "level": 1,
+      "label": "ดี"
     },
     {
       "name": "บางพลี",
       "short": "บางพลี",
-      "now": 27.9,
-      "avg3": 27.9,
-      "avg24": 18.7,
-      "max6": 6.1,
-      "model_now": 7.3,
-      "source": "measured",
-      "station": {
-        "id": "19t",
-        "name": "การเคหะชุมชนเมืองใหม่บางพลี",
-        "km": 9.4,
-        "time": "2026-10-13T22:00:00+07:00"
-      },
-      "level": 2,
-      "label": "ปานกลาง"
+      "now": 3.8,
+      "avg3": 4.3,
+      "avg24": 14.2,
+      "max6": 10.1,
+      "source": "model",
+      "level": 0,
+      "label": "ดีมาก"
     },
     {
       "name": "บางบ่อ",
       "short": "บางบ่อ",
-      "now": 27.9,
-      "avg3": 27.9,
-      "avg24": 18.7,
-      "max6": 6.1,
-      "model_now": 7.3,
-      "source": "measured",
-      "station": {
-        "id": "19t",
-        "name": "การเคหะชุมชนเมืองใหม่บางพลี",
-        "km": 8.6,
-        "time": "2026-10-13T22:00:00+07:00"
-      },
-      "level": 2,
-      "label": "ปานกลาง"
+      "now": 3.8,
+      "avg3": 4.3,
+      "avg24": 14.2,
+      "max6": 10.1,
+      "source": "model",
+      "level": 0,
+      "label": "ดีมาก"
     },
     {
       "name": "พระประแดง",
       "short": "พระประแดง",
-      "now": 24.4,
-      "avg3": 24.4,
-      "avg24": 23.1,
-      "max6": 15.1,
-      "model_now": 18.4,
+      "now": 23.3,
+      "avg3": 23.9,
+      "avg24": 21.2,
+      "max6": 14.3,
+      "model_now": 8.1,
       "source": "measured",
       "station": {
         "id": "17t",
         "name": "บ้านพักกรมอุตสาหกรรมพื้นฐานและการเหมืองแร่",
         "km": 0.7,
-        "time": "2026-10-13T23:00:00+07:00"
+        "time": "2026-10-14T04:00:00+07:00"
       },
       "level": 2,
       "label": "ปานกลาง"
@@ -100,43 +86,36 @@
     {
       "name": "พระสมุทรเจดีย์",
       "short": "พระสมุทรเจดีย์",
-      "now": 23.7,
-      "avg3": 23.7,
-      "avg24": 23.1,
-      "max6": 15.1,
-      "model_now": 18.4,
+      "now": 20.4,
+      "avg3": 22.0,
+      "avg24": 21.2,
+      "max6": 14.3,
+      "model_now": 8.1,
       "source": "measured",
       "station": {
         "id": "16t",
         "name": "โรงไฟฟ้าพระนครใต้",
         "km": 5.5,
-        "time": "2026-10-13T23:00:00+07:00"
+        "time": "2026-10-14T04:00:00+07:00"
       },
-      "level": 2,
-      "label": "ปานกลาง"
+      "level": 1,
+      "label": "ดี"
     },
     {
       "name": "บางเสาธง",
       "short": "บางเสาธง",
-      "now": 27.9,
-      "avg3": 27.9,
-      "avg24": 18.7,
-      "max6": 6.1,
-      "model_now": 7.3,
-      "source": "measured",
-      "station": {
-        "id": "19t",
-        "name": "การเคหะชุมชนเมืองใหม่บางพลี",
-        "km": 5.4,
-        "time": "2026-10-13T22:00:00+07:00"
-      },
-      "level": 2,
-      "label": "ปานกลาง"
+      "now": 3.8,
+      "avg3": 4.3,
+      "avg24": 14.2,
+      "max6": 10.1,
+      "source": "model",
+      "level": 0,
+      "label": "ดีมาก"
     }
   ],
   "push": {
     "last_decision": {
-      "time": "2026-10-13T23:59:38.935117+07:00",
+      "time": "2026-10-14T04:53:00.974630+07:00",
       "action": "none",
       "reason": "ฝุ่นต่ำกว่าเกณฑ์แจ้งเตือน",
       "level": 2,
