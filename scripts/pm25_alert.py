@@ -368,9 +368,11 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
     except Exception as e:  # noqa: BLE001
         model_err = f"{type(e).__name__}"
         print("model fetch failed:", type(e).__name__, str(e)[:160])
-    picks, nearby, obs_err = [None] * len(DISTRICTS), [], None
+    picks, nearby, obs_err, obs_diag = [None] * len(DISTRICTS), [], None, {}
     try:
-        picks, nearby = pick_obs(fetch_obs(), now)
+        raw_obs = fetch_obs()
+        obs_diag["stations_total"] = len(raw_obs)
+        picks, nearby = pick_obs(raw_obs, now)
         write_json(OBS_FILE, {
             "version": "1.0", "generated_at": now.isoformat(),
             "source": "Air4Thai - กรมควบคุมมลพิษ (ค่าวัดจริงรายชั่วโมง)",
@@ -380,6 +382,7 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
         })
     except Exception as e:  # noqa: BLE001
         obs_err = f"{type(e).__name__}"
+        obs_diag["error"] = f"{type(e).__name__}: {str(e)[:200]}"
         print("air4thai fetch failed:", type(e).__name__, str(e)[:160])
 
     if payloads is None and not any(picks):
@@ -424,6 +427,7 @@ def run(now=None, fetch=fetch_aq, sender=send_push, dry_run=False, test_push=Fal
         write_json(STATUS_FILE, status)
         return status
     status["measured_count"] = sum(1 for r in rows if r.get("source") == "measured")
+    status["air4thai"] = {"ok": obs_err is None, **obs_diag}
 
     # 2) ระดับรายอำเภอ (มี hysteresis) และระดับจังหวัด
     for r in rows:
