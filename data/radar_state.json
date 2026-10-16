@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "cda800e7db081df2690ecd9683199eef317198f2",
-      "changed_at": "2026-10-16T18:28:42.794695+00:00",
+      "hash": "ccce47bce40e07fd7c7f4fd41fa5e9f09159bc44",
+      "changed_at": "2026-10-16T19:45:17.167247+00:00",
       "verified": true,
-      "bytes": 94648
+      "bytes": 95258
     },
     "nongkhame": {
-      "hash": "8516801a1b26ee9e8f79153720e07292d4730450",
-      "changed_at": "2026-10-16T18:28:45.538778+00:00",
+      "hash": "616fd482f288bb187e9897a00d42c6f6f8f5887b",
+      "changed_at": "2026-10-16T19:45:19.953434+00:00",
       "verified": true,
-      "bytes": 101696
+      "bytes": 101321
     },
     "suvarnabhumi": {
-      "hash": "289564db306c92b81ee2826ec4140ca6e616989a",
-      "changed_at": "2026-10-16T18:28:47.299233+00:00",
+      "hash": "d193019a68db51bedd3c6bab482804554baff889",
+      "changed_at": "2026-10-16T19:45:21.941151+00:00",
       "verified": true,
-      "bytes": 276049
+      "bytes": 283049
     }
   },
   "alert_engine": {
@@ -40,7 +40,7 @@
         "last_severity": "light"
       },
       "บางบ่อ": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-10-16T11:39:34.923455+00:00",
         "last_push_tier": "early",
@@ -50,7 +50,7 @@
       },
       "พระประแดง": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-10-16T18:56:58.422284+00:00",
         "last_push_tier": "early",
         "last_p15": 73,
@@ -67,7 +67,7 @@
         "last_severity": "light"
       },
       "บางเสาธง": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-10-15T18:36:43.127365+00:00",
         "last_push_tier": "prepare",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-16T18:28:56.015761+00:00",
+  "last_success_at": "2026-10-16T19:45:29.071984+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
