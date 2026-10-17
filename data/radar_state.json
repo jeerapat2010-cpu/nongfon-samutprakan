@@ -51,9 +51,9 @@
       "พระประแดง": {
         "active_tier": "imminent",
         "below_count": 0,
-        "last_push_at": "2026-10-16T18:56:58.422284+00:00",
-        "last_push_tier": "early",
-        "last_p15": 73,
+        "last_push_at": "2026-10-17T11:45:02.348346+00:00",
+        "last_push_tier": "imminent",
+        "last_p15": 94,
         "last_eta": 0,
         "last_severity": "light"
       },
