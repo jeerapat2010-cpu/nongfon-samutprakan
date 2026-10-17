@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "dd8998bf5c6e645e33914c3da37eaae02d4002fc",
-      "changed_at": "2026-10-17T08:40:27.502159+00:00",
+      "hash": "485c42350a0f7001a98b4545843fc67be4955f50",
+      "changed_at": "2026-10-17T08:53:06.999963+00:00",
       "verified": true,
-      "bytes": 98422
+      "bytes": 98760
     },
     "nongkhame": {
-      "hash": "a4e4f96686b793ebf4f8cdaaa82b8528f6be837a",
-      "changed_at": "2026-10-17T08:40:30.437844+00:00",
+      "hash": "b6ee8bb06c80b06a0a531f3afcebc6d75357674a",
+      "changed_at": "2026-10-17T08:53:09.419792+00:00",
       "verified": true,
-      "bytes": 103361
+      "bytes": 103725
     },
     "suvarnabhumi": {
-      "hash": "f0c5c688f478fc63dcdf9712d445cad1f32d16a0",
-      "changed_at": "2026-10-17T08:40:32.391752+00:00",
+      "hash": "0f91e1c50a422963bdf20520939a6616f481099f",
+      "changed_at": "2026-10-17T08:53:10.826123+00:00",
       "verified": true,
-      "bytes": 307815
+      "bytes": 309509
     }
   },
   "alert_engine": {
@@ -58,8 +58,8 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-09-29T16:38:46.865639+00:00",
         "last_push_tier": "early",
         "last_p15": 57,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-17T08:40:42.649958+00:00",
+  "last_success_at": "2026-10-17T08:53:22.177003+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
