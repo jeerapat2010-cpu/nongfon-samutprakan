@@ -69,11 +69,11 @@
       "บางเสาธง": {
         "active_tier": "early",
         "below_count": 0,
-        "last_push_at": "2026-10-17T14:26:11.303842+00:00",
-        "last_push_tier": "prepare",
-        "last_p15": 75,
-        "last_eta": 0,
-        "last_severity": "light"
+        "last_push_at": "2026-10-18T23:26:55.626167+00:00",
+        "last_push_tier": "early",
+        "last_p15": 50,
+        "last_eta": 30,
+        "last_severity": "moderate"
       }
     }
   },
