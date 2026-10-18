@@ -1,19 +1,5 @@
 [
   {
-    "time": "2026-09-14T22:01:15.687137+00:00",
-    "configured": true,
-    "action": "failed",
-    "reason": "OneSignal ตอบกลับผิดพลาด",
-    "tier": "imminent",
-    "district": "บางบ่อ",
-    "p15": 95,
-    "p30": 96,
-    "p60": 96,
-    "data_quality": 100,
-    "model_confidence": 99,
-    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
-  },
-  {
     "time": "2026-09-15T00:25:56.388519+00:00",
     "configured": true,
     "action": "failed",
@@ -3239,6 +3225,14 @@
   },
   {
     "time": "2026-10-18T21:03:12.266262+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
+  },
+  {
+    "time": "2026-10-18T21:50:08.346390+00:00",
     "configured": true,
     "action": "none",
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
