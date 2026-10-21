@@ -1,29 +1,29 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "c10bc57faa2b333ab743b1f97eea2cea0b639b67",
-      "changed_at": "2026-10-21T05:16:51.855976+00:00",
+      "hash": "66747b4c3711f31f5cbee90333c384a7d02596c3",
+      "changed_at": "2026-10-21T10:15:40.869441+00:00",
       "verified": true,
-      "bytes": 100103
+      "bytes": 102628
     },
     "nongkhame": {
-      "hash": "edb3e086110f03b56e64858fd63bc6abf79a1ef6",
-      "changed_at": "2026-10-21T05:16:53.820937+00:00",
+      "hash": "871338fc80485a7bcddd7c0fc8c112f5fa0876e2",
+      "changed_at": "2026-10-21T10:15:42.768962+00:00",
       "verified": true,
-      "bytes": 104884
+      "bytes": 104547
     },
     "suvarnabhumi": {
-      "hash": "07e43b442f85f2b219aa77ce920c92932aaca2c5",
-      "changed_at": "2026-10-21T05:16:56.560827+00:00",
+      "hash": "33a7d4da0640e9ee81b6783f08446bdeed5ad8d6",
+      "changed_at": "2026-10-21T10:15:44.217221+00:00",
       "verified": true,
-      "bytes": 302373
+      "bytes": 319617
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-10-17T21:39:53.091666+00:00",
         "last_push_tier": "early",
         "last_p15": 78,
@@ -50,7 +50,7 @@
       },
       "พระประแดง": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-10-21T06:24:11.201726+00:00",
         "last_push_tier": "imminent",
         "last_p15": 91,
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "imminent",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-09-29T16:38:46.865639+00:00",
         "last_push_tier": "early",
         "last_p15": 57,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-21T05:17:07.451871+00:00",
+  "last_success_at": "2026-10-21T10:15:55.318577+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
