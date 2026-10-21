@@ -1,19 +1,5 @@
 [
   {
-    "time": "2026-09-17T14:57:45.625258+00:00",
-    "configured": true,
-    "action": "suppressed",
-    "reason": "ผ่านเกณฑ์ แต่ยังอยู่ใน cooldown อีกประมาณ 24 นาที",
-    "tier": "imminent",
-    "district": "บางบ่อ",
-    "p15": 85,
-    "p30": 85,
-    "p60": 85,
-    "data_quality": 94,
-    "model_confidence": 94,
-    "cooldown_remaining_min": 24
-  },
-  {
     "time": "2026-09-17T18:33:34.329877+00:00",
     "configured": true,
     "action": "failed",
@@ -3209,6 +3195,14 @@
   },
   {
     "time": "2026-10-20T21:57:47.466472+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
+  },
+  {
+    "time": "2026-10-21T00:39:09.118572+00:00",
     "configured": true,
     "action": "none",
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
