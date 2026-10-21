@@ -1,28 +1,28 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "8d31087d0d722f779db715165c850cb300b87711",
-      "changed_at": "2026-10-21T00:38:54.065378+00:00",
+      "hash": "c10bc57faa2b333ab743b1f97eea2cea0b639b67",
+      "changed_at": "2026-10-21T05:16:51.855976+00:00",
       "verified": true,
-      "bytes": 94525
+      "bytes": 100103
     },
     "nongkhame": {
-      "hash": "d8f892b40a6a78f447d2512900cdb1b92a646950",
-      "changed_at": "2026-10-21T00:38:56.460269+00:00",
+      "hash": "edb3e086110f03b56e64858fd63bc6abf79a1ef6",
+      "changed_at": "2026-10-21T05:16:53.820937+00:00",
       "verified": true,
-      "bytes": 101681
+      "bytes": 104884
     },
     "suvarnabhumi": {
-      "hash": "84fe3c5972b7ac74951522677b5a1bc5f96b468b",
-      "changed_at": "2026-10-21T00:38:58.242382+00:00",
+      "hash": "07e43b442f85f2b219aa77ce920c92932aaca2c5",
+      "changed_at": "2026-10-21T05:16:56.560827+00:00",
       "verified": true,
-      "bytes": 276659
+      "bytes": 302373
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-17T21:39:53.091666+00:00",
         "last_push_tier": "early",
@@ -49,7 +49,7 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-17T23:23:38.863033+00:00",
         "last_push_tier": "early",
@@ -58,7 +58,7 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-09-29T16:38:46.865639+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-21T00:39:09.117207+00:00",
+  "last_success_at": "2026-10-21T05:17:07.451871+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
