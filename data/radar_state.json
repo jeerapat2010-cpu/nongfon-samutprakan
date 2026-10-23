@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "67eba3720580171ce8a1fc3847c422664fe42df3",
-      "changed_at": "2026-10-23T19:13:33.685944+00:00",
+      "hash": "901fef7c5db152b2667908b981c4d1a25d272713",
+      "changed_at": "2026-10-23T20:31:56.649437+00:00",
       "verified": true,
-      "bytes": 98477
+      "bytes": 100006
     },
     "nongkhame": {
-      "hash": "f0dbf42ef425f148e21ff5fd47c173648cc9ae86",
-      "changed_at": "2026-10-23T19:13:36.200637+00:00",
+      "hash": "e9a44eb85f402afee15c119e62bda999914ac501",
+      "changed_at": "2026-10-23T20:31:58.883299+00:00",
       "verified": true,
-      "bytes": 103307
+      "bytes": 105355
     },
     "suvarnabhumi": {
-      "hash": "65d58a50417f984211482fb5f4f7aae805302564",
-      "changed_at": "2026-10-23T19:13:37.711800+00:00",
+      "hash": "c710275afd6ef5e34eec80599421c13198e0cb65",
+      "changed_at": "2026-10-23T20:32:00.652307+00:00",
       "verified": true,
-      "bytes": 310267
+      "bytes": 307371
     }
   },
   "alert_engine": {
@@ -31,7 +31,7 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-20T16:38:16.523033+00:00",
         "last_push_tier": "prepare",
@@ -40,7 +40,7 @@
         "last_severity": "light"
       },
       "บางบ่อ": {
-        "active_tier": "early",
+        "active_tier": "severe",
         "below_count": 0,
         "last_push_at": "2026-10-23T20:02:44.496878+00:00",
         "last_push_tier": "early",
@@ -67,7 +67,7 @@
         "last_severity": "light"
       },
       "บางเสาธง": {
-        "active_tier": null,
+        "active_tier": "severe",
         "below_count": 0,
         "last_push_at": "2026-10-18T23:26:55.626167+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-23T19:13:44.910501+00:00",
+  "last_success_at": "2026-10-23T20:32:12.417258+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
