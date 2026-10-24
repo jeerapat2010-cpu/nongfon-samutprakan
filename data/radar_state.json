@@ -1,29 +1,29 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "7b6a82fb19d257e5eed96ab57879b4da254d0c71",
-      "changed_at": "2026-10-23T23:27:56.067943+00:00",
+      "hash": "c28316c0a96e4735841a4aa53da8c91c5d4d2fe7",
+      "changed_at": "2026-10-24T00:40:21.938269+00:00",
       "verified": true,
-      "bytes": 95200
+      "bytes": 93569
     },
     "nongkhame": {
-      "hash": "be76726f384268e7fcbafd3a21a418847363a190",
-      "changed_at": "2026-10-23T23:27:58.176003+00:00",
+      "hash": "6588417d347ae38871a37f4b581e6b010218f11b",
+      "changed_at": "2026-10-24T00:40:24.073025+00:00",
       "verified": true,
-      "bytes": 101587
+      "bytes": 99464
     },
     "suvarnabhumi": {
-      "hash": "d05e38b488bd93208ff5c1d8dcb1ca46342b8caf",
-      "changed_at": "2026-10-23T23:28:00.724565+00:00",
+      "hash": "3d84d0e04ddf91b9e521a2148088cdf6b673f6be",
+      "changed_at": "2026-10-24T00:40:26.231418+00:00",
       "verified": true,
-      "bytes": 273706
+      "bytes": 267487
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-21T20:32:44.952051+00:00",
         "last_push_tier": "early",
         "last_p15": 70,
@@ -49,8 +49,8 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": "early",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-22T06:36:26.576628+00:00",
         "last_push_tier": "imminent",
         "last_p15": 82,
@@ -59,7 +59,7 @@
       },
       "พระสมุทรเจดีย์": {
         "active_tier": "early",
-        "below_count": 0,
+        "below_count": 1,
         "last_push_at": "2026-10-22T20:35:34.185951+00:00",
         "last_push_tier": "early",
         "last_p15": 58,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-23T23:28:14.020479+00:00",
+  "last_success_at": "2026-10-24T00:40:37.934468+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
