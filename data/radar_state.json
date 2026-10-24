@@ -1,28 +1,28 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "f47fd9ef9a8619ed3996b7e7a8656c9d157a8467",
-      "changed_at": "2026-10-24T09:24:01.146560+00:00",
+      "hash": "6ed6cecc85f4779459e0279ecc5838444f2db7ef",
+      "changed_at": "2026-10-24T12:05:35.525978+00:00",
       "verified": true,
-      "bytes": 97220
+      "bytes": 93870
     },
     "nongkhame": {
-      "hash": "63e1e4e7db4fbe61fb9577be79c271c239a7cbd9",
-      "changed_at": "2026-10-24T09:24:03.203981+00:00",
+      "hash": "7dd9ada177f59e137da3ae043debf43552265fef",
+      "changed_at": "2026-10-24T12:05:37.367332+00:00",
       "verified": true,
-      "bytes": 102194
+      "bytes": 100482
     },
     "suvarnabhumi": {
-      "hash": "e13495b1271c3c7d401a0efee1f03da9e8711b78",
-      "changed_at": "2026-10-24T09:24:05.227220+00:00",
+      "hash": "36f52a712a9b816dfc4950df536ff542237917ec",
+      "changed_at": "2026-10-24T12:05:39.860178+00:00",
       "verified": true,
-      "bytes": 287456
+      "bytes": 269035
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": null,
+        "active_tier": "prepare",
         "below_count": 0,
         "last_push_at": "2026-10-21T20:32:44.952051+00:00",
         "last_push_tier": "early",
@@ -49,7 +49,7 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-10-22T06:36:26.576628+00:00",
         "last_push_tier": "imminent",
@@ -58,7 +58,7 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "prepare",
         "below_count": 0,
         "last_push_at": "2026-10-22T20:35:34.185951+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-24T09:24:16.075890+00:00",
+  "last_success_at": "2026-10-24T12:05:51.315435+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
