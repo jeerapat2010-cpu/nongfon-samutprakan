@@ -1,19 +1,5 @@
 [
   {
-    "time": "2026-09-24T17:25:38.836661+00:00",
-    "configured": true,
-    "action": "failed",
-    "reason": "OneSignal ตอบกลับผิดพลาด",
-    "tier": "imminent",
-    "district": "บางเสาธง",
-    "p15": 99,
-    "p30": 99,
-    "p60": 99,
-    "data_quality": 96,
-    "model_confidence": 97,
-    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
-  },
-  {
     "time": "2026-09-24T17:56:40.663431+00:00",
     "configured": true,
     "action": "failed",
@@ -3183,6 +3169,20 @@
     "p60": 76,
     "data_quality": 90,
     "model_confidence": 92,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-10-26T01:12:59.007638+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "imminent",
+    "district": "พระสมุทรเจดีย์",
+    "p15": 80,
+    "p30": 80,
+    "p60": 80,
+    "data_quality": 92,
+    "model_confidence": 93,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
