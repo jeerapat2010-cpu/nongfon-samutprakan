@@ -1,29 +1,29 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "89e422cf2e218bcbab57924fadf48381c9752beb",
-      "changed_at": "2026-10-25T23:14:38.256940+00:00",
+      "hash": "178c41c6d5d28ceeaec8c9d2903c6b7a0b722ad8",
+      "changed_at": "2026-10-26T00:14:31.941106+00:00",
       "verified": true,
-      "bytes": 93583
+      "bytes": 93785
     },
     "nongkhame": {
-      "hash": "86c37d417d81f7be2b5ac38bc3e86331b614717a",
-      "changed_at": "2026-10-25T23:14:40.777805+00:00",
+      "hash": "73ace92c8b3c896601d382f9b856ca5d619823bb",
+      "changed_at": "2026-10-26T00:14:34.108762+00:00",
       "verified": true,
-      "bytes": 99556
+      "bytes": 99785
     },
     "suvarnabhumi": {
-      "hash": "16ae4d6c913a34a64b55f637d709cb833e6d34b3",
-      "changed_at": "2026-10-25T23:14:42.379480+00:00",
+      "hash": "4af2ca580e936e9152a662840202375df69f98eb",
+      "changed_at": "2026-10-26T00:14:36.622385+00:00",
       "verified": true,
-      "bytes": 269191
+      "bytes": 269575
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": "prepare",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-25T16:06:02.586298+00:00",
         "last_push_tier": "prepare",
         "last_p15": 72,
@@ -31,8 +31,8 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": "prepare",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-25T21:19:41.468798+00:00",
         "last_push_tier": "prepare",
         "last_p15": 77,
@@ -49,8 +49,8 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": "prepare",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-22T06:36:26.576628+00:00",
         "last_push_tier": "imminent",
         "last_p15": 82,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-10-25T23:14:54.471596+00:00",
+  "last_success_at": "2026-10-26T00:14:46.725333+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
