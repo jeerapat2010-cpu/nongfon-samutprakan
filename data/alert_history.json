@@ -4642,7 +4642,7 @@
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   },
   {
-    "time": "2026-10-30T07:24:15.753768+00:00",
+    "time": "2026-10-30T11:38:57.313869+00:00",
     "event_key": "eb7640e0d5a841",
     "district": "บางพลี",
     "tier": "severe",
@@ -4655,8 +4655,12 @@
     "eta_min": 0,
     "severity": "very_heavy",
     "satellite_score": 20,
-    "push_status": "failed",
-    "status": "failed",
-    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+    "push_status": "sent",
+    "status": "sent",
+    "error": null,
+    "previous_error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n",
+    "auth_method": "app-key",
+    "message_id": "",
+    "recovered": true
   }
 ]
