@@ -60,10 +60,10 @@
       "พระสมุทรเจดีย์": {
         "active_tier": "early",
         "below_count": 0,
-        "last_push_at": "2026-10-26T13:20:24.857084+00:00",
-        "last_push_tier": "imminent",
-        "last_p15": 80,
-        "last_eta": 0,
+        "last_push_at": "2026-10-31T00:56:12.775279+00:00",
+        "last_push_tier": "early",
+        "last_p15": 60,
+        "last_eta": 15,
         "last_severity": "light"
       },
       "บางเสาธง": {
