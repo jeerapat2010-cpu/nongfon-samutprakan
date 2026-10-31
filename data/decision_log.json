@@ -1,13 +1,5 @@
 [
   {
-    "time": "2026-09-30T01:34:32.921588+00:00",
-    "configured": true,
-    "action": "none",
-    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
-    "tier": null,
-    "district": null
-  },
-  {
     "time": "2026-09-30T02:29:51.151421+00:00",
     "configured": true,
     "action": "none",
@@ -3075,6 +3067,20 @@
     "p60": 80,
     "data_quality": 99,
     "model_confidence": 98,
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-10-31T23:59:08.515599+00:00",
+    "configured": true,
+    "action": "failed",
+    "reason": "OneSignal ตอบกลับผิดพลาด",
+    "tier": "prepare",
+    "district": "พระสมุทรเจดีย์",
+    "p15": 77,
+    "p30": 77,
+    "p60": 77,
+    "data_quality": 93,
+    "model_confidence": 94,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
