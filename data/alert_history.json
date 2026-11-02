@@ -4884,5 +4884,23 @@
     "auth_method": "app-key",
     "message_id": "",
     "recovered": true
+  },
+  {
+    "time": "2026-11-02T02:37:19.520751+00:00",
+    "event_key": "41a3a9b9c2667f",
+    "district": "บางพลี",
+    "tier": "prepare",
+    "risk": 62,
+    "p15": 74,
+    "p30": 74,
+    "p60": 74,
+    "confidence": 93,
+    "data_quality": 92,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 68,
+    "push_status": "failed",
+    "status": "failed",
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
