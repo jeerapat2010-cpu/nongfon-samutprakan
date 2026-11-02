@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "63c3502ecb185466543fd698138d340d0a4151c5",
-      "changed_at": "2026-11-02T20:20:55.771138+00:00",
+      "hash": "6019ebcb05ceeafe8a985467375bc2a86194269c",
+      "changed_at": "2026-11-02T23:40:25.823510+00:00",
       "verified": true,
-      "bytes": 94314
+      "bytes": 95273
     },
     "nongkhame": {
-      "hash": "6e462393f510860766ea844dcdf7896b1b727b0b",
-      "changed_at": "2026-11-02T20:20:57.289597+00:00",
+      "hash": "173ae64c3af94b87a8762fc0e9d7fd1e65fce71d",
+      "changed_at": "2026-11-02T23:40:27.435860+00:00",
       "verified": true,
-      "bytes": 100699
+      "bytes": 101355
     },
     "suvarnabhumi": {
-      "hash": "bfbf41d34fcbbe0a1e05c708410b438a7e25056b",
-      "changed_at": "2026-11-02T20:20:58.589559+00:00",
+      "hash": "e9035be9f1be2e978d84fa7fa3385d31cdb4d868",
+      "changed_at": "2026-11-02T23:40:29.030777+00:00",
       "verified": true,
-      "bytes": 275768
+      "bytes": 280589
     }
   },
   "alert_engine": {
@@ -40,7 +40,7 @@
         "last_severity": "light"
       },
       "บางบ่อ": {
-        "active_tier": null,
+        "active_tier": "prepare",
         "below_count": 0,
         "last_push_at": "2026-10-25T12:08:05.776760+00:00",
         "last_push_tier": "early",
@@ -49,7 +49,7 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-11-02T10:01:43.694839+00:00",
         "last_push_tier": "imminent",
@@ -67,7 +67,7 @@
         "last_severity": "light"
       },
       "บางเสาธง": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-10-18T23:26:55.626167+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-11-02T20:21:08.393425+00:00",
+  "last_success_at": "2026-11-02T23:40:40.443191+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
