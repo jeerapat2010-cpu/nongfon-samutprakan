@@ -1,19 +1,5 @@
 [
   {
-    "time": "2026-10-01T23:08:39.756505+00:00",
-    "configured": true,
-    "action": "failed",
-    "reason": "OneSignal ตอบกลับผิดพลาด",
-    "tier": "early",
-    "district": "พระประแดง",
-    "p15": 70,
-    "p30": 70,
-    "p60": 70,
-    "data_quality": 91,
-    "model_confidence": 84,
-    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
-  },
-  {
     "time": "2026-10-01T23:30:31.828965+00:00",
     "configured": true,
     "action": "none",
@@ -3100,5 +3086,13 @@
     "data_quality": 94,
     "model_confidence": 94,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-11-03T02:29:48.951615+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
   }
 ]
