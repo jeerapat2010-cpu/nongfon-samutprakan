@@ -1,13 +1,5 @@
 [
   {
-    "time": "2026-10-03T22:46:42.800277+00:00",
-    "configured": true,
-    "action": "none",
-    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
-    "tier": null,
-    "district": null
-  },
-  {
     "time": "2026-10-03T23:56:19.437944+00:00",
     "configured": true,
     "action": "none",
@@ -3088,5 +3080,13 @@
     "data_quality": 88,
     "model_confidence": 82,
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-11-05T18:57:24.478943+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
   }
 ]
