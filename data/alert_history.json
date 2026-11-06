@@ -5158,5 +5158,23 @@
     "push_status": "failed",
     "status": "failed",
     "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
+  },
+  {
+    "time": "2026-11-06T14:58:25.917086+00:00",
+    "event_key": "5021ccb215966b",
+    "district": "เมืองสมุทรปราการ",
+    "tier": "prepare",
+    "risk": 63,
+    "p15": 79,
+    "p30": 79,
+    "p60": 79,
+    "confidence": 94,
+    "data_quality": 93,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 60,
+    "push_status": "failed",
+    "status": "failed",
+    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
   }
 ]
