@@ -1,19 +1,5 @@
 [
   {
-    "time": "2026-10-08T06:53:53.422907+00:00",
-    "configured": true,
-    "action": "failed",
-    "reason": "OneSignal ตอบกลับผิดพลาด",
-    "tier": "imminent",
-    "district": "บางเสาธง",
-    "p15": 81,
-    "p30": 81,
-    "p60": 81,
-    "data_quality": 91,
-    "model_confidence": 92,
-    "error": "401: {\"errors\": [\"Access denied.  Please include an 'Authorization: ...' header with a valid API key (https://documentation.onesignal.com/docs/en/keys-and-ids#api-keys).\"]}\n"
-  },
-  {
     "time": "2026-10-08T13:48:40.719620+00:00",
     "configured": true,
     "action": "none",
@@ -3095,6 +3081,14 @@
   },
   {
     "time": "2026-11-09T21:02:25.561173+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
+  },
+  {
+    "time": "2026-11-09T22:16:17.420377+00:00",
     "configured": true,
     "action": "none",
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
