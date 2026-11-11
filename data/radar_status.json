@@ -1,10 +1,10 @@
 {
   "version": "10.0 FinalAccuracy",
-  "generated_at": "2026-11-11T21:28:26.415220+00:00",
-  "run_started_at": "2026-11-11T21:27:41.459774+00:00",
-  "radar_time": "2026-11-11T21:00:00+00:00",
-  "radar_age_min": 28.3,
-  "event_key": "021e4bd1f4fb5f",
+  "generated_at": "2026-11-11T21:35:08.661675+00:00",
+  "run_started_at": "2026-11-11T21:34:23.236326+00:00",
+  "radar_time": "2026-11-11T21:15:00+00:00",
+  "radar_age_min": 19.9,
+  "event_key": "ded32a09db1dd3",
   "province": {
     "risk": 18,
     "level": "normal",
@@ -13,15 +13,15 @@
     "p15": 6,
     "p30": 9,
     "p60": 10,
-    "data_quality": 91,
-    "model_confidence": 73
+    "data_quality": 97,
+    "model_confidence": 77
   },
   "system_health": {
     "state": "healthy",
     "radar_fresh": true,
-    "radar_age_min": 28.3,
+    "radar_age_min": 19.9,
     "satellite_state": "online",
-    "satellite_age_min": 8.4,
+    "satellite_age_min": 15.1,
     "workflow_expected_minutes": 5,
     "stale_push_guard": true
   },
@@ -40,8 +40,8 @@
     "status": "online",
     "age_min": 0,
     "verified_change": true,
-    "changed_at": "2026-11-11T21:28:16.820780+00:00",
-    "content_length": 93530,
+    "changed_at": "2026-11-11T21:34:52.504519+00:00",
+    "content_length": 93525,
     "method": "image hash change across workflow runs"
   },
   "multi_radar": {
@@ -67,8 +67,8 @@
       "status": "online",
       "age_min": 0,
       "verified_change": true,
-      "changed_at": "2026-11-11T21:28:16.820780+00:00",
-      "content_length": 93530,
+      "changed_at": "2026-11-11T21:34:52.504519+00:00",
+      "content_length": 93525,
       "method": "image hash change across workflow runs"
     },
     "selection_reason": "verified_priority_online",
@@ -88,8 +88,8 @@
         "status": "online",
         "age_min": 0,
         "verified_change": true,
-        "changed_at": "2026-11-11T21:28:16.820780+00:00",
-        "content_length": 93530,
+        "changed_at": "2026-11-11T21:34:52.504519+00:00",
+        "content_length": 93525,
         "method": "image hash change across workflow runs"
       },
       {
@@ -107,8 +107,8 @@
         "status": "online",
         "age_min": 0,
         "verified_change": true,
-        "changed_at": "2026-11-11T21:28:18.863706+00:00",
-        "content_length": 99419,
+        "changed_at": "2026-11-11T21:34:54.126071+00:00",
+        "content_length": 99429,
         "method": "image hash change across workflow runs"
       },
       {
@@ -124,7 +124,7 @@
         "available": true,
         "time": null,
         "status": "online",
-        "age_min": 0,
+        "age_min": 6.6,
         "verified_change": true,
         "changed_at": "2026-11-11T21:28:20.865908+00:00",
         "content_length": 269959,
@@ -137,13 +137,13 @@
   "motion": {
     "available": true,
     "direction": "ตะวันออก",
-    "speed_kmh": 1.6,
+    "speed_kmh": 0.0,
     "correlation": 0.55
   },
   "satellite": {
     "available": true,
     "status": "online",
-    "age_min": 8.4,
+    "age_min": 15.1,
     "frames": 3,
     "provider": "JMA Himawari-8/9 B13 IR",
     "time": "2026-11-11T21:20:00+00:00",
@@ -219,7 +219,7 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 73,
+      "confidence": 77,
       "radar_observed": false,
       "radar_density": 0.0,
       "radar_strength": 0,
@@ -243,15 +243,15 @@
       "p15": 6,
       "p30": 9,
       "p60": 10,
-      "data_quality": 91,
+      "data_quality": 97,
       "quality_parts": {
-        "radar": 88,
+        "radar": 100,
         "satellite": 100,
-        "motion": 68,
+        "motion": 67,
         "stations": 100,
         "forecast": 100
       },
-      "model_confidence": 73,
+      "model_confidence": 77,
       "evidence_sources": 0,
       "evidence": {
         "radar": false,
@@ -272,7 +272,7 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 73,
+      "confidence": 77,
       "radar_observed": false,
       "radar_density": 0.0,
       "radar_strength": 0,
@@ -296,15 +296,15 @@
       "p15": 6,
       "p30": 9,
       "p60": 10,
-      "data_quality": 91,
+      "data_quality": 97,
       "quality_parts": {
-        "radar": 88,
+        "radar": 100,
         "satellite": 100,
-        "motion": 68,
+        "motion": 67,
         "stations": 100,
         "forecast": 100
       },
-      "model_confidence": 73,
+      "model_confidence": 77,
       "evidence_sources": 0,
       "evidence": {
         "radar": false,
@@ -325,7 +325,7 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 73,
+      "confidence": 77,
       "radar_observed": false,
       "radar_density": 0.0,
       "radar_strength": 0,
@@ -349,15 +349,15 @@
       "p15": 6,
       "p30": 8,
       "p60": 10,
-      "data_quality": 91,
+      "data_quality": 97,
       "quality_parts": {
-        "radar": 88,
+        "radar": 100,
         "satellite": 100,
-        "motion": 68,
+        "motion": 67,
         "stations": 100,
         "forecast": 100
       },
-      "model_confidence": 73,
+      "model_confidence": 77,
       "evidence_sources": 0,
       "evidence": {
         "radar": false,
@@ -378,7 +378,7 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 73,
+      "confidence": 77,
       "radar_observed": false,
       "radar_density": 0.0,
       "radar_strength": 0,
@@ -402,15 +402,15 @@
       "p15": 6,
       "p30": 9,
       "p60": 10,
-      "data_quality": 91,
+      "data_quality": 97,
       "quality_parts": {
-        "radar": 88,
+        "radar": 100,
         "satellite": 100,
-        "motion": 68,
+        "motion": 67,
         "stations": 100,
         "forecast": 100
       },
-      "model_confidence": 73,
+      "model_confidence": 77,
       "evidence_sources": 0,
       "evidence": {
         "radar": false,
@@ -431,7 +431,7 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 73,
+      "confidence": 77,
       "radar_observed": false,
       "radar_density": 0.0,
       "radar_strength": 0,
@@ -455,15 +455,15 @@
       "p15": 6,
       "p30": 9,
       "p60": 10,
-      "data_quality": 91,
+      "data_quality": 97,
       "quality_parts": {
-        "radar": 88,
+        "radar": 100,
         "satellite": 100,
-        "motion": 68,
+        "motion": 67,
         "stations": 100,
         "forecast": 100
       },
-      "model_confidence": 73,
+      "model_confidence": 77,
       "evidence_sources": 0,
       "evidence": {
         "radar": false,
@@ -484,7 +484,7 @@
       "level": "normal",
       "eta_min": null,
       "severity": "none",
-      "confidence": 73,
+      "confidence": 77,
       "radar_observed": false,
       "radar_density": 0.0,
       "radar_strength": 0,
@@ -508,15 +508,15 @@
       "p15": 6,
       "p30": 8,
       "p60": 10,
-      "data_quality": 91,
+      "data_quality": 97,
       "quality_parts": {
-        "radar": 88,
+        "radar": 100,
         "satellite": 100,
-        "motion": 68,
+        "motion": 67,
         "stations": 100,
         "forecast": 100
       },
-      "model_confidence": 73,
+      "model_confidence": 77,
       "evidence_sources": 0,
       "evidence": {
         "radar": false,
@@ -530,7 +530,7 @@
   ],
   "sources": {
     "tmd_satda": "https://satda.tmd.go.th/",
-    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202611120400.png",
+    "tmd_radar_frame": "https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/202611120415.png",
     "tmd_suvarnabhumi": "https://weather.tmd.go.th/svp120.php",
     "tmd_satellite": "https://satda.tmd.go.th/tmd_satellite.php",
     "jma_himawari": "https://www.jma.go.jp/bosai/map.html#contents=himawari",
@@ -540,7 +540,7 @@
   "push_engine": {
     "configured": true,
     "decision": {
-      "time": "2026-11-11T21:28:26.416032+00:00",
+      "time": "2026-11-11T21:35:08.662327+00:00",
       "configured": true,
       "action": "none",
       "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
