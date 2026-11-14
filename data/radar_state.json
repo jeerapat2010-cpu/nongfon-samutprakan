@@ -1,28 +1,28 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "b9c9404ba1ef6fe565150404df4c3b6b3cb40dba",
-      "changed_at": "2026-11-14T03:39:27.775402+00:00",
+      "hash": "9391e5935fbbfad0dd52c54a0230012ec23ee391",
+      "changed_at": "2026-11-14T07:33:14.165481+00:00",
       "verified": true,
-      "bytes": 93558
+      "bytes": 94794
     },
     "nongkhame": {
-      "hash": "e5bb7137b114fa6b1d4c4a3c4302710867c82872",
-      "changed_at": "2026-11-14T03:39:29.765924+00:00",
+      "hash": "c2ca7f696c77d4d6821aeda2cbd8a9eba9f702b6",
+      "changed_at": "2026-11-14T07:33:15.959600+00:00",
       "verified": true,
-      "bytes": 99457
+      "bytes": 100527
     },
     "suvarnabhumi": {
-      "hash": "7f02bb015d5181955976383e491a6ecc10fd5612",
-      "changed_at": "2026-11-14T03:39:32.219840+00:00",
+      "hash": "a5ede2af129d4ad82392b9ee4018e2909e4e2c07",
+      "changed_at": "2026-11-14T07:33:17.508955+00:00",
       "verified": true,
-      "bytes": 272618
+      "bytes": 280228
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-11-13T07:22:56.093461+00:00",
         "last_push_tier": "early",
@@ -49,7 +49,7 @@
         "last_severity": "light"
       },
       "พระประแดง": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-11-06T09:58:03.869671+00:00",
         "last_push_tier": "imminent",
@@ -58,7 +58,7 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": null,
+        "active_tier": "imminent",
         "below_count": 0,
         "last_push_at": "2026-10-31T00:56:12.775279+00:00",
         "last_push_tier": "early",
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-11-14T03:39:42.131033+00:00",
+  "last_success_at": "2026-11-14T07:33:26.544488+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
