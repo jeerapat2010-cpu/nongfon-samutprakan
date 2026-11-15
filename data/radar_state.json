@@ -1,29 +1,29 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "e9dcd9d3051e70ca3a53ff7958e451f9279446a8",
-      "changed_at": "2026-11-15T10:42:44.829630+00:00",
+      "hash": "3fae1e802ecb11a3914cdcb5d5b69370edea5948",
+      "changed_at": "2026-11-15T14:47:45.760841+00:00",
       "verified": true,
-      "bytes": 95468
+      "bytes": 94356
     },
     "nongkhame": {
-      "hash": "9f91add78f395cd4179ef29887819cb6b3330419",
-      "changed_at": "2026-11-15T10:42:46.865871+00:00",
+      "hash": "f4b1e595f257e8f1fc4de4c28178dd8ac83c3803",
+      "changed_at": "2026-11-15T14:47:48.030163+00:00",
       "verified": true,
-      "bytes": 100161
+      "bytes": 99555
     },
     "suvarnabhumi": {
-      "hash": "b908405ba55313e2764197f9774d86aa80710de6",
-      "changed_at": "2026-11-15T10:42:48.910736+00:00",
+      "hash": "5f34da4682343e2274974bbe7648f00381415e70",
+      "changed_at": "2026-11-15T14:47:50.930604+00:00",
       "verified": true,
-      "bytes": 276039
+      "bytes": 277830
     }
   },
   "alert_engine": {
     "districts": {
       "เมืองสมุทรปราการ": {
-        "active_tier": "imminent",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-11-13T07:22:56.093461+00:00",
         "last_push_tier": "early",
         "last_p15": 72,
@@ -31,8 +31,8 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": "imminent",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-11-07T07:48:27.241025+00:00",
         "last_push_tier": "imminent",
         "last_p15": 99,
@@ -40,8 +40,8 @@
         "last_severity": "light"
       },
       "บางบ่อ": {
-        "active_tier": "severe",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-11-15T09:54:08.946277+00:00",
         "last_push_tier": "severe",
         "last_p15": 98,
@@ -49,8 +49,8 @@
         "last_severity": "heavy"
       },
       "พระประแดง": {
-        "active_tier": "imminent",
-        "below_count": 1,
+        "active_tier": "early",
+        "below_count": 0,
         "last_push_at": "2026-11-14T07:58:42.966577+00:00",
         "last_push_tier": "imminent",
         "last_p15": 91,
@@ -58,8 +58,8 @@
         "last_severity": "light"
       },
       "พระสมุทรเจดีย์": {
-        "active_tier": "imminent",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-31T00:56:12.775279+00:00",
         "last_push_tier": "early",
         "last_p15": 60,
@@ -67,8 +67,8 @@
         "last_severity": "light"
       },
       "บางเสาธง": {
-        "active_tier": "severe",
-        "below_count": 1,
+        "active_tier": null,
+        "below_count": 0,
         "last_push_at": "2026-10-18T23:26:55.626167+00:00",
         "last_push_tier": "early",
         "last_p15": 50,
@@ -77,6 +77,6 @@
       }
     }
   },
-  "last_success_at": "2026-11-15T10:42:56.770562+00:00",
+  "last_success_at": "2026-11-15T14:48:00.430536+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
