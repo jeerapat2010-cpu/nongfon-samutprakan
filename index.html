@@ -13,7 +13,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-DT9E54XRZZ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-DT9E54XRZZ');</script>
 <script>/* show the intro clip only on the first visit (and never for reduced-motion users) */
-try{var _rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;var _seen=false;try{_seen=!!localStorage.getItem('nongfon_intro_seen_v3')}catch(e){}if(!_rm&&!_seen)document.documentElement.classList.add('intro-on')}catch(e){}</script>
+try{var _rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;var _seen=false;try{_seen=!!localStorage.getItem('nongfon_intro_seen_v4')}catch(e){}if(!_rm&&!_seen)document.documentElement.classList.add('intro-on')}catch(e){}</script>
 <style>
 :root{
  --blue:#238ff3;--blue2:#51bff8;--pink:#ff5f9e;--yellow:#ffc737;--green:#22b965;
@@ -612,6 +612,26 @@ html.intro-on #intro{display:block}
 .page-tabs button[data-page^="hz-"].on{background:#e5384d;box-shadow:0 4px 0 #a82234}
 .pm-item a,a.pm-item{color:inherit}
 .credit{line-height:1.7;font-size:12px;color:#456b82}.credit b{color:#123c5b}
+
+/* ---- onboarding (หลังอนิเมชัน): ติดตั้ง • แจ้งเตือน • GPS ---- */
+.onb{position:absolute;z-index:8;left:50%;bottom:calc(max(20px,env(safe-area-inset-bottom)) + 66px);transform:translate(-50%,24px);width:min(92vw,460px);max-height:calc(100% - 170px);overflow:auto;padding:12px 13px 10px;border-radius:22px;background:rgba(8,22,40,.80);border:1px solid rgba(255,255,255,.2);border-top:5px solid #ff5f9e;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;opacity:0;pointer-events:none;transition:opacity .5s,transform .5s}
+#intro.onb-on .onb{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#intro.onb-on .lh-girl,#intro.onb-on .lh-speech,#intro.onb-on .lh-tag{opacity:0!important;transition:opacity .4s;pointer-events:none}
+.onb-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.onb-chips span{font-size:12px;font-weight:800;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#e9f6ff}
+.onb-h{font-size:15.5px;font-weight:900;margin:2px 0 8px}
+.onb-step{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center;padding:9px 10px;margin-top:7px;border-radius:15px;background:rgba(255,255,255,.1);opacity:0;transform:translateY(10px)}
+#intro.onb-on .onb-step{animation:onbIn .45s both}
+#intro.onb-on .onb-step:nth-of-type(1){animation-delay:.15s}#intro.onb-on .onb-step:nth-of-type(2){animation-delay:.3s}#intro.onb-on .onb-step:nth-of-type(3){animation-delay:.45s}
+@keyframes onbIn{to{opacity:1;transform:none}}
+.onb-step b{font-size:14.5px}
+.onb-step small{grid-column:1;font-size:11.5px;color:#cfe4f2;line-height:1.4}
+.onb-step button{grid-row:1/3;grid-column:2;border:0;border-radius:999px;padding:9px 14px;font-family:inherit;font-weight:900;font-size:13px;background:#238ff3;color:#fff;box-shadow:0 3px 0 #1668b3;cursor:pointer;white-space:nowrap}
+.onb-step.done button{background:#22b965;box-shadow:0 3px 0 #13693a;pointer-events:none}
+.onb-step.done{background:rgba(34,185,101,.22)}
+.onb-step select{grid-column:1/3;margin-top:5px;font-family:inherit;font-weight:800;font-size:12.5px;border-radius:10px;border:0;padding:7px 9px;background:#eaf8fe;color:#176686}
+.onb-note{display:block;margin-top:8px;font-size:11px;color:#b9d3e4;text-align:center}
+@media(max-height:620px){.onb-step small{display:none}.onb-h{display:none}.onb-step{padding:6px 9px;margin-top:5px}}
 </style>
 </head>
 <body>
@@ -686,8 +706,16 @@ html.intro-on #intro{display:block}
 <div class="lh-tag t-dust">😷 ฝุ่น PM2.5<small>ค่าวัดจริงรายอำเภอ</small></div>
 <div class="lh-girl" aria-hidden="true"></div>
 <div class="lh-speech">สวัสดีค่ะ น้องมายด์ส่องไฟเฝ้าภัย ทั้งฝน ฝุ่น และเหตุฉุกเฉิน ให้คนสมุทรปราการนะคะ ☔😷🚨💗</div>
+<div class="onb" id="onb">
+  <div class="onb-chips" id="onbChips"><span>☔ กำลังดูฝน…</span><span>😷 กำลังดูฝุ่น…</span></div>
+  <div class="onb-h">ตั้งค่า 3 อย่าง ให้น้องมายด์เฝ้าได้แม่นขึ้น ✨</div>
+  <div class="onb-step" id="onbInstall"><b>📲 ติดตั้งแอป</b><small id="onbInstallS">เปิดได้เหมือนแอปทั่วไป โหลดเร็ว ใช้ได้แม้เน็ตช้า</small><button type="button" id="onbInstallB">ติดตั้ง</button></div>
+  <div class="onb-step" id="onbPush"><b>🔔 รับการแจ้งเตือน</b><small id="onbPushS">เตือนฝนกำลังจะตกและฝุ่น PM2.5 เกินเกณฑ์ ถึงมือถือทันที</small><button type="button" id="onbPushB">เปิดแจ้งเตือน</button></div>
+  <div class="onb-step" id="onbGps"><b>📍 ระบุพิกัด GPS</b><small id="onbGpsS">เตือนตามพื้นที่ของคุณให้แม่นยำ (เก็บไว้ในเครื่องนี้เท่านั้น)</small><button type="button" id="onbGpsB">ใช้ตำแหน่งฉัน</button><select id="onbManual" aria-label="เลือกอำเภอเอง"></select></div>
+  <span class="onb-note">ข้ามไปก่อนได้ — ตั้งภายหลังได้จากปุ่มในหน้าหลัก</span>
+</div>
 <button type="button" id="introSkip" class="intro-btn skip">ข้าม ›</button>
-<button type="button" id="introGo" class="intro-btn go">เข้าดูข้อมูล ▶</button>
+<button type="button" id="introGo" class="intro-btn go">เริ่มใช้งาน ▶</button>
 </div>
 
 <div class="app"><div class="shell">
@@ -1489,7 +1517,7 @@ function renderPMMap(){
 }
 
 /* ===== Intro clip (first visit only) ===== */
-const INTRO_KEY='nongfon_intro_seen_v3';
+const INTRO_KEY='nongfon_intro_seen_v4';
 let introTimers=[];
 function buildDust(){
  const R=document.getElementById('lhRain'),D=document.getElementById('lhDust');
@@ -1513,13 +1541,13 @@ function closeIntro(){
  const el=document.getElementById('intro');
  if(!el||el.classList.contains('closing'))return;
  el.classList.add('closing');
- setTimeout(()=>{document.documentElement.classList.remove('intro-on');el.classList.remove('play','ready','closing');document.body.style.overflow=''},650);
+ setTimeout(()=>{document.documentElement.classList.remove('intro-on');el.classList.remove('play','ready','closing','onb-on');document.body.style.overflow=''},650);
 }
 function startIntro(manual){
  const el=document.getElementById('intro');if(!el)return;
  buildDust();
  introTimers.forEach(clearTimeout);introTimers=[];
- el.classList.remove('play','ready','closing');
+ el.classList.remove('play','ready','closing','onb-on');
  document.documentElement.classList.add('intro-on');
  document.body.style.overflow='hidden';
  void el.offsetWidth;
@@ -1528,18 +1556,64 @@ function startIntro(manual){
  const go=()=>{
   if(started)return;started=true;
   el.classList.add('play');
-  introTimers.push(setTimeout(()=>el.classList.add('ready'),4400),setTimeout(closeIntro,10500));
+  introTimers.push(setTimeout(()=>el.classList.add('ready'),4400),setTimeout(()=>{el.classList.add('onb-on');onbStart()},5200));
   gaEvent('intro_play',{replay:!!manual});
  };
  Promise.all(['character-girl-hd.png'].map(src=>new Promise(r=>{const i=new Image();i.onload=i.onerror=r;i.src=src}))).then(go);
  introTimers.push(setTimeout(go,3000));
+}
+/* ===== Onboarding หลังอนิเมชัน ===== */
+let onbPoll=null,onbWired=false;
+function onbIsIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
+function onbRefresh(){
+ const $=id=>document.getElementById(id),mark=(id,done,txt)=>{const st=$(id);if(!st)return;st.classList.toggle('done',!!done);const b=st.querySelector('button');if(done&&b)b.textContent=txt};
+ let inst=false;try{inst=isStandalone()}catch(e){}
+ mark('onbInstall',inst,'✅ ติดตั้งแล้ว');
+ const perm=('Notification' in window)?Notification.permission:'unsupported';
+ mark('onbPush',perm==='granted','✅ เปิดแล้ว');
+ if(perm==='denied')$('onbPushS').textContent='เบราว์เซอร์บล็อกการแจ้งเตือนไว้ — ไปที่ตั้งค่าเว็บไซต์แล้วอนุญาต';
+ else if(perm==='unsupported')$('onbPushS').textContent='เครื่อง/เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน'+(onbIsIOS()?' — iPhone ต้องติดตั้งแอปลงหน้าจอโฮมก่อน':'');
+ const L=window.nfLoc&&nfLoc();
+ mark('onbGps',!!L,'✅ ได้ตำแหน่งแล้ว');
+ if(L)$('onbGpsS').textContent=`พื้นที่ของคุณ: อ.${DISTRICTS[L.di].name}${L.mode==='manual'?' (เลือกเอง)':''}`;
+ else{const g=document.getElementById('gpsMsg'),t=g&&g.textContent||'';if(/^(⏳|❌)/.test(t))$('onbGpsS').textContent=t.split('\n')[0].slice(0,120)}
+}
+function onbChips(){
+ const c=document.getElementById('onbChips');if(!c)return;
+ const ref=window.nfRef?nfRef():{di:0};const d=DISTRICTS[ref.di]||DISTRICTS[0];
+ const it=(radarIntel&&radarIntel.districts||[]).find(x=>x.name===d.name);
+ const pm=pmCache&&pmCache[ref.di]&&pmCache[ref.di].now;
+ const r=it&&it.p30!=null?`☔ โอกาสฝนใน 30 นาที อ.${d.short} ${it.p30}%`:'☔ ติดตามเรดาร์ฝนสดทุก 10 นาที';
+ const p=pm!=null?`😷 PM2.5 อ.${d.short} ${pm.toFixed(0)} µg/ลบ.ม.`:'😷 ติดตามฝุ่นรายอำเภอ';
+ c.innerHTML=`<span>${r}</span><span>${p}</span>`;
+}
+function onbStart(){
+ onbRefresh();onbChips();
+ const sel=document.getElementById('onbManual');
+ if(sel&&!sel.childElementCount)sel.innerHTML='<option value="">หรือเลือกอำเภอที่อยู่เอง…</option>'+DISTRICTS.map((d,i)=>`<option value="${i}">${d.name}</option>`).join('');
+ if(!onbWired){
+  onbWired=true;
+  document.getElementById('onbInstallB').onclick=async()=>{
+   gaEvent('onb_install_click');
+   let inst=false;try{inst=isStandalone()}catch(e){}
+   if(inst){onbRefresh();return}
+   if(deferredInstallPrompt){try{await installApp()}catch(e){}onbRefresh()}
+   else document.getElementById('onbInstallS').textContent=onbIsIOS()?'iPhone: กดปุ่มแชร์ ⬆️ แล้วเลือก “เพิ่มลงหน้าจอโฮม”':'Android/Chrome: เมนู ⋮ แล้วเลือก “ติดตั้งแอป / เพิ่มลงหน้าจอหลัก”';
+  };
+  document.getElementById('onbPushB').onclick=async()=>{gaEvent('onb_push_click');try{await enableNotification()}catch(e){}setTimeout(onbRefresh,800);setTimeout(onbRefresh,3000)};
+  document.getElementById('onbGpsB').onclick=()=>{gaEvent('onb_gps_click');if(window.nfAskGPS)nfAskGPS();setTimeout(onbRefresh,300)};
+  if(sel)sel.onchange=()=>{if(sel.value==='')return;const d=DISTRICTS[+sel.value];if(window.nfSetLoc)nfSetLoc(d.lat,d.lon,'manual');gaEvent('onb_gps_manual');sel.value='';onbRefresh()};
+  document.addEventListener('userloc',onbRefresh);
+  window.addEventListener('appinstalled',onbRefresh);
+ }
+ clearInterval(onbPoll);let n=0;onbPoll=setInterval(()=>{onbChips();onbRefresh();if(++n>40||!document.documentElement.classList.contains('intro-on'))clearInterval(onbPoll)},1000);
 }
 (function wireUI(){
  document.querySelectorAll('#pageTabs button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
  const sk=document.getElementById('introSkip'),gb=document.getElementById('introGo'),rp=document.getElementById('replayIntro');
  const en=document.getElementById('pmAlertEnable');if(en)en.addEventListener('click',()=>{const b=document.getElementById('notifyBtn');if(b)b.click()});
  if(sk)sk.addEventListener('click',closeIntro);
- if(gb)gb.addEventListener('click',closeIntro);
+ if(gb)gb.addEventListener('click',()=>{gaEvent('onb_enter');closeIntro()});
  if(rp)rp.addEventListener('click',()=>startIntro(true));
  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeIntro()});
  window.addEventListener('hashchange',()=>showPage(pageFromHash(),false));
@@ -1704,6 +1778,7 @@ setInterval(()=>{const pg=$('pagePM');if(pg&&!pg.hidden)airTick()},1000);
 setInterval(()=>{const pg=$('pagePM');if(pg&&!pg.hidden&&!document.hidden)airFetch(false)},15*60*1000);
 if($('airUpdate'))$('airUpdate').onclick=()=>airFetch(true);
 document.addEventListener('userloc',()=>{if(airOpened)airRender()});
+window.nfAskGPS=askGPS;window.nfSetLoc=setLoc;window.nfLoc=()=>userLoc;window.nfRef=refPoint;
 window.airOpen=function(){airTick();drawPin();if(!airOpened||!air.t||Date.now()-air.t.getTime()>10*60*1000){airOpened=true;airFetch(false)}else airRender()};
 
 /* ---------- 3) ศูนย์แจ้งภัย 11 หมวด ---------- */
