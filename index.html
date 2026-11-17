@@ -560,6 +560,52 @@ html.intro-on #intro{display:block}
 .v10-verify{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:9px}.v10-verify div{background:#fff;border:1px solid #deedf4;border-radius:12px;padding:7px;text-align:center;font-size:9px;color:#667f90}.v10-verify b{display:block;font-size:15px;color:#1d597a;margin-top:2px}
 @media(max-width:520px){.v10-probs{grid-template-columns:repeat(3,1fr)}.v10-prob b{font-size:23px}.v10-verify{grid-template-columns:repeat(2,1fr)}}
 
+.page-tabs{grid-template-columns:repeat(3,1fr)}
+.page-tabs button{font-size:13.5px;padding:10px 4px}
+.page-tabs button[data-page="hazard"].on{background:#e5384d;box-shadow:0 4px 0 #a82234}
+.gps-bar{margin:8px 0;padding:10px 12px;border-radius:18px;background:#fff;border:2px solid #d8eef8;box-shadow:var(--shadow);font-size:13px;color:var(--ink)}
+.gps-bar .gps-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.gps-bar button,.gps-bar select{font-family:inherit;font-weight:900;font-size:13px;border-radius:12px;border:0;padding:8px 11px;cursor:pointer}
+.gps-bar #gpsBtn{background:#238ff3;color:#fff;box-shadow:0 3px 0 #1668b3}
+.gps-bar select{background:#eaf8fe;color:#176686}
+.gps-bar #gpsClear{background:#f1f4f7;color:#556}
+.gps-bar .gps-msg{font-weight:800;flex:1 1 180px}
+.gps-bar .gps-msg small{display:block;font-weight:600;color:var(--muted);font-size:11px}
+.user-pin{font-size:26px;line-height:28px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.air-live .air-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:6px}
+.air-live .air-clock{font-weight:1000;font-size:18px;color:#a85a14;font-variant-numeric:tabular-nums}
+.air-live button.up{border:0;border-radius:12px;padding:9px 13px;font-family:inherit;font-weight:900;background:#ff8a3d;color:#fff;box-shadow:0 3px 0 #c9621c;cursor:pointer}
+.air-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.air-kpi{background:#fff;border:1px solid #f1dfc9;border-radius:14px;padding:9px 10px}
+.air-kpi b{display:block;font-size:22px;line-height:1.1}
+.air-kpi span{font-size:11px;color:#8a6a4a;font-weight:700}
+.air-kpi small{display:block;font-size:10.5px;color:#8a6a4a}
+.air-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.air-chips button{border:0;border-radius:999px;padding:7px 12px;font-family:inherit;font-weight:900;font-size:12.5px;background:#fdf0e1;color:#8a4a10;cursor:pointer}
+.air-chips button.on{background:#ff8a3d;color:#fff}
+.air-list{margin-top:8px;display:grid;gap:6px}
+.air-row{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #f1dfc9;border-radius:12px;padding:7px 9px;font-size:12.5px}
+.air-row i{width:12px;height:12px;border-radius:50%;flex:none}
+.air-row .nm{flex:1;min-width:0}.air-row .nm small{display:block;color:#8a6a4a;font-size:10.5px}
+.air-row b{font-size:15px;white-space:nowrap}
+.hz-head .hz-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:8px}
+.hz-head button,.hz button.hz-b{border:0;border-radius:12px;padding:8px 12px;font-family:inherit;font-weight:900;font-size:12.5px;background:#e5384d;color:#fff;box-shadow:0 3px 0 #a82234;cursor:pointer}
+.hz-grid{display:grid;gap:10px;margin-top:10px}
+.hz{background:#fff;border:2px solid #e3eef5;border-left-width:7px;border-radius:16px;padding:10px 11px}
+.hz.lv0{border-left-color:#22b965}.hz.lv1{border-left-color:#f2c200}.hz.lv2{border-left-color:#ff8a3d}.hz.lv3{border-left-color:#e5384d}.hz.na{border-left-color:#9aa7b0}
+.hz-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hz-h b{font-size:14.5px;flex:1 1 140px}
+.hz-n{width:22px;height:22px;border-radius:50%;background:#123c5b;color:#fff;font-size:12px;font-weight:900;display:inline-flex;align-items:center;justify-content:center}
+.hz-chip{font-size:11.5px;font-weight:900;border-radius:999px;padding:3px 9px;background:#eef2f5;color:#445}
+.hz-chip.lv0{background:#dff6e8;color:#13693a}.hz-chip.lv1{background:#fff3c4;color:#7a5d00}.hz-chip.lv2{background:#ffe0c9;color:#9a4300}.hz-chip.lv3{background:#ffd8de;color:#a01a2d}
+.hz-t{font-size:13px;margin-top:6px;line-height:1.5}
+.hz-m{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6}
+.hz-m a{color:#1d78c8;font-weight:800}
+.hz details{margin-top:6px;font-size:12.5px}.hz summary{cursor:pointer;font-weight:900;color:#176686}
+.hz details div{margin-top:5px;line-height:1.55}
+.hz .hz-act{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.hz .hz-act a{font-size:12.5px;font-weight:900;color:#1d78c8}
+.ga-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 8px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -646,8 +692,13 @@ html.intro-on #intro{display:block}
 
   <nav class="page-tabs" id="pageTabs" role="tablist" aria-label="เลือกหน้าข้อมูล">
     <button type="button" role="tab" data-page="rain" class="on" aria-selected="true">🌧️ ข้อมูลฝน</button>
-    <button type="button" role="tab" data-page="pm" aria-selected="false">😷 ฝุ่น PM2.5 + แผนที่</button>
+    <button type="button" role="tab" data-page="pm" aria-selected="false">😷 ฝุ่น PM2.5</button>
+    <button type="button" role="tab" data-page="hazard" aria-selected="false">🚨 แจ้งภัย</button>
   </nav>
+  <div class="gps-bar" id="gpsBar">
+    <div class="gps-row"><button type="button" id="gpsBtn">📍 ใช้ตำแหน่งของฉัน</button><select id="gpsManual" aria-label="เลือกอำเภอเอง"></select><button type="button" id="gpsClear">ล้าง</button></div>
+    <div class="gps-msg" id="gpsMsg" style="margin-top:6px"></div>
+  </div>
 
   <div id="pageRain" class="page">
   <div class="card"><div class="districts" id="districtTabs"></div></div>
@@ -772,6 +823,15 @@ html.intro-on #intro{display:block}
   </div>
 
   <div id="pagePM" class="page" hidden>
+  <div class="card pm-card air-live" id="airLive">
+    <div class="province-title">📡 เฝ้าระวังฝุ่นสด สมุทรปราการ</div>
+    <div class="air-top"><span class="air-clock" id="airClock">--:--:--</span><button type="button" class="up" id="airUpdate">⟳ ดึงค่าล่าสุด</button></div>
+    <div class="province-note">รีเฟรชอัตโนมัติทุก 15 นาทีขณะเปิดหน้านี้</div>
+    <div class="air-kpis" id="airKpis"></div>
+    <div class="air-chips" id="airChips"></div>
+    <div class="air-list" id="airList"></div>
+    <div class="pm-foot" id="airMeta"></div>
+  </div>
   <div class="card pm-card">
     <div class="province-title">🗺️ แผนที่ฝุ่น PM2.5 สมุทรปราการ</div>
     <div class="province-note">วงกลมสีแสดงระดับฝุ่นรายอำเภอ แตะที่วงกลมเพื่อดูรายละเอียด</div>
@@ -786,8 +846,7 @@ html.intro-on #intro{display:block}
     <div id="pmGrid" class="simple-grid"></div>
     <div class="pm-foot">ค่าวัดจริงจากสถานีตรวจวัดของกรมควบคุมมลพิษ (<a href="http://air4thai.pcd.go.th" target="_blank" rel="noopener">Air4Thai</a>) ใช้แทนอำเภอที่มีสถานีใกล้ ส่วนอำเภอที่ไม่มีสถานีใกล้พอใช้ค่าประมาณจากแบบจำลอง CAMS (Open-Meteo) • สี่เหลี่ยมเล็กบนแผนที่คือตำแหน่งสถานีวัดจริง • เกณฑ์ระดับตามกรมควบคุมมลพิษ (ค่ามาตรฐาน 24 ชม. = 37.5 µg/m³)</div>
   </div>
-  </div>
-
+  
   <div class="card pm-alert-card" id="pmAlertCard">
     <div class="province-title">🔔 แจ้งเตือนฝุ่นอัตโนมัติ</div>
     <div class="province-note">ระบบตรวจฝุ่นทุกชั่วโมงและส่ง Push ให้ผู้ที่เปิดแจ้งเตือนไว้</div>
@@ -795,6 +854,18 @@ html.intro-on #intro{display:block}
     <ul class="pm-alert-rules" id="pmAlertRules"></ul>
     <div class="pm-alert-hist" id="pmAlertHist"></div>
     <div class="pm-alert-cta"><button type="button" id="pmAlertEnable">🔔 เปิดแจ้งเตือน</button></div>
+  </div>
+
+    </div>
+
+  <div id="pageHazard" class="page" hidden>
+    <div class="card hz-head">
+      <div class="province-title">🚨 ศูนย์แจ้งภัย 11 หมวด</div>
+      <div class="province-note">สถานะตามพื้นที่ของคุณ พร้อมแหล่งที่มา เวลาอัปเดต และปุ่มอัปเดตทุกหมวด</div>
+      <div class="pm-summary" id="hzSummary" style="margin-top:8px;padding:10px 12px;border-radius:14px;background:#fff;border:1px solid #f3d4d8;font-size:13px;font-weight:800;color:#5a1a24">กำลังโหลด…</div>
+      <div class="hz-bar"><button type="button" id="hzAll">⟳ อัปเดตทั้งหมด</button></div>
+    </div>
+    <div class="hz-grid" id="hzGrid"></div>
   </div>
 
   <div class="actions">
@@ -806,6 +877,7 @@ html.intro-on #intro{display:block}
     <button class="action teal" id="settingsBtn"><span>⚙️</span>ระบบ</button>
   </div>
   <div class="footer">ข้อมูลเรดาร์/ดาวเทียม: TMD + JMA Himawari • พยากรณ์รายจุด: พยากรณ์อากาศ • ระบบวิเคราะห์ฝน <span class="app-version-slot">v10 Final Accuracy</span> • 30 AUG 2026</div>
+  <div class="ga-note">📊 แอปนี้ใช้ Google Analytics นับจำนวนผู้เข้าใช้และเมนูที่เปิด (ไม่เก็บชื่อหรือพิกัดของคุณ) • พิกัด GPS เก็บไว้ในเครื่องนี้เท่านั้น</div>
   <div class="footer"><button type="button" class="linkbtn" id="replayIntro">🎬 ดูอินโทรน้องมายด์อีกครั้ง</button></div>
 </section>
 </div></div>
@@ -1321,14 +1393,16 @@ function renderPMAlertStatus(s){
 function gaEvent(name,params){try{if(window.gtag)gtag('event',name,params||{})}catch(e){}}
 
 /* ===== Page tabs (rain / PM2.5) ===== */
+const PAGE_IDS={rain:'pageRain',pm:'pagePM',hazard:'pageHazard'};
+function pageFromHash(){const h=(location.hash||'').slice(1);return h==='air'?'pm':(PAGE_IDS[h]?h:'rain')}
 function showPage(name,updateHash){
- if(name!=='pm')name='rain';
- const r=document.getElementById('pageRain'),m=document.getElementById('pagePM');
- if(!r||!m)return;
- r.hidden=name!=='rain';m.hidden=name!=='pm';
+ if(!PAGE_IDS[name])name='rain';
+ Object.keys(PAGE_IDS).forEach(k=>{const e=document.getElementById(PAGE_IDS[k]);if(e)e.hidden=k!==name});
  document.querySelectorAll('#pageTabs button').forEach(b=>{const on=b.dataset.page===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false')});
  if(updateHash!==false){try{history.replaceState(null,'','#'+name)}catch(e){}}
- if(name==='pm'){initPMMap();loadPMAlertStatus();gaEvent('view_pm_page')}
+ if(name==='pm'){initPMMap();loadPMAlertStatus();gaEvent('view_pm_page');if(window.airOpen)airOpen()}
+ if(name==='hazard'&&window.hazOpen)hazOpen();
+ if(updateHash!==false&&window.trackTab)trackTab(name);
  if(updateHash!==false)window.scrollTo({top:0,behavior:'smooth'});
 }
 
@@ -1455,11 +1529,306 @@ function startIntro(manual){
  if(gb)gb.addEventListener('click',closeIntro);
  if(rp)rp.addEventListener('click',()=>startIntro(true));
  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeIntro()});
- window.addEventListener('hashchange',()=>showPage(location.hash==='#pm'?'pm':'rain',false));
- showPage(location.hash==='#pm'?'pm':'rain',false);
+ window.addEventListener('hashchange',()=>showPage(pageFromHash(),false));
+ showPage(pageFromHash(),false);
  if(document.documentElement.classList.contains('intro-on'))startIntro(false);
 })();
 
 fx();tabs();radarMode='latest';radarImg.src=radarUrl();refresh();loadAlertHistory();setInterval(refresh,10*60*1000);setInterval(loadRadarIntelligence,2*60*1000);setInterval(loadAlertHistory,5*60*1000);initOneSignal();
+</script>
+<script>
+/* ===== น้องมายด์ extra: GPS ผู้ใช้ • ฝุ่นสด Air4Thai • ศูนย์แจ้งภัย 11 หมวด • GA4 events ===== */
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const hhmm=d=>d?`${pad(d.getHours())}:${pad(d.getMinutes())}`:'—';
+const km=(a,b,c,d)=>{const R=6371,r=Math.PI/180,x=(c-a)*r,y=(d-b)*r*Math.cos((a+c)/2*r);return R*Math.sqrt(x*x+y*y)};
+function ga(n,p){try{if(typeof gaEvent==='function')gaEvent(n,p)}catch(e){}}
+async function jget(url,ms){
+ const c=new AbortController(),t=setTimeout(()=>c.abort(),ms||12000);
+ try{const r=await fetch(url,{cache:'no-store',signal:c.signal});if(!r.ok)throw new Error('http '+r.status);return await r.json()}
+ finally{clearTimeout(t)}
+}
+
+/* ---------- 1) GPS ผู้ใช้ ---------- */
+const LOC_KEY='nongfon_user_loc_v1';
+let userLoc=null,_pin=null;
+function nearest(lat,lon){let b=0,bd=1e9;DISTRICTS.forEach((x,i)=>{const k=km(lat,lon,x.lat,x.lon);if(k<bd){bd=k;b=i}});return{i:b,km:bd}}
+function refPoint(){
+ if(userLoc)return{lat:userLoc.lat,lon:userLoc.lon,di:userLoc.di,label:userLoc.mode==='manual'?`อ.${DISTRICTS[userLoc.di].name} (เลือกเอง)`:`ตำแหน่งของคุณ (ใกล้ อ.${DISTRICTS[userLoc.di].name})`,user:true};
+ const d=DISTRICTS[selected]||DISTRICTS[0];return{lat:d.lat,lon:d.lon,di:selected,label:`อ.${d.name} (ยังไม่ได้ระบุตำแหน่ง)`,user:false};
+}
+function gpsRender(msg){
+ const m=$('gpsMsg');if(!m)return;
+ if(msg){m.innerHTML=msg;return}
+ if(!userLoc){m.innerHTML='ยังไม่ได้ระบุตำแหน่ง<small>กด “ใช้ตำแหน่งของฉัน” เพื่อให้เตือนตามพื้นที่คุณ (เก็บไว้ในเครื่องนี้เท่านั้น)</small>';return}
+ const d=DISTRICTS[userLoc.di];
+ const out=userLoc.km>25?` • <b style="color:#c2410c">อยู่นอกพื้นที่ครอบคลุม</b> ใช้ข้อมูลอำเภอใกล้สุดเป็นค่าอ้างอิง`:'';
+ m.innerHTML=`📍 พื้นที่ของคุณ: <b>อ.${esc(d.name)}</b>${userLoc.mode==='manual'?' (เลือกเอง)':` • ห่างศูนย์กลางอำเภอ ~${userLoc.km.toFixed(1)} กม.`}${out}<small>บันทึกเมื่อ ${hhmm(new Date(userLoc.ts))} น. • การเตือนและข้อมูลทุกหน้าอ้างอิงจุดนี้</small>`;
+}
+function drawPin(n){
+ n=n||0;
+ if(!userLoc)return;
+ if(window.L&&typeof pmMap!=='undefined'&&pmMap){
+  try{
+   if(_pin)pmMap.removeLayer(_pin);
+   _pin=L.marker([userLoc.lat,userLoc.lon],{icon:L.divIcon({className:'',html:'<div class="user-pin">📍</div>',iconSize:[28,28],iconAnchor:[14,26]}),zIndexOffset:1000}).addTo(pmMap).bindPopup('ตำแหน่งของคุณ');
+  }catch(e){}
+  return;
+ }
+ if(n<10)setTimeout(()=>drawPin(n+1),800);
+}
+function applyLoc(user){
+ gpsRender();
+ try{if(userLoc&&typeof selected!=='undefined'){selected=userLoc.di;tabs();renderSelected();renderIntelSelected();renderV10Trust();placeSatMarker()}}catch(e){}
+ drawPin();
+ if(userLoc&&'Notification' in window&&Notification.permission==='granted'){
+  try{window.OneSignalDeferred=window.OneSignalDeferred||[];OneSignalDeferred.push(async O=>{try{await O.User.addTag('district',DISTRICTS[userLoc.di].name)}catch(e){}})}catch(e){}
+ }
+ document.dispatchEvent(new CustomEvent('userloc'));
+}
+function setLoc(lat,lon,mode,acc){
+ const r=v=>Math.round(v*1000)/1000;
+ const n=nearest(lat,lon);
+ userLoc={lat:r(lat),lon:r(lon),mode,acc:acc||null,ts:Date.now(),di:n.i,km:n.km};
+ try{localStorage.setItem(LOC_KEY,JSON.stringify(userLoc))}catch(e){}
+ applyLoc(true);
+}
+function clearLoc(){userLoc=null;try{localStorage.removeItem(LOC_KEY)}catch(e){}if(_pin&&typeof pmMap!=='undefined'&&pmMap){try{pmMap.removeLayer(_pin)}catch(e){}_pin=null}gpsRender();document.dispatchEvent(new CustomEvent('userloc'))}
+function askGPS(){
+ if(!navigator.geolocation){gpsRender('เครื่องนี้ไม่รองรับ GPS — เลือกอำเภอด้วยตนเองแทนได้ค่ะ');return}
+ gpsRender('⏳ กำลังหาตำแหน่ง… (กด “อนุญาต” ในเบราว์เซอร์)');
+ ga('gps_request',{});
+ navigator.geolocation.getCurrentPosition(p=>{
+  setLoc(p.coords.latitude,p.coords.longitude,'gps',p.coords.accuracy);
+  ga('gps_enable',{mode:'gps',district:DISTRICTS[userLoc.di].short,in_province:userLoc.km<=25});
+ },e=>{
+  ga('gps_denied',{code:e&&e.code});
+  gpsRender(e&&e.code===1?'❌ ไม่ได้รับอนุญาตใช้ตำแหน่ง — เปิดสิทธิ์ในเบราว์เซอร์ หรือเลือกอำเภอด้วยตนเองด้านล่างได้ค่ะ':'❌ หาตำแหน่งไม่สำเร็จ ลองใหม่หรือเลือกอำเภอด้วยตนเองค่ะ');
+ },{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+}
+(function gpsInit(){
+ const sel=$('gpsManual');
+ if(sel)sel.innerHTML='<option value="">เลือกอำเภอเอง…</option>'+DISTRICTS.map((d,i)=>`<option value="${i}">${esc(d.name)}</option>`).join('');
+ if($('gpsBtn'))$('gpsBtn').onclick=askGPS;
+ if($('gpsClear'))$('gpsClear').onclick=()=>{clearLoc();ga('gps_clear',{})};
+ if(sel)sel.onchange=()=>{if(sel.value==='')return;const d=DISTRICTS[+sel.value];setLoc(d.lat,d.lon,'manual');ga('gps_enable',{mode:'manual',district:d.short});sel.value=''};
+ try{const s=JSON.parse(localStorage.getItem(LOC_KEY)||'null');if(s&&typeof s.lat==='number'&&typeof s.lon==='number'){const n=nearest(s.lat,s.lon);userLoc={...s,di:n.i,km:n.km};}}catch(e){}
+ gpsRender();
+ if(userLoc){try{selected=userLoc.di;tabs();renderSelected();renderIntelSelected();renderV10Trust();placeSatMarker()}catch(e){}}
+})();
+
+/* ---------- 2) ฝุ่นสด (แบบเดียวกับแอปปั๊ม #air) ---------- */
+const AIRCOL={0:'#9aa7b0',1:'#0ba5ee',2:'#22b965',3:'#f2c200',4:'#ff8a3d',5:'#e5384d'};
+const AIRKEYS=[['PM25','PM2.5','µg/m³'],['PM10','PM10','µg/m³'],['AQI','AQI',''],['O3','O₃','ppb'],['NO2','NO₂','ppb'],['CO','CO','ppm'],['SO2','SO₂','ppb']];
+const A4T='https://air4thai.com/forweb/getAQI_JSON.php';
+let air={stations:[],t:null,src:'',err:null,fc:null},airKey='PM25',airBusy=false,airOpened=false;
+function pm25Col(v){const l=(typeof pmLevel==='function')?pmLevel(v):null;return l&&l.color||'#9aa7b0'}
+function parseObs(s){
+ const o=s.AQILast||{};let ms=NaN;
+ if(o.date&&o.time){ms=Date.parse(`${String(o.date).trim()}T${String(o.time).trim().slice(0,5)}:00+07:00`);if(Number.isNaN(ms))ms=Date.parse(`${o.date} ${o.time}`)}
+ const val=k=>{const x=o[k];if(!x)return null;const v=k==='AQI'?x.aqi:x.value;const n=parseFloat(v);return Number.isFinite(n)&&n>=0?{v:n,c:+x.color_id||0}:null};
+ const m={};AIRKEYS.forEach(([k])=>{m[k]=val(k)});
+ return{id:s.stationID,name:(s.nameTH||s.nameEN||s.stationID||'').trim(),area:(s.areaTH||'').trim(),lat:+s.lat,lon:+s.long,ms,m};
+}
+async function airFetch(manual){
+ if(airBusy)return;airBusy=true;
+ const btn=$('airUpdate');if(btn){btn.disabled=true;btn.textContent='⏳ กำลังดึง…'}
+ ga(manual?'air_refresh_click':'air_autorefresh',{});
+ let ok=false;
+ try{
+  const j=await jget(A4T,15000);
+  const all=(j.stations||[]).map(parseObs).filter(s=>Number.isFinite(s.lat)&&Number.isFinite(s.lon));
+  const st=all.filter(s=>/สมุทรปราการ/.test(s.area)||DISTRICTS.some(d=>km(s.lat,s.lon,d.lat,d.lon)<=10));
+  if(!st.length)throw new Error('ไม่พบสถานีในจังหวัด');
+  air.stations=st;air.src='Air4Thai (กรมควบคุมมลพิษ) — ดึงตรงจากเบราว์เซอร์';air.err=null;ok=true;
+ }catch(e){
+  try{
+   const j=await jget(`./data/air4thai.json?t=${Math.floor(Date.now()/60000)}`,10000);
+   air.stations=(j.stations||[]).filter(x=>typeof x.pm25==='number').map(x=>({id:x.id||x.name,name:String(x.name||'').trim(),area:String(x.area||'').trim(),lat:x.lat,lon:x.lon,ms:Date.parse(x.time),m:{PM25:{v:x.pm25,c:0},PM10:null,AQI:null,O3:null,NO2:null,CO:null,SO2:null}}));
+   air.src='ไฟล์สำรองที่ระบบอัตโนมัติดึงจาก Air4Thai ทุกชั่วโมง (ดึงตรงไม่ได้)';air.err=String(e&&e.message||e);ok=true;
+  }catch(e2){air.err=String(e2&&e2.message||e2)}
+ }
+ air.t=new Date();
+ try{
+  const j=await jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+DISTRICTS.map(d=>d.lat).join(',')+'&longitude='+DISTRICTS.map(d=>d.lon).join(',')+'&hourly=pm2_5&forecast_days=2&timezone=Asia%2FBangkok',15000);
+  const arr=Array.isArray(j)?j:[j],now=Date.now();let best=null;
+  arr.forEach((x,i)=>{(x.hourly&&x.hourly.time||[]).forEach((t,k)=>{const ms=Date.parse(t+'+07:00'),v=x.hourly.pm2_5[k];if(v==null||ms<now||ms>now+24*3600e3)return;if(!best||v>best.v)best={v,i,ms}})});
+  air.fc=best;
+ }catch(e){air.fc=null}
+ airBusy=false;if(btn){btn.disabled=false;btn.textContent='⟳ ดึงค่าล่าสุด'}
+ airRender();
+}
+function airRender(){
+ const root=$('airLive');if(!root)return;
+ const now=Date.now(),fresh=air.stations.filter(s=>Number.isFinite(s.ms)&&now-s.ms<=3*3600e3&&s.m.PM25);
+ const top=[...fresh].sort((a,b)=>b.m.PM25.v-a.m.PM25.v)[0];
+ const rp=refPoint();
+ let near=null;fresh.forEach(s=>{const d=km(rp.lat,rp.lon,s.lat,s.lon);if(!near||d<near.d)near={s,d}});
+ const model=(typeof pmCache!=='undefined'&&pmCache||[]).map(d=>d.modelNow!=null?d.modelNow:(d.src==='model'?d.now:null)).filter(v=>v!=null);
+ const mmax=model.length?Math.max(...model):null;
+ const k=[];
+ k.push(top?`<div class="air-kpi"><span>PM2.5 สูงสุดในจังหวัด</span><b style="color:${pm25Col(top.m.PM25.v)}">${top.m.PM25.v.toFixed(0)}</b><small>${esc(top.name)}</small></div>`:`<div class="air-kpi"><span>PM2.5 สูงสุดในจังหวัด</span><b>—</b><small>ไม่มีข้อมูลสถานีที่สดพอ</small></div>`);
+ k.push(`<div class="air-kpi"><span>สถานีที่มีข้อมูล (≤3 ชม.)</span><b>${fresh.length}<small style="display:inline;font-size:13px"> / ${air.stations.length}</small></b><small>${air.err&&!air.stations.length?'ดึงไม่สำเร็จ':'สถานีในสมุทรปราการ'}</small></div>`);
+ if(near&&near.d<=25)k.push(`<div class="air-kpi"><span>${rp.user?'ที่คุณอยู่':'อำเภอที่เลือก'} (สถานีใกล้สุด)</span><b style="color:${pm25Col(near.s.m.PM25.v)}">${near.s.m.PM25.v.toFixed(0)}</b><small>${esc(near.s.name)} • ${near.d.toFixed(1)} กม.</small></div>`);
+ else k.push(`<div class="air-kpi"><span>${rp.user?'ที่คุณอยู่':'อำเภอที่เลือก'}</span><b>—</b><small>ไม่มีสถานีวัดจริงใน 25 กม.</small></div>`);
+ k.push(`<div class="air-kpi"><span>โมเดลสูงสุด (CAMS)</span><b style="color:${mmax!=null?pm25Col(mmax):'#789'}">${mmax!=null?mmax.toFixed(0):'—'}</b><small>ค่าพยากรณ์รายอำเภอ</small></div>`);
+ k.push(`<div class="air-kpi" style="grid-column:1/-1"><span>พยากรณ์สูงสุดใน 24 ชม. ข้างหน้า</span><b style="color:${air.fc?pm25Col(air.fc.v):'#789'}">${air.fc?air.fc.v.toFixed(0):'—'}<small style="display:inline;font-size:12px"> µg/m³</small></b><small>${air.fc?`อ.${esc(DISTRICTS[air.fc.i].name)} เวลา ~${hhmm(new Date(air.fc.ms))} น. (Open-Meteo CAMS)`:'ดึงพยากรณ์ไม่สำเร็จ'}</small></div>`);
+ $('airKpis').innerHTML=k.join('');
+ $('airChips').innerHTML=AIRKEYS.map(([key,lab])=>`<button type="button" data-k="${key}" class="${key===airKey?'on':''}">${lab}</button>`).join('');
+ $('airChips').querySelectorAll('button').forEach(b=>b.onclick=()=>{airKey=b.dataset.k;ga('air_pollutant',{pollutant:airKey});airRender()});
+ const unit=(AIRKEYS.find(x=>x[0]===airKey)||[])[2]||'';
+ const rows=air.stations.filter(s=>s.m[airKey]).sort((a,b)=>b.m[airKey].v-a.m[airKey].v);
+ $('airList').innerHTML=rows.length?rows.map(s=>{
+  const x=s.m[airKey],col=airKey==='PM25'&&!x.c?pm25Col(x.v):(AIRCOL[x.c]||'#9aa7b0'),old=!(Number.isFinite(s.ms)&&now-s.ms<=3*3600e3);
+  return `<div class="air-row" style="${old?'opacity:.55':''}"><i style="background:${col}"></i><div class="nm">${esc(s.name)}<small>${esc(s.area)} • ${Number.isFinite(s.ms)?hhmm(new Date(s.ms))+' น.':'—'}${old?' (เก่ากว่า 3 ชม.)':''}</small></div><b>${airKey==='CO'||airKey==='AQI'?x.v:x.v.toFixed(airKey==='PM25'||airKey==='PM10'?0:1)}<small style="font-size:10px;font-weight:700"> ${unit}</small></b></div>`}).join(''):'<div class="province-note">ไม่มีสถานีที่รายงานค่านี้ในตอนนี้</div>';
+ $('airMeta').innerHTML=`ข้อมูลล่าสุด ${air.t?hhmm(air.t)+' น.':'—'} • แหล่งที่มา: ${esc(air.src||'—')}${air.err&&air.stations.length?` <i>(${esc(air.err)})</i>`:''}<br>เทียบแหล่งอื่น: <a href="https://www.iqair.com/thailand/samut-prakan" target="_blank" rel="noopener">IQAir สมุทรปราการ</a> • <a href="http://air4thai.com" target="_blank" rel="noopener">Air4Thai</a> • <a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener">Open-Meteo CAMS</a>`;
+}
+function airTick(){const c=$('airClock');if(c){const d=new Date();c.textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`}}
+setInterval(()=>{const pg=$('pagePM');if(pg&&!pg.hidden)airTick()},1000);
+setInterval(()=>{const pg=$('pagePM');if(pg&&!pg.hidden&&!document.hidden)airFetch(false)},15*60*1000);
+if($('airUpdate'))$('airUpdate').onclick=()=>airFetch(true);
+document.addEventListener('userloc',()=>{if(airOpened)airRender()});
+window.airOpen=function(){airTick();drawPin();if(!airOpened||!air.t||Date.now()-air.t.getTime()>10*60*1000){airOpened=true;airFetch(false)}else airRender()};
+
+/* ---------- 3) ศูนย์แจ้งภัย 11 หมวด ---------- */
+const AREA_READY='https://jeerapat2010-cpu.github.io/my-html-app/DiasterPlan.html';
+const L_=['🟢 ปกติ','🟡 เฝ้าระวัง','🟠 เตือน','🔴 อันตราย'];
+const S={
+ tmd:['กรมอุตุนิยมวิทยา (TMD)','https://www.tmd.go.th'],om:['Open-Meteo','https://open-meteo.com/en/docs'],ddpm:['ปภ. (1784)','https://www.disaster.go.th'],
+ eonet:['NASA EONET','https://eonet.gsfc.nasa.gov/'],usgs:['USGS Earthquakes','https://earthquake.usgs.gov/earthquakes/map/'],tmdq:['TMD แผ่นดินไหว','https://earthquake.tmd.go.th'],
+ mea:['กฟน. (1130)','https://www.mea.or.th'],pea:['กฟภ. (1129)','https://www.pea.co.th'],oap:['สำนักงานปรมาณูเพื่อสันติ','https://www.oap.go.th'],
+ ddc:['กรมควบคุมโรค (1422)','https://ddc.moph.go.th'],pcd:['กรมควบคุมมลพิษ (1650)','https://www.pcd.go.th'],a4t:['Air4Thai','http://air4thai.com'],
+ diw:['กรมโรงงานฯ (1564)','https://www.diw.go.th'],doeb:['กรมธุรกิจพลังงาน','https://www.doeb.go.th'],hydro:['กรมอุทกศาสตร์ (ตารางน้ำ)','https://www.hydro.navy.mi.th'],
+ thaiwater:['ThaiWater (สสน.)','https://www.thaiwater.net'],marine:['Open-Meteo Marine','https://open-meteo.com/en/docs/marine-weather-api']
+};
+const HZ=[
+ {id:'flood',n:1,i:'🌊',t:'น้ำท่วมและต้องอพยพ',live:['wx'],src:['tmd','om','thaiwater','ddpm'],tip:'ย้ายของมีค่าขึ้นที่สูง ถอดปลั๊กไฟชั้นล่าง เตรียมถุงยังชีพ/ยา/เอกสารสำคัญ ติดตามประกาศอพยพจากเทศบาล/ปภ. โทร 1784 หรือ 191/1669 กรณีฉุกเฉิน'},
+ {id:'power',n:2,i:'🔌',t:'ไฟดับหลายวัน',live:[],src:['mea','pea'],tip:'ชาร์จมือถือ/พาวเวอร์แบงก์ เตรียมไฟฉาย น้ำดื่ม อาหารแห้ง แจ้งไฟดับ กฟน. 1130 / กฟภ. 1129 ห้ามแตะสายไฟที่ล้มหรือตกน้ำ',nolive:'ยังไม่มีข้อมูลไฟดับแบบสดที่เปิดให้เรียกอัตโนมัติ — ตรวจประกาศดับไฟ/แจ้งเหตุที่เว็บ กฟน. กฟภ.'},
+ {id:'storm',n:3,i:'🌪️',t:'พายุและลมแรง',live:['wx'],src:['tmd','om'],tip:'เก็บของที่ปลิวง่าย อยู่ห่างต้นไม้ใหญ่ ป้ายโฆษณา และสายไฟ ไม่ขับขี่/เดินเรือเมื่อลมแรง ติดตามประกาศ TMD โทร 1182'},
+ {id:'fire',n:4,i:'🔥',t:'ไฟไหม้และควัน',live:['fire','air'],src:['eonet','a4t','ddpm'],tip:'โทร 199 ทันที อพยพตามเส้นทางหนีไฟ ปิดจมูกด้วยผ้าเปียกและก้มต่ำเมื่อมีควัน ห้ามใช้ลิฟต์',nolive:'ไฟไหม้อาคาร/โรงงานทั่วไปไม่มีฟีดสดสาธารณะ — การ์ดนี้ตรวจจุดไฟขนาดใหญ่ (NASA EONET) และฝุ่นควันเท่านั้น'},
+ {id:'dust',n:5,i:'😷',t:'ฝุ่นละออง สารเคมีรั่ว กลิ่นผิดปกติ',live:['air'],src:['a4t','pcd','diw'],tip:'สวมหน้ากาก N95 ปิดหน้าต่าง เลี่ยงกิจกรรมกลางแจ้ง หากได้กลิ่นเคมี/ควันผิดปกติแจ้ง กรมควบคุมมลพิษ 1650 หรือกรมโรงงานฯ 1564 และอพยพออกจากต้นลม',nolive:'สารเคมีรั่ว/กลิ่นผิดปกติไม่มีฟีดสด — การ์ดนี้แสดงเฉพาะค่าฝุ่นวัดจริง'},
+ {id:'nuke',n:6,i:'☢️',t:'ภัยนิวเคลียร์และรังสีรั่วไหล',live:[],src:['oap','ddpm'],tip:'อยู่ในอาคาร ปิดประตูหน้าต่าง ปิดเครื่องปรับอากาศ/พัดลมระบายอากาศ ฟังประกาศทางการ ห้ามเชื่อข่าวลือ',nolive:'ไม่มีข้อมูลรังสีสดแบบเปิดสำหรับพื้นที่นี้ — ตรวจประกาศจาก สำนักงานปรมาณูเพื่อสันติ/ปภ. เท่านั้น'},
+ {id:'quake',n:7,i:'🏚️',t:'แผ่นดินไหวและอาคารเสียหาย',live:['quake'],src:['usgs','tmdq','ddpm'],tip:'ขณะสั่น: ก้มตัว หาที่กำบัง ป้องกันศีรษะ ห่างกระจก หลังสงบ: ตรวจรอยร้าว กลิ่นแก๊ส ออกจากอาคารที่เสียหาย ระวังอาฟเตอร์ช็อก'},
+ {id:'heat',n:8,i:'🥵',t:'คลื่นความร้อนและโรคลมแดด',live:['wx'],src:['tmd','om','ddc'],tip:'ดื่มน้ำบ่อยๆ เลี่ยงกลางแจ้งช่วง 11:00–15:00 ระวังเด็ก/ผู้สูงอายุ/ผู้ป่วย อาการเวียนหัว ตัวร้อนจัด ไม่เหงื่อออก โทร 1669'},
+ {id:'surge',n:9,i:'🌊',t:'น้ำทะเลหนุน คลื่นพายุซัดฝั่ง และสึนามิ',live:['marine','quake'],src:['hydro','marine','tmd','ddpm'],tip:'พื้นที่ชายฝั่ง (บางบ่อ/พระสมุทรเจดีย์/เมืองฯ) ระวังน้ำล้นตลิ่งช่วงน้ำขึ้นสูง งดลงเรือเมื่อคลื่นสูง หากมีประกาศสึนามิให้ขึ้นที่สูงทันที'},
+ {id:'gas',n:10,i:'🧯',t:'ก๊าซรั่วและไฟไหม้จากถังแก๊ส',live:[],src:['doeb','ddpm'],tip:'ปิดวาล์วถัง เปิดประตูหน้าต่าง ห้ามเปิด/ปิดไฟหรือสูบบุหรี่ ออกจากพื้นที่ แล้วโทร 191/199 หรือสายด่วนผู้จำหน่ายแก๊ส',nolive:'ก๊าซรั่วเป็นเหตุเฉพาะจุด ไม่มีฟีดสดสาธารณะ — เน้นความปลอดภัยและเบอร์ฉุกเฉิน'},
+ {id:'disease',n:11,i:'🦠',t:'โรคระบาดและโรคติดต่อ',live:[],src:['ddc','tmd'],tip:'ล้างมือ สวมหน้ากากเมื่อป่วย ฉีดวัคซีนตามกำหนด ไข้ขึ้นสูง/หายใจลำบากให้พบแพทย์ สอบถามกรมควบคุมโรค 1422',nolive:'ยังไม่มีฟีดสถานการณ์โรครายพื้นที่แบบสดที่เรียกอัตโนมัติได้ — ตรวจประกาศล่าสุดที่กรมควบคุมโรค'}
+];
+const D={wx:null,marine:null,quake:null,fire:null};
+const T={};
+function hzPoint(){return refPoint()}
+async function fWx(){const p=hzPoint();const j=await jget(`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}&current=temperature_2m,apparent_temperature,precipitation,wind_gusts_10m&hourly=precipitation,wind_gusts_10m,apparent_temperature&forecast_days=2&timezone=Asia%2FBangkok`);D.wx=j;T.wx=new Date()}
+async function fMarine(){const j=await jget('https://marine-api.open-meteo.com/v1/marine?latitude=13.40&longitude=100.60&hourly=wave_height,sea_level_height_msl&forecast_days=2&timezone=Asia%2FBangkok');D.marine=j;T.marine=new Date()}
+async function fQuake(){const j=await jget('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson',15000);D.quake=j;T.quake=new Date()}
+async function fFire(){const p=hzPoint(),dd=1.0;const j=await jget(`https://eonet.gsfc.nasa.gov/api/v3/events?category=wildfires&status=open&bbox=${(p.lon-dd).toFixed(2)},${(p.lat+dd).toFixed(2)},${(p.lon+dd).toFixed(2)},${(p.lat-dd).toFixed(2)}`,15000);D.fire=j;T.fire=new Date()}
+const F={wx:fWx,marine:fMarine,quake:fQuake,fire:fFire,air:async()=>{await airFetch(false);T.air=air.t}};
+const errs={};
+async function runKeys(keys){
+ await Promise.all([...new Set(keys)].map(async k=>{try{await F[k]();errs[k]=null}catch(e){errs[k]=String(e&&e.message||e)}}));
+ hzRender();
+}
+function nextHours(h,hours){const out=[],now=Date.now();(h.time||[]).forEach((t,i)=>{const ms=Date.parse(t+'+07:00');if(ms>=now-3600e3&&ms<=now+hours*3600e3)out.push(i)});return out}
+function evalH(c){
+ const keys=c.live,none={na:true,text:c.nolive||'ไม่มีข้อมูลสดอัตโนมัติ',t:null};
+ if(!keys.length)return none;
+ for(const k of keys){if(k==='air')continue;if(!D[k]&&errs[k])return{lv:null,text:`ดึงข้อมูลไม่สำเร็จ (${esc(errs[k])}) — กด “อัปเดต” เพื่อลองใหม่`,t:T[k]||null,err:true};if(!D[k])return{lv:null,text:'กำลังโหลด…',t:null,loading:true}}
+ const p=hzPoint();
+ if(c.id==='flood'){
+  const h=D.wx.hourly,ix=nextHours(h,24),r=ix.map(i=>h.precipitation[i]||0),s=r.reduce((a,b)=>a+b,0),mx=Math.max(0,...r);
+  const dn=DISTRICTS[p.di],it=(typeof radarIntel!=='undefined'&&radarIntel&&radarIntel.districts||[]).find(x=>x.name===dn.name),p30=it&&it.p30!=null?it.p30:null;
+  const lv=(s>=90||mx>=30)?3:(s>=35||mx>=15)?2:(s>=10||mx>=7||(p30!=null&&p30>=60))?1:0;
+  return{lv,t:T.wx,text:`ฝนคาดการณ์ 24 ชม. ~${s.toFixed(0)} มม. (สูงสุด ${mx.toFixed(1)} มม./ชม.)${p30!=null?` • โอกาสฝนใน 30 นาที อ.${esc(dn.short)} ${p30}%`:''}<br><small>เป็นปริมาณฝนซึ่งเป็นปัจจัยน้ำท่วม ไม่ใช่ระดับน้ำจริงในคลอง/แม่น้ำ — ระดับน้ำดูที่ ThaiWater/เทศบาล</small>`};
+ }
+ if(c.id==='storm'){
+  const h=D.wx.hourly,ix=nextHours(h,24),g=Math.max(0,...ix.map(i=>h.wind_gusts_10m[i]||0)),cur=D.wx.current&&D.wx.current.wind_gusts_10m;
+  const lv=g>=89?3:g>=62?2:g>=40?1:0;
+  return{lv,t:T.wx,text:`กระโชกลมตอนนี้ ${cur!=null?cur.toFixed(0):'—'} กม./ชม. • สูงสุดใน 24 ชม. ${g.toFixed(0)} กม./ชม.<br><small>เกณฑ์ประมาณ: ≥40 เฝ้าระวัง, ≥62 เตือน, ≥89 อันตราย (ลมพายุ) — ประกาศพายุอย่างเป็นทางการดูที่ TMD</small>`};
+ }
+ if(c.id==='heat'){
+  const h=D.wx.hourly,ix=nextHours(h,24),a=Math.max(0,...ix.map(i=>h.apparent_temperature[i]||0)),cur=D.wx.current&&D.wx.current.apparent_temperature;
+  const lv=a>=51?3:a>=39?2:a>=35?1:0;
+  return{lv,t:T.wx,text:`อุณหภูมิที่รู้สึกได้ตอนนี้ ${cur!=null?cur.toFixed(0):'—'}°C • สูงสุดใน 24 ชม. ${a.toFixed(0)}°C<br><small>เกณฑ์ประมาณจากดัชนีความร้อน (≥35 เฝ้าระวัง, ≥39 เตือน, ≥51 อันตราย) — เกณฑ์ทางการของ TMD/กรมอนามัยอาจต่างกัน</small>`};
+ }
+ if(c.id==='fire'){
+  const ev=(D.fire&&D.fire.events||[]).map(e=>{const g=(e.geometry||[]).slice(-1)[0];if(!g||g.type!=='Point')return null;const d=km(p.lat,p.lon,g.coordinates[1],g.coordinates[0]);return{t:e.title,d}}).filter(Boolean).sort((a,b)=>a.d-b.d);
+  const near=ev[0];
+  let lv=!near?0:near.d<=50?2:near.d<=100?1:0;
+  const pm=dustVal();
+  return{lv,t:T.fire,text:near?`พบจุดไฟขนาดใหญ่ที่ติดตามโดย NASA ${ev.length} จุด ใกล้สุด ~${near.d.toFixed(0)} กม. (${esc(near.t)})`:'ไม่พบเหตุไฟป่า/ไฟขนาดใหญ่ในรัศมี ~100 กม. จาก NASA EONET',extra:`${pm!=null?`ฝุ่น PM2.5 บริเวณนี้ ${pm.toFixed(0)} µg/m³ • `:''}<small>${esc(c.nolive)}</small>`};
+ }
+ if(c.id==='dust'){
+  const pm=dustVal();if(pm==null)return{lv:null,text:'ยังไม่มีค่าฝุ่นของพื้นที่นี้',t:T.air||null};
+  const lv=pm>150?3:pm>75?2:pm>37.5?1:0;
+  const rp=hzPoint();let near=null;air.stations.forEach(s=>{if(!s.m.PM25||!Number.isFinite(s.ms)||Date.now()-s.ms>3*3600e3)return;const d=km(rp.lat,rp.lon,s.lat,s.lon);if(!near||d<near.d)near={s,d}});
+  const pm10=near&&near.d<=25&&near.s.m.PM10?` • PM10 ${near.s.m.PM10.v.toFixed(0)}`:'';
+  return{lv,t:T.air||air.t,text:`PM2.5 ${pm.toFixed(0)} µg/m³${pm10} ${near&&near.d<=25?`(สถานี ${esc(near.s.name)} ${near.d.toFixed(1)} กม.)`:'(ค่าโมเดล)'}<br><small>${esc(c.nolive)}</small>`};
+ }
+ if(c.id==='quake'){
+  const f=(D.quake.features||[]).map(x=>{const g=x.geometry.coordinates,pr=x.properties;return{m:pr.mag,place:pr.place,ms:pr.time,d:km(p.lat,p.lon,g[1],g[0])}}).filter(x=>x.m!=null);
+  const r5=f.filter(x=>x.d<=500).sort((a,b)=>b.m-a.m),b=r5[0];
+  const lv=(b&&(b.m>=6||(b.m>=5&&b.d<=300)||(b.m>=4&&b.d<=100)))?(b.m>=6?3:2):(b&&b.m>=4.5&&b.d<=300)?1:0;
+  const g=[...f].sort((a,b)=>b.m-a.m)[0];
+  return{lv,t:T.quake,text:b?`รอบ 24 ชม. ในรัศมี 500 กม.: ${r5.length} เหตุ ใหญ่สุด M${b.m.toFixed(1)} ห่าง ~${b.d.toFixed(0)} กม. (${esc(b.place)}) เวลา ${hhmm(new Date(b.ms))} น.`:`ไม่พบแผ่นดินไหว M2.5+ ในรัศมี 500 กม. ภายใน 24 ชม.`,extra:`<small>ทั่วโลกใหญ่สุด 24 ชม.: ${g?`M${g.m.toFixed(1)} ${esc(g.place)}`:'—'} • ความเสียหายของอาคารไม่มีข้อมูลสด</small>`};
+ }
+ if(c.id==='surge'){
+  const h=D.marine.hourly,ix=nextHours(h,24),w=Math.max(0,...ix.map(i=>h.wave_height[i]||0)),sl=ix.map(i=>h.sea_level_height_msl[i]).filter(v=>v!=null),slmax=sl.length?Math.max(...sl):null;
+  const ts=(D.quake.features||[]).filter(x=>{const g=x.geometry.coordinates;return x.properties.mag>=6.5&&g[1]>=-12&&g[1]<=22&&g[0]>=90&&g[0]<=110});
+  let lv=w>=3?2:w>=2?1:0;if(ts.length)lv=Math.max(lv,2);
+  return{lv,t:T.marine,text:`คลื่นสูงสุดใน 24 ชม. ~${w.toFixed(1)} ม. (อ่าวไทยตอนบน)${slmax!=null?` • ระดับน้ำทะเลสูงสุดจากแบบจำลอง ${slmax>=0?'+':''}${slmax.toFixed(2)} ม. เทียบระดับน้ำทะเลปานกลาง`:''}${ts.length?`<br>⚠️ มีแผ่นดินไหว M6.5+ ในภูมิภาคอันดามัน/อ่าวไทยภายใน 24 ชม. — ตรวจประกาศสึนามิจาก ปภ./TMD ทันที`:'<br><small>ไม่พบแผ่นดินไหว M6.5+ ที่เสี่ยงสึนามิในภูมิภาค 24 ชม. • ตารางน้ำขึ้นน้ำลงทางการดูที่กรมอุทกศาสตร์</small>'}`};
+ }
+ return none;
+}
+function dustVal(){
+ const rp=hzPoint();let near=null;
+ air.stations.forEach(s=>{if(!s.m.PM25||!Number.isFinite(s.ms)||Date.now()-s.ms>3*3600e3)return;const d=km(rp.lat,rp.lon,s.lat,s.lon);if(!near||d<near.d)near={s,d}});
+ if(near&&near.d<=25)return near.s.m.PM25.v;
+ const r=(typeof pmCache!=='undefined'&&pmCache||[])[rp.di];return r&&r.now!=null?r.now:null;
+}
+function hzRender(){
+ const g=$('hzGrid');if(!g)return;
+ const rp=hzPoint(),res=HZ.map(c=>({c,r:evalH(c)}));
+ const w=res.filter(x=>x.r.lv>=2).length,wt=res.filter(x=>x.r.lv===1).length,live=res.filter(x=>x.r.lv!=null).length;
+ const times=Object.values(T).filter(Boolean).map(d=>d.getTime());
+ $('hzSummary').innerHTML=`📍 จุดอ้างอิง: <b>${esc(rp.label)}</b>${rp.user?'':' — กด “ใช้ตำแหน่งของฉัน” ด้านบนเพื่อเตือนตามพิกัดคุณ'}<br>${live} หมวดมีข้อมูลสด • <b style="color:${w?'#c2410c':'#13693a'}">${w?`${w} หมวดต้องเตือน`:'ยังไม่มีหมวดที่ต้องเตือน'}</b>${wt?` • ${wt} หมวดเฝ้าระวัง`:''}<br><small>อัปเดตล่าสุด ${times.length?hhmm(new Date(Math.max(...times)))+' น.':'—'} • ข้อมูลนี้ช่วยประกอบการตัดสินใจ ไม่ใช่ประกาศทางการ — ยึดประกาศ ปภ./TMD เป็นหลัก</small>`;
+ g.innerHTML=res.map(({c,r})=>{
+  const cls=r.na||r.lv==null?'na':'lv'+r.lv;
+  const chip=r.na?'<span class="hz-chip">⚪ ไม่มีข้อมูลสดอัตโนมัติ</span>':r.lv==null?`<span class="hz-chip">${r.loading?'⏳ กำลังโหลด':'⚠️ ดึงไม่สำเร็จ'}</span>`:`<span class="hz-chip lv${r.lv}">${L_[r.lv]}</span>`;
+  const t=r.na?'ไม่มี (ตรวจที่แหล่งทางการ)':r.t?`ดึงข้อมูลเมื่อ ${hhmm(r.t)} น.`:'—';
+  const links=c.src.map(k=>`<a href="${S[k][1]}" target="_blank" rel="noopener" data-hz="${c.id}" data-host="${S[k][1].split('/')[2]}">${esc(S[k][0])}</a>`).join(' • ');
+  return `<div class="hz ${cls}" id="hz-${c.id}"><div class="hz-h"><span class="hz-n">${c.n}</span><span>${c.i}</span><b>${esc(c.t)}</b>${chip}</div>
+  <div class="hz-t">${r.text}${r.extra?'<br>'+r.extra:''}</div>
+  <div class="hz-m">🕒 ${t}<br>📚 ที่มา: ${links}</div>
+  <details data-hz="${c.id}"><summary>วิธีรับมือ / เบอร์ฉุกเฉิน</summary><div>${esc(c.tip)}<br>ฉุกเฉินทั่วไป: 191 ตำรวจ • 199 ดับเพลิง • 1669 การแพทย์ฉุกเฉิน • 1784 ปภ.<br><a href="${AREA_READY}" target="_blank" rel="noopener">📘 แผนเตรียมพร้อมฉบับเต็ม (Area Ready)</a></div></details>
+  <div class="hz-act">${c.live.length?`<button type="button" class="hz-b" data-upd="${c.id}">⟳ อัปเดตข้อมูล</button>`:`<a href="${S[c.src[0]][1]}" target="_blank" rel="noopener" data-hz="${c.id}" data-host="${S[c.src[0]][1].split('/')[2]}">🔗 ตรวจจากแหล่งทางการ</a>`}</div></div>`}).join('');
+ g.querySelectorAll('[data-upd]').forEach(b=>b.onclick=async()=>{const c=HZ.find(x=>x.id===b.dataset.upd);b.disabled=true;b.textContent='⏳ กำลังอัปเดต…';ga('hazard_refresh',{hazard:c.id});await runKeys(c.live)});
+ g.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)ga('hazard_open',{hazard:d.dataset.hz})}));
+ g.querySelectorAll('a[data-hz]').forEach(a=>a.addEventListener('click',()=>ga('source_click',{hazard:a.dataset.hz,host:a.dataset.host})));
+}
+let hzTimer=null;
+window.hazOpen=function(){
+ const stale=!T.wx||Date.now()-T.wx.getTime()>10*60*1000;
+ hzRender();
+ if(stale)runKeys(['wx','marine','quake','fire','air']);
+};
+if($('hzAll'))$('hzAll').onclick=async()=>{const b=$('hzAll');b.disabled=true;b.textContent='⏳ กำลังอัปเดต…';ga('hazard_refresh_all',{});await runKeys(['wx','marine','quake','fire','air']);b.disabled=false;b.textContent='⟳ อัปเดตทั้งหมด'};
+setInterval(()=>{const pg=$('pageHazard');if(pg&&!pg.hidden&&!document.hidden)runKeys(['wx','marine','quake','fire','air'])},15*60*1000);
+document.addEventListener('userloc',()=>{const pg=$('pageHazard');if(pg&&!pg.hidden){runKeys(['wx','marine','quake','fire','air'])}else{T.wx=null}});
+
+/* ---------- 4) GA4: นับเมนู/การใช้งาน ---------- */
+const GA_IDS={refreshBtn:'refresh_radar',forecastBtn:'open_forecast',notifyBtn:'push_enable_click',pmAlertEnable:'push_enable_click',installBtn:'install_click',settingsBtn:'open_system',introSkip:'intro_skip',introGo:'intro_go',replayIntro:'intro_replay'};
+document.addEventListener('click',e=>{
+ const b=e.target.closest&&e.target.closest('button,a');if(!b)return;
+ if(b.id&&GA_IDS[b.id])ga(GA_IDS[b.id],{});
+ else if(b.classList&&b.classList.contains('purple')&&b.classList.contains('action'))ga('open_satellite',{});
+ else if(b.classList&&b.classList.contains('dbtn'))ga('select_district',{district:b.textContent.trim()});
+});
+window.trackTab=function(name){
+ ga('tab_open',{tab:name});
+ try{if(window.gtag)gtag('event','page_view',{page_title:'น้องมายด์ - '+name,page_path:'/'+name,page_location:location.origin+location.pathname+'#'+name})}catch(e){}
+};
+})();
 </script>
 </body></html>
