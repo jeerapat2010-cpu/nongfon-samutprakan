@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "generated_at": "2026-11-17T11:35:36.420119+07:00",
+  "generated_at": "2026-11-17T11:37:17.990152+07:00",
   "source": "Air4Thai (ค่าวัดจริง คพ.) เมื่อมีสถานีใกล้และข้อมูลสด มิฉะนั้นใช้ Open-Meteo CAMS (แบบจำลอง)",
   "thresholds": {
     "alert_min_level": 3,
@@ -136,12 +136,11 @@
   ],
   "push": {
     "last_decision": {
-      "time": "2026-11-17T11:35:36.420119+07:00",
-      "action": "test_sent",
-      "reason": "ส่งข้อความทดสอบตามที่สั่ง",
+      "time": "2026-11-17T11:37:17.990152+07:00",
+      "action": "none",
+      "reason": "ฝุ่นต่ำกว่าเกณฑ์แจ้งเตือน",
       "level": 2,
-      "kind": "test",
-      "auth_method": "app-key"
+      "kind": null
     },
     "last_sent_at": "2026-11-16T09:48:56.456132+07:00",
     "history": [
