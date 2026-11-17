@@ -664,8 +664,15 @@ def _parse_dt(s):
         d=datetime.fromisoformat(s);return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
     except Exception:return None
 
+def _onesignal_key():
+    """เลือกคีย์ตามลำดับเดียวกับ PM2.5/Guardian: App API Key ก่อน แล้วค่อย REST/legacy"""
+    for name in ("ONESIGNAL_APP_API_KEY","ONESIGNAL_REST_API_KEY","ONESIGNAL_LEGACY_REST_API_KEY"):
+        v=re.sub(r"^(?:key|basic)\s+","",os.getenv(name,"").strip().strip('"').strip("'"),flags=re.I).strip()
+        if v:return v
+    return ""
+
 def push_decision(status,state):
-    app=os.getenv("ONESIGNAL_APP_ID","").strip();key=os.getenv("ONESIGNAL_REST_API_KEY","").strip();site=os.getenv("SITE_URL","").strip() or "https://jeerapat2010-cpu.github.io/nongfon-samutprakan/"
+    app=os.getenv("ONESIGNAL_APP_ID","").strip();key=_onesignal_key();site=os.getenv("SITE_URL","").strip() or "https://jeerapat2010-cpu.github.io/nongfon-samutprakan/"
     now=datetime.now(timezone.utc);engine=state.setdefault("alert_engine",{});district_state=engine.setdefault("districts",{})
     candidates=[]
     for d in status.get("districts",[]):
