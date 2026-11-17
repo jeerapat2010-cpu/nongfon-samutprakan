@@ -19,7 +19,9 @@ jobs:
     timeout-minutes: 12
     env:
       ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+      ONESIGNAL_APP_API_KEY: ${{ secrets.ONESIGNAL_APP_API_KEY }}
       ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+      ONESIGNAL_LEGACY_REST_API_KEY: ${{ secrets.ONESIGNAL_LEGACY_REST_API_KEY }}
       SITE_URL: https://${{ github.repository_owner }}.github.io/nongfon-samutprakan/
       PYTHONUNBUFFERED: '1'
     steps:
