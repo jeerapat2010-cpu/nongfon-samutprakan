@@ -1,22 +1,22 @@
 {
   "radar_health": {
     "nongchok": {
-      "hash": "5b8204eb6f39489cebf89a1b4d41e061733beedd",
-      "changed_at": "2026-11-17T19:55:58.662159+00:00",
+      "hash": "24f61b3bc4c08cdd21c934775387da5fc9c3acf5",
+      "changed_at": "2026-11-17T21:15:59.230991+00:00",
       "verified": true,
-      "bytes": 93535
+      "bytes": 93528
     },
     "nongkhame": {
-      "hash": "0db92efa248c69a0b9947cb43ef4b6ce1b6b1f94",
-      "changed_at": "2026-11-17T19:56:00.660919+00:00",
+      "hash": "39a1ba135d3f9cb7a5821e0843933e952a5d807b",
+      "changed_at": "2026-11-17T21:16:00.990909+00:00",
       "verified": true,
-      "bytes": 99419
+      "bytes": 99436
     },
     "suvarnabhumi": {
-      "hash": "7a299b8154ede26e13ab6a6fe55eaeef5a3c1ca8",
-      "changed_at": "2026-11-17T19:56:02.421945+00:00",
+      "hash": "fbf72c5721ab0c1a1c66f065010300265684bdaa",
+      "changed_at": "2026-11-17T21:16:02.338692+00:00",
       "verified": true,
-      "bytes": 270659
+      "bytes": 270254
     }
   },
   "alert_engine": {
@@ -31,7 +31,7 @@
         "last_severity": "light"
       },
       "บางพลี": {
-        "active_tier": null,
+        "active_tier": "early",
         "below_count": 0,
         "last_push_at": "2026-11-07T07:48:27.241025+00:00",
         "last_push_tier": "imminent",
@@ -40,7 +40,7 @@
         "last_severity": "light"
       },
       "บางบ่อ": {
-        "active_tier": null,
+        "active_tier": "prepare",
         "below_count": 0,
         "last_push_at": "2026-11-15T09:54:08.946277+00:00",
         "last_push_tier": "severe",
@@ -67,16 +67,16 @@
         "last_severity": "light"
       },
       "บางเสาธง": {
-        "active_tier": null,
+        "active_tier": "prepare",
         "below_count": 0,
-        "last_push_at": "2026-10-18T23:26:55.626167+00:00",
-        "last_push_tier": "early",
-        "last_p15": 50,
-        "last_eta": 30,
-        "last_severity": "moderate"
+        "last_push_at": "2026-11-17T21:16:10.547913+00:00",
+        "last_push_tier": "prepare",
+        "last_p15": 74,
+        "last_eta": 0,
+        "last_severity": "light"
       }
     }
   },
-  "last_success_at": "2026-11-17T19:56:05.777854+00:00",
+  "last_success_at": "2026-11-17T21:16:10.547050+00:00",
   "engine_version": "10.0 FinalAccuracy"
 }
