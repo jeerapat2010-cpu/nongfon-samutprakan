@@ -606,6 +606,11 @@ html.intro-on #intro{display:block}
 .hz .hz-act{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 .hz .hz-act a{font-size:12.5px;font-weight:900;color:#1d78c8}
 .ga-note{font-size:10.5px;color:var(--muted);text-align:center;margin:6px 8px;line-height:1.5}
+.page-tabs{display:flex!important;overflow-x:auto;gap:7px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.page-tabs::-webkit-scrollbar{display:none}
+.page-tabs button{flex:none;white-space:nowrap;padding:10px 13px!important}
+.page-tabs button[data-page^="hz-"].on{background:#e5384d;box-shadow:0 4px 0 #a82234}
+.pm-item a,a.pm-item{color:inherit}
 </style>
 </head>
 <body>
@@ -857,6 +862,8 @@ html.intro-on #intro{display:block}
   </div>
 
     </div>
+
+  <div id="pageHz" class="page" hidden></div>
 
   <div id="pageHazard" class="page" hidden>
     <div class="card hz-head">
@@ -1393,15 +1400,19 @@ function renderPMAlertStatus(s){
 function gaEvent(name,params){try{if(window.gtag)gtag('event',name,params||{})}catch(e){}}
 
 /* ===== Page tabs (rain / PM2.5) ===== */
-const PAGE_IDS={rain:'pageRain',pm:'pagePM',hazard:'pageHazard'};
-function pageFromHash(){const h=(location.hash||'').slice(1);return h==='air'?'pm':(PAGE_IDS[h]?h:'rain')}
+const PAGE_IDS={rain:'pageRain',pm:'pagePM',hazard:'pageHazard',__hz:'pageHz'};
+function pageFromHash(){const h=(location.hash||'').slice(1);return h==='air'?'pm':((h!=='__hz'&&PAGE_IDS[h])||/^hz-[a-z]+$/.test(h))?h:'rain'}
 function showPage(name,updateHash){
- if(!PAGE_IDS[name])name='rain';
- Object.keys(PAGE_IDS).forEach(k=>{const e=document.getElementById(PAGE_IDS[k]);if(e)e.hidden=k!==name});
- document.querySelectorAll('#pageTabs button').forEach(b=>{const on=b.dataset.page===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false')});
+ const hzp=/^hz-/.test(name)&&(window.hzIds||[]).includes(name.slice(3));
+ if(!hzp&&(!PAGE_IDS[name]||name==='__hz'))name='rain';
+ const key=hzp?'__hz':name;
+ Object.keys(PAGE_IDS).forEach(k=>{const e=document.getElementById(PAGE_IDS[k]);if(e)e.hidden=k!==key});
+ const nav=document.getElementById('pageTabs');
+ nav.querySelectorAll('button').forEach(b=>{const on=b.dataset.page===name;b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');if(on)try{nav.scrollLeft=b.offsetLeft-nav.clientWidth/2+b.clientWidth/2}catch(e){}});
  if(updateHash!==false){try{history.replaceState(null,'','#'+name)}catch(e){}}
  if(name==='pm'){initPMMap();loadPMAlertStatus();gaEvent('view_pm_page');if(window.airOpen)airOpen()}
  if(name==='hazard'&&window.hazOpen)hazOpen();
+ if(hzp&&window.hzPageOpen)hzPageOpen(name.slice(3));
  if(updateHash!==false&&window.trackTab)trackTab(name);
  if(updateHash!==false)window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1718,9 +1729,10 @@ const HZ=[
  {id:'disease',n:11,i:'🦠',t:'โรคระบาดและโรคติดต่อ',live:[],src:['ddc','tmd'],tip:'ล้างมือ สวมหน้ากากเมื่อป่วย ฉีดวัคซีนตามกำหนด ไข้ขึ้นสูง/หายใจลำบากให้พบแพทย์ สอบถามกรมควบคุมโรค 1422',nolive:'ยังไม่มีฟีดสถานการณ์โรครายพื้นที่แบบสดที่เรียกอัตโนมัติได้ — ตรวจประกาศล่าสุดที่กรมควบคุมโรค'}
 ];
 const D={wx:null,marine:null,quake:null,fire:null};
+const WX=()=>D.wx[D.wx.length-1];
 const T={};
 function hzPoint(){return refPoint()}
-async function fWx(){const p=hzPoint();const j=await jget(`https://api.open-meteo.com/v1/forecast?latitude=${p.lat}&longitude=${p.lon}&current=temperature_2m,apparent_temperature,precipitation,wind_gusts_10m&hourly=precipitation,wind_gusts_10m,apparent_temperature&forecast_days=2&timezone=Asia%2FBangkok`);D.wx=j;T.wx=new Date()}
+async function fWx(){const p=hzPoint(),la=[...DISTRICTS.map(d=>d.lat),p.lat].join(','),lo=[...DISTRICTS.map(d=>d.lon),p.lon].join(',');const j0=await jget(`https://api.open-meteo.com/v1/forecast?latitude=${la}&longitude=${lo}&current=temperature_2m,apparent_temperature,precipitation,wind_gusts_10m&hourly=precipitation,wind_gusts_10m,apparent_temperature&forecast_days=2&timezone=Asia%2FBangkok`);D.wx=Array.isArray(j0)?j0:[j0];T.wx=new Date()}
 async function fMarine(){const j=await jget('https://marine-api.open-meteo.com/v1/marine?latitude=13.40&longitude=100.60&hourly=wave_height,sea_level_height_msl&forecast_days=2&timezone=Asia%2FBangkok');D.marine=j;T.marine=new Date()}
 async function fQuake(){const j=await jget('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson',15000);D.quake=j;T.quake=new Date()}
 async function fFire(){const p=hzPoint(),dd=1.0;const j=await jget(`https://eonet.gsfc.nasa.gov/api/v3/events?category=wildfires&status=open&bbox=${(p.lon-dd).toFixed(2)},${(p.lat+dd).toFixed(2)},${(p.lon+dd).toFixed(2)},${(p.lat-dd).toFixed(2)}`,15000);D.fire=j;T.fire=new Date()}
@@ -1728,7 +1740,7 @@ const F={wx:fWx,marine:fMarine,quake:fQuake,fire:fFire,air:async()=>{await airFe
 const errs={};
 async function runKeys(keys){
  await Promise.all([...new Set(keys)].map(async k=>{try{await F[k]();errs[k]=null}catch(e){errs[k]=String(e&&e.message||e)}}));
- hzRender();
+ hzRender();if(window._hzRenderPage)_hzRenderPage();
 }
 function nextHours(h,hours){const out=[],now=Date.now();(h.time||[]).forEach((t,i)=>{const ms=Date.parse(t+'+07:00');if(ms>=now-3600e3&&ms<=now+hours*3600e3)out.push(i)});return out}
 function evalH(c){
@@ -1737,18 +1749,18 @@ function evalH(c){
  for(const k of keys){if(k==='air')continue;if(!D[k]&&errs[k])return{lv:null,text:`ดึงข้อมูลไม่สำเร็จ (${esc(errs[k])}) — กด “อัปเดต” เพื่อลองใหม่`,t:T[k]||null,err:true};if(!D[k])return{lv:null,text:'กำลังโหลด…',t:null,loading:true}}
  const p=hzPoint();
  if(c.id==='flood'){
-  const h=D.wx.hourly,ix=nextHours(h,24),r=ix.map(i=>h.precipitation[i]||0),s=r.reduce((a,b)=>a+b,0),mx=Math.max(0,...r);
+  const h=WX().hourly,ix=nextHours(h,24),r=ix.map(i=>h.precipitation[i]||0),s=r.reduce((a,b)=>a+b,0),mx=Math.max(0,...r);
   const dn=DISTRICTS[p.di],it=(typeof radarIntel!=='undefined'&&radarIntel&&radarIntel.districts||[]).find(x=>x.name===dn.name),p30=it&&it.p30!=null?it.p30:null;
   const lv=(s>=90||mx>=30)?3:(s>=35||mx>=15)?2:(s>=10||mx>=7||(p30!=null&&p30>=60))?1:0;
   return{lv,t:T.wx,text:`ฝนคาดการณ์ 24 ชม. ~${s.toFixed(0)} มม. (สูงสุด ${mx.toFixed(1)} มม./ชม.)${p30!=null?` • โอกาสฝนใน 30 นาที อ.${esc(dn.short)} ${p30}%`:''}<br><small>เป็นปริมาณฝนซึ่งเป็นปัจจัยน้ำท่วม ไม่ใช่ระดับน้ำจริงในคลอง/แม่น้ำ — ระดับน้ำดูที่ ThaiWater/เทศบาล</small>`};
  }
  if(c.id==='storm'){
-  const h=D.wx.hourly,ix=nextHours(h,24),g=Math.max(0,...ix.map(i=>h.wind_gusts_10m[i]||0)),cur=D.wx.current&&D.wx.current.wind_gusts_10m;
+  const h=WX().hourly,ix=nextHours(h,24),g=Math.max(0,...ix.map(i=>h.wind_gusts_10m[i]||0)),cur=WX().current&&WX().current.wind_gusts_10m;
   const lv=g>=89?3:g>=62?2:g>=40?1:0;
   return{lv,t:T.wx,text:`กระโชกลมตอนนี้ ${cur!=null?cur.toFixed(0):'—'} กม./ชม. • สูงสุดใน 24 ชม. ${g.toFixed(0)} กม./ชม.<br><small>เกณฑ์ประมาณ: ≥40 เฝ้าระวัง, ≥62 เตือน, ≥89 อันตราย (ลมพายุ) — ประกาศพายุอย่างเป็นทางการดูที่ TMD</small>`};
  }
  if(c.id==='heat'){
-  const h=D.wx.hourly,ix=nextHours(h,24),a=Math.max(0,...ix.map(i=>h.apparent_temperature[i]||0)),cur=D.wx.current&&D.wx.current.apparent_temperature;
+  const h=WX().hourly,ix=nextHours(h,24),a=Math.max(0,...ix.map(i=>h.apparent_temperature[i]||0)),cur=WX().current&&WX().current.apparent_temperature;
   const lv=a>=51?3:a>=39?2:a>=35?1:0;
   return{lv,t:T.wx,text:`อุณหภูมิที่รู้สึกได้ตอนนี้ ${cur!=null?cur.toFixed(0):'—'}°C • สูงสุดใน 24 ชม. ${a.toFixed(0)}°C<br><small>เกณฑ์ประมาณจากดัชนีความร้อน (≥35 เฝ้าระวัง, ≥39 เตือน, ≥51 อันตราย) — เกณฑ์ทางการของ TMD/กรมอนามัยอาจต่างกัน</small>`};
  }
@@ -1802,7 +1814,8 @@ function hzRender(){
   <div class="hz-t">${r.text}${r.extra?'<br>'+r.extra:''}</div>
   <div class="hz-m">🕒 ${t}<br>📚 ที่มา: ${links}</div>
   <details data-hz="${c.id}"><summary>วิธีรับมือ / เบอร์ฉุกเฉิน</summary><div>${esc(c.tip)}<br>ฉุกเฉินทั่วไป: 191 ตำรวจ • 199 ดับเพลิง • 1669 การแพทย์ฉุกเฉิน • 1784 ปภ.<br><a href="${AREA_READY}" target="_blank" rel="noopener">📘 แผนเตรียมพร้อมฉบับเต็ม (Area Ready)</a></div></details>
-  <div class="hz-act">${c.live.length?`<button type="button" class="hz-b" data-upd="${c.id}">⟳ อัปเดตข้อมูล</button>`:`<a href="${S[c.src[0]][1]}" target="_blank" rel="noopener" data-hz="${c.id}" data-host="${S[c.src[0]][1].split('/')[2]}">🔗 ตรวจจากแหล่งทางการ</a>`}</div></div>`}).join('');
+  <div class="hz-act"><button type="button" class="hz-b" data-open="${c.id}" style="background:#238ff3;box-shadow:0 3px 0 #1668b3">เปิดหน้า${esc(c.t.length>14?"ภัยนี้":c.t)} →</button>${c.live.length?`<button type="button" class="hz-b" data-upd="${c.id}">⟳ อัปเดตข้อมูล</button>`:`<a href="${S[c.src[0]][1]}" target="_blank" rel="noopener" data-hz="${c.id}" data-host="${S[c.src[0]][1].split('/')[2]}">🔗 ตรวจจากแหล่งทางการ</a>`}</div></div>`}).join('');
+ g.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>showPage('hz-'+b.dataset.open));
  g.querySelectorAll('[data-upd]').forEach(b=>b.onclick=async()=>{const c=HZ.find(x=>x.id===b.dataset.upd);b.disabled=true;b.textContent='⏳ กำลังอัปเดต…';ga('hazard_refresh',{hazard:c.id});await runKeys(c.live)});
  g.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)ga('hazard_open',{hazard:d.dataset.hz})}));
  g.querySelectorAll('a[data-hz]').forEach(a=>a.addEventListener('click',()=>ga('source_click',{hazard:a.dataset.hz,host:a.dataset.host})));
@@ -1816,6 +1829,127 @@ window.hazOpen=function(){
 if($('hzAll'))$('hzAll').onclick=async()=>{const b=$('hzAll');b.disabled=true;b.textContent='⏳ กำลังอัปเดต…';ga('hazard_refresh_all',{});await runKeys(['wx','marine','quake','fire','air']);b.disabled=false;b.textContent='⟳ อัปเดตทั้งหมด'};
 setInterval(()=>{const pg=$('pageHazard');if(pg&&!pg.hidden&&!document.hidden)runKeys(['wx','marine','quake','fire','air'])},15*60*1000);
 document.addEventListener('userloc',()=>{const pg=$('pageHazard');if(pg&&!pg.hidden){runKeys(['wx','marine','quake','fire','air'])}else{T.wx=null}});
+
+/* ---------- 5) หน้าภัยแยกรายหมวด (แพทเทิร์นเดียวกับหน้าฝุ่น PM2.5) ---------- */
+const TAB={flood:['🌊','น้ำท่วม'],power:['🔌','ไฟดับ'],storm:['🌪️','พายุ/ลม'],fire:['🔥','ไฟไหม้'],dust:['🌫️','ฝุ่น/เคมี/กลิ่น'],nuke:['☢️','รังสี'],quake:['🏚️','แผ่นดินไหว'],heat:['🥵','ความร้อน'],surge:['🌀','น้ำทะเลหนุน'],gas:['🧯','ก๊าซรั่ว'],disease:['🦠','โรคระบาด']};
+window.hzIds=HZ.map(c=>c.id);
+const LVC=['#22b965','#f2c200','#ff8a3d','#e5384d'],LVFG=['#fff','#4a3a00','#fff','#fff'];
+const PUSHNOTE={flood:'Push ฝนของระบบ (ฝนกำลังจะตก) ช่วยเตือนปัจจัยน้ำท่วมได้ แต่ยังไม่มี Push ระดับน้ำ',dust:'ระบบมี Push ฝุ่น PM2.5 อัตโนมัติทุกชั่วโมงอยู่แล้ว'};
+let curHz=null,hzMap=null,hzTok=0;
+(function buildTabs(){
+ const nav=$('pageTabs');if(!nav)return;
+ const h=nav.querySelector('[data-page="hazard"]');if(h)h.textContent='🚨 ภาพรวมภัย';
+ HZ.forEach(c=>{const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.dataset.page='hz-'+c.id;b.setAttribute('aria-selected','false');b.textContent=TAB[c.id][0]+' '+TAB[c.id][1];b.addEventListener('click',()=>showPage(b.dataset.page));nav.appendChild(b)});
+})();
+function wxM(w){
+ if(!w||!w.hourly)return null;
+ const ix=nextHours(w.hourly,24),h=w.hourly,r=ix.map(i=>h.precipitation[i]||0);
+ return{rain:r.reduce((a,b)=>a+b,0),r1:Math.max(0,...r),gust:Math.max(0,...ix.map(i=>h.wind_gusts_10m[i]||0)),app:Math.max(0,...ix.map(i=>h.apparent_temperature[i]||0))};
+}
+const lvFlood=m=>(m.rain>=90||m.r1>=30)?3:(m.rain>=35||m.r1>=15)?2:(m.rain>=10||m.r1>=7)?1:0;
+const lvStorm=m=>m.gust>=89?3:m.gust>=62?2:m.gust>=40?1:0;
+const lvHeat=m=>m.app>=51?3:m.app>=39?2:m.app>=35?1:0;
+function tile(name,val,unit,lv,bar,meta,extra){
+ const col=LVC[lv]||'#9aa7b0';
+ return `<div class="pm-item"><div class="pm-name">${name}</div><div class="pm-val" style="color:${col}">${val}<span>${unit||''}</span></div>${lv!=null?`<span class="pm-lvl" style="background:${col};color:${LVFG[lv]}">${L_[lv].slice(2)}</span>`:''}${bar!=null?`<div class="pm-bar"><div class="pm-fill" style="width:${Math.max(3,Math.min(100,bar))}%;background:${col}"></div></div>`:''}<div class="pm-meta"><span>${meta||''}</span></div>${extra?`<div class="pm-src">${extra}</div>`:''}</div>`;
+}
+/* คืน {pins:[{lat,lon,txt,lv}],tiles:html,zoom,extraLayers(map)} ตามชนิดภัย */
+function buildHz(c){
+ const p=hzPoint(),out={pins:[],tiles:'',zoom:10,center:[13.62,100.68],extra:null};
+ if(['flood','storm','heat'].includes(c.id)){
+  const arr=D.wx;if(!arr)return out;
+  DISTRICTS.forEach((d,i)=>{
+   const m=wxM(arr[i]);if(!m)return;
+   const lv=c.id==='flood'?lvFlood(m):c.id==='storm'?lvStorm(m):lvHeat(m);
+   const v=c.id==='flood'?m.rain:c.id==='storm'?m.gust:m.app,u=c.id==='flood'?'มม.':c.id==='storm'?'กม./ชม.':'°C';
+   const bar=c.id==='flood'?v/90*100:c.id==='storm'?v/89*100:v/51*100;
+   out.pins.push({lat:d.lat,lon:d.lon,txt:Math.round(v),lv,name:d.name,sub:`${v.toFixed(0)} ${u}`});
+   out.tiles+=tile(d.short,v.toFixed(0),u,lv,bar,c.id==='flood'?`สูงสุด ${m.r1.toFixed(1)} มม./ชม.`:c.id==='storm'?'กระโชกสูงสุด 24 ชม.':'ที่รู้สึกได้สูงสุด 24 ชม.');
+  });
+ }else if(c.id==='dust'){
+  (typeof pmCache!=='undefined'&&pmCache||[]).forEach((d,i)=>{if(d.now==null)return;const lv=d.now>150?3:d.now>75?2:d.now>37.5?1:0;out.pins.push({lat:DISTRICTS[i].lat,lon:DISTRICTS[i].lon,txt:Math.round(d.now),lv,name:d.name,sub:`PM2.5 ${d.now.toFixed(0)}`});out.tiles+=tile(d.short,d.now.toFixed(1),'µg/m³',lv,d.now/75*100,d.src==='measured'?'📍 วัดจริง Air4Thai':'🧪 ค่าแบบจำลอง')});
+ }else if(c.id==='fire'){
+  const ev=(D.fire&&D.fire.events||[]).map(e=>{const g=(e.geometry||[]).slice(-1)[0];return g&&g.type==='Point'?{t:e.title,lat:g.coordinates[1],lon:g.coordinates[0]}:null}).filter(Boolean);
+  DISTRICTS.forEach(d=>{const near=ev.map(e=>km(d.lat,d.lon,e.lat,e.lon)).sort((a,b)=>a-b)[0];const lv=near==null?0:near<=50?2:near<=100?1:0;out.tiles+=tile(d.short,near==null?'ไม่พบ':near.toFixed(0),near==null?'':'กม.',lv,null,near==null?'ไม่มีจุดไฟในรัศมี ~100 กม.':'จุดไฟใกล้สุด')});
+  out.pins=DISTRICTS.map(d=>({lat:d.lat,lon:d.lon,txt:'·',lv:0,name:d.name,sub:'ไม่พบจุดไฟ'}));
+  out.extra=m=>ev.forEach(e=>L.marker([e.lat,e.lon],{icon:L.divIcon({className:'',html:'<div class="pm-pin" style="background:#e5384d;color:#fff">🔥</div>',iconSize:[36,36],iconAnchor:[18,18]})}).addTo(m).bindPopup(esc(e.t)));
+  out.zoom=9;
+ }else if(c.id==='quake'){
+  const f=(D.quake&&D.quake.features||[]).map(x=>{const g=x.geometry.coordinates,pr=x.properties;return{m:pr.mag,place:pr.place,ms:pr.time,lat:g[1],lon:g[0],d:km(p.lat,p.lon,g[1],g[0])}}).filter(x=>x.m!=null&&x.d<=1500).sort((a,b)=>b.m-a.m);
+  f.slice(0,6).forEach(q=>{const lv=(q.m>=6||(q.m>=5&&q.d<=300)||(q.m>=4&&q.d<=100))?(q.m>=6?3:2):(q.m>=4.5&&q.d<=300)?1:0;out.tiles+=tile('M'+q.m.toFixed(1),q.d.toFixed(0),'กม.',lv,q.m/7*100,`${hhmm(new Date(q.ms))} น.`,esc(q.place))});
+  if(!f.length)out.tiles='<div class="province-note">ไม่พบแผ่นดินไหว M2.5+ ในรัศมี 1,500 กม. ภายใน 24 ชม.</div>';
+  out.pins=[];out.zoom=5;out.center=[p.lat,p.lon];
+  out.extra=m=>f.forEach(q=>L.circleMarker([q.lat,q.lon],{radius:4+q.m*2,color:'#e5384d',weight:1.5,fillColor:'#e5384d',fillOpacity:.35}).addTo(m).bindPopup(`M${q.m.toFixed(1)} ${esc(q.place)}<br>ห่าง ~${q.d.toFixed(0)} กม.`));
+ }else if(c.id==='surge'){
+  const h=D.marine&&D.marine.hourly;if(h){
+   const ix=nextHours(h,24),w=Math.max(0,...ix.map(i=>h.wave_height[i]||0)),sl=ix.map(i=>h.sea_level_height_msl[i]).filter(v=>v!=null);
+   const lvw=w>=3?2:w>=2?1:0;
+   out.tiles+=tile('คลื่นสูงสุด',w.toFixed(1),'ม.',lvw,w/3*100,'ใน 24 ชม. อ่าวไทยตอนบน');
+   if(sl.length){out.tiles+=tile('น้ำทะเลสูงสุด',(Math.max(...sl)>=0?'+':'')+Math.max(...sl).toFixed(2),'ม.',null,null,'เทียบระดับน้ำทะเลปานกลาง (แบบจำลอง)');out.tiles+=tile('น้ำทะเลต่ำสุด',Math.min(...sl).toFixed(2),'ม.',null,null,'ช่วงน้ำลง (แบบจำลอง)')}
+   out.pins.push({lat:13.40,lon:100.60,txt:w.toFixed(1),lv:lvw,name:'ปากอ่าวไทยตอนบน',sub:`คลื่น ${w.toFixed(1)} ม.`});
+  }
+  const ts=(D.quake&&D.quake.features||[]).filter(x=>{const g=x.geometry.coordinates;return x.properties.mag>=6.5&&g[1]>=-12&&g[1]<=22&&g[0]>=90&&g[0]<=110});
+  out.tiles+=tile('เสี่ยงสึนามิ',ts.length?'มี':'ไม่พบ','',ts.length?2:0,null,ts.length?'แผ่นดินไหว M6.5+ ในภูมิภาค 24 ชม.':'ไม่มี M6.5+ ในภูมิภาค 24 ชม.');
+  out.zoom=9;out.center=[13.45,100.65];
+ }else{
+  out.tiles=c.src.map(k=>`<a class="pm-item" style="text-decoration:none" href="${S[k][1]}" target="_blank" rel="noopener" data-hz="${c.id}" data-host="${S[k][1].split('/')[2]}"><div class="pm-name">🔗 ${esc(S[k][0])}</div><div class="pm-meta"><span>เปิดเว็บทางการ</span></div></a>`).join('');
+ }
+ return out;
+}
+function renderHzPage(){
+ const c=HZ.find(x=>x.id===curHz),el=$('pageHz');if(!c||!el)return;
+ if(hzMap){try{hzMap.remove()}catch(e){}hzMap=null}
+ const tok=++hzTok;
+ const r=evalH(c),b=buildHz(c),rp=hzPoint(),live=c.live.length>0;
+ const chip=r.na?'<span class="hz-chip">⚪ ไม่มีข้อมูลสดอัตโนมัติ</span>':r.lv==null?`<span class="hz-chip">${r.loading?'⏳ กำลังโหลด':'⚠️ ดึงไม่สำเร็จ'}</span>`:`<span class="hz-chip lv${r.lv}">${L_[r.lv]}</span>`;
+ const times=c.live.map(k=>k==='air'?air.t:T[k]).filter(Boolean);
+ const tt=times.length?`ดึงข้อมูลเมื่อ ${hhmm(new Date(Math.max(...times.map(d=>d.getTime()))))} น.`:(live?'ยังไม่ได้ดึงข้อมูล':'ไม่มีข้อมูลสดอัตโนมัติ');
+ const links=c.src.map(k=>`<a href="${S[k][1]}" target="_blank" rel="noopener" data-hz="${c.id}" data-host="${S[k][1].split('/')[2]}">${esc(S[k][0])}</a>`).join(' • ');
+ el.innerHTML=`
+ ${live?`<div class="card pm-card"><div class="province-title">🗺️ แผนที่${esc(c.t)}</div><div class="province-note">วงกลมสีแสดงระดับรายอำเภอ แตะเพื่อดูรายละเอียด • 📍 คือตำแหน่งของคุณ</div><div id="hzMap" class="pm-map"><div class="pm-map-fail">กำลังโหลดแผนที่…</div></div><div class="pm-legend">${L_.map((t,i)=>`<div><i style="background:${LVC[i]}"></i>${t.slice(2)}</div>`).join('')}</div></div>`:''}
+ <div class="card pm-card"><div class="province-title">${c.i} ${esc(c.t)} ${chip}</div>
+  <div class="province-note">📍 จุดอ้างอิง: ${esc(rp.label)}${rp.user?'':' — กด “ใช้ตำแหน่งของฉัน” ด้านบนเพื่อเตือนตามพิกัดคุณ'}</div>
+  <div class="pm-summary">${r.text}${r.extra?'<small>'+r.extra+'</small>':''}</div>
+  <div class="simple-grid">${b.tiles}</div>
+  <div class="pm-foot">🕒 ${tt}<br>📚 ที่มา: ${links}<br>ข้อมูลนี้ช่วยประกอบการตัดสินใจ ไม่ใช่ประกาศทางการ — ยึดประกาศ ปภ./TMD เป็นหลัก</div>
+  ${live?`<div class="pm-alert-cta"><button type="button" id="hzpUpd">⟳ อัปเดตข้อมูลหมวดนี้</button></div>`:''}
+ </div>
+ <div class="card pm-alert-card"><div class="province-title">🛟 วิธีรับมือและเบอร์ฉุกเฉิน</div>
+  <div class="pm-alert-state">${esc(c.tip)}</div>
+  <div class="pm-alert-hist">ฉุกเฉิน: 191 ตำรวจ • 199 ดับเพลิง • 1669 การแพทย์ฉุกเฉิน • 1784 ปภ.<br><a href="${AREA_READY}" target="_blank" rel="noopener">📘 แผนเตรียมพร้อมฉบับเต็ม (Area Ready)</a></div>
+  <div class="province-note" style="margin-top:8px">🔔 ${esc(PUSHNOTE[c.id]||'หมวดนี้ดูสถานะได้ในหน้านี้ — ระบบยังไม่ส่ง Push อัตโนมัติ (Push อัตโนมัติมีเฉพาะฝนและฝุ่น PM2.5)')}</div>
+  <div class="pm-alert-cta"><button type="button" id="hzpEnable">🔔 เปิดแจ้งเตือน (ฝน/ฝุ่น)</button> <button type="button" id="hzpAll" style="background:#238ff3;box-shadow:0 4px 0 #1668b3">🚨 ดูภาพรวมทุกภัย</button></div>
+ </div>`;
+ const u=$('hzpUpd');if(u)u.onclick=async()=>{u.disabled=true;u.textContent='⏳ กำลังอัปเดต…';ga('hazard_refresh',{hazard:c.id});await runKeys(c.live)};
+ $('hzpEnable').onclick=()=>{const n=$('notifyBtn');if(n)n.click()};
+ $('hzpAll').onclick=()=>showPage('hazard');
+ el.querySelectorAll('a[data-hz]').forEach(a=>a.addEventListener('click',()=>ga('source_click',{hazard:a.dataset.hz,host:a.dataset.host})));
+ if(live&&typeof loadLeaflet==='function'){
+  loadLeaflet().then(()=>{
+   const mel=$('hzMap');if(!mel||curHz!==c.id||tok!==hzTok)return;
+   mel.innerHTML='';
+   const m=L.map(mel,{scrollWheelZoom:false,zoomSnap:.25,zoomDelta:.5,tap:false}).setView(b.center,b.zoom);hzMap=m;
+   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(m);
+   b.pins.forEach(pn=>{
+    L.circle([pn.lat,pn.lon],{radius:4800,color:LVC[pn.lv],weight:1.5,fillColor:LVC[pn.lv],fillOpacity:.28}).addTo(m);
+    L.marker([pn.lat,pn.lon],{icon:L.divIcon({className:'',html:`<div class="pm-pin" style="background:${LVC[pn.lv]};color:${LVFG[pn.lv]}">${pn.txt}</div>`,iconSize:[36,36],iconAnchor:[18,18]})}).addTo(m).bindPopup(`<b>${esc(pn.name)}</b><br>${esc(pn.sub)}`);
+   });
+   if(b.extra)b.extra(m);
+   if(userLoc)L.marker([userLoc.lat,userLoc.lon],{icon:L.divIcon({className:'',html:'<div class="user-pin">📍</div>',iconSize:[28,28],iconAnchor:[14,26]}),zIndexOffset:1000}).addTo(m).bindPopup('ตำแหน่งของคุณ');
+   setTimeout(()=>{if(m===hzMap)try{m.invalidateSize()}catch(e){}},80);
+  }).catch(()=>{const mel=$('hzMap');if(mel)mel.innerHTML='<div class="pm-map-fail">โหลดแผนที่ไม่สำเร็จ</div>'});
+ }
+}
+window.hzPageOpen=function(id){
+ curHz=id;ga('hazard_page',{hazard:id});
+ renderHzPage();
+ const c=HZ.find(x=>x.id===id);
+ const stale=c.live.some(k=>{const t=k==='air'?air.t:T[k];return !t||Date.now()-t.getTime()>10*60*1000});
+ if(stale)runKeys(c.live);
+};
+document.addEventListener('userloc',()=>{const pg=$('pageHz');if(pg&&!pg.hidden&&curHz){const c=HZ.find(x=>x.id===curHz);if(c.live.length)runKeys(c.live);else renderHzPage()}});
+window._hzRenderPage=()=>{const pg=$('pageHz');if(pg&&!pg.hidden&&curHz)renderHzPage()};
+try{if(/^#hz-/.test(location.hash))showPage(pageFromHash(),false)}catch(e){}
 
 /* ---------- 4) GA4: นับเมนู/การใช้งาน ---------- */
 const GA_IDS={refreshBtn:'refresh_radar',forecastBtn:'open_forecast',notifyBtn:'push_enable_click',pmAlertEnable:'push_enable_click',installBtn:'install_click',settingsBtn:'open_system',introSkip:'intro_skip',introGo:'intro_go',replayIntro:'intro_replay'};
