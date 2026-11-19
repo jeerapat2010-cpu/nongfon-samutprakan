@@ -1,13 +1,5 @@
 [
   {
-    "time": "2026-10-16T00:43:35.983689+00:00",
-    "configured": true,
-    "action": "none",
-    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
-    "tier": null,
-    "district": null
-  },
-  {
     "time": "2026-10-16T02:20:55.338012+00:00",
     "configured": true,
     "action": "none",
@@ -3015,6 +3007,14 @@
   },
   {
     "time": "2026-11-19T17:43:52.854873+00:00",
+    "configured": true,
+    "action": "none",
+    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
+    "tier": null,
+    "district": null
+  },
+  {
+    "time": "2026-11-19T18:12:31.905293+00:00",
     "configured": true,
     "action": "none",
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
