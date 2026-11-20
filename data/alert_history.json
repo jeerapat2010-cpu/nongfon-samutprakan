@@ -5554,5 +5554,23 @@
     "push_status": "sent",
     "status": "sent",
     "error": null
+  },
+  {
+    "time": "2026-11-20T04:25:19.720664+00:00",
+    "event_key": "5b563813a20c89",
+    "district": "บางบ่อ",
+    "tier": "prepare",
+    "risk": 65,
+    "p15": 76,
+    "p30": 76,
+    "p60": 76,
+    "confidence": 92,
+    "data_quality": 90,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 86,
+    "push_status": "sent",
+    "status": "sent",
+    "error": null
   }
 ]
