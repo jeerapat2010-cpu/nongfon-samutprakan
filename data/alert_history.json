@@ -5590,5 +5590,23 @@
     "push_status": "sent",
     "status": "sent",
     "error": null
+  },
+  {
+    "time": "2026-11-21T23:29:10.196991+00:00",
+    "event_key": "cf848d0d930b96",
+    "district": "บางพลี",
+    "tier": "prepare",
+    "risk": 62,
+    "p15": 75,
+    "p30": 75,
+    "p60": 75,
+    "confidence": 90,
+    "data_quality": 87,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 76,
+    "push_status": "sent",
+    "status": "sent",
+    "error": null
   }
 ]

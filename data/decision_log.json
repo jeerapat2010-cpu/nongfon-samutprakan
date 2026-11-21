@@ -1,13 +1,5 @@
 [
   {
-    "time": "2026-10-17T04:17:16.755553+00:00",
-    "configured": true,
-    "action": "none",
-    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
-    "tier": null,
-    "district": null
-  },
-  {
     "time": "2026-10-17T04:51:53.802102+00:00",
     "configured": true,
     "action": "failed",
@@ -3000,5 +2992,18 @@
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
     "tier": null,
     "district": null
+  },
+  {
+    "time": "2026-11-21T23:29:09.902406+00:00",
+    "configured": true,
+    "action": "sent",
+    "reason": "ส่ง Push ตามเกณฑ์ v10 สำเร็จ",
+    "tier": "prepare",
+    "district": "บางพลี",
+    "p15": 75,
+    "p30": 75,
+    "p60": 75,
+    "data_quality": 87,
+    "model_confidence": 90
   }
 ]
