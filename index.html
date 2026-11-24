@@ -571,6 +571,20 @@ html.intro-on #intro{display:block}
 .gps-bar #gpsClear{background:#f1f4f7;color:#556}
 .gps-bar .gps-msg{font-weight:800;flex:1 1 180px}
 .gps-bar .gps-msg small{display:block;font-weight:600;color:var(--muted);font-size:11px}
+.gps-bar #gpsMap{background:#22b965;color:#fff;box-shadow:0 3px 0 #168a4b}
+#mapPicker{position:fixed;inset:0;z-index:99999;background:rgba(10,30,50,.55);display:flex;align-items:flex-end;justify-content:center}
+#mapPicker[hidden]{display:none}
+#mapPicker .mp-box{background:#fff;width:100%;max-width:640px;border-radius:22px 22px 0 0;padding:12px;box-shadow:0 -8px 30px rgba(0,0,0,.3);font-family:inherit}
+@media(min-width:700px){#mapPicker{align-items:center}#mapPicker .mp-box{border-radius:22px}}
+#mapPicker .mp-h{font-weight:1000;font-size:17px;color:#113f62;margin-bottom:6px}
+#pickMap{height:min(58vh,420px);border-radius:14px;border:2px solid #d8eef8;background:#eaf3f8}
+#mapPicker .mp-msg{font-size:13px;font-weight:800;margin:8px 0;color:#176686;min-height:34px}
+#mapPicker .mp-msg small{display:block;font-weight:600;color:#668296;font-size:11px}
+#mapPicker .mp-act{display:flex;flex-wrap:wrap;gap:8px}
+#mapPicker .mp-act button{font-family:inherit;font-weight:900;font-size:14px;border:0;border-radius:12px;padding:10px 14px;cursor:pointer;background:#eaf8fe;color:#176686}
+#mapPicker .mp-act #pickOk{background:#238ff3;color:#fff;box-shadow:0 3px 0 #1668b3;flex:1 1 140px}
+#mapPicker .mp-act #pickOk:disabled{opacity:.5;box-shadow:none}
+.mypt-card .mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
 .user-pin{font-size:26px;line-height:28px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
 .air-live .air-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-top:6px}
 .air-live .air-clock{font-weight:1000;font-size:18px;color:#a85a14;font-variant-numeric:tabular-nums}
@@ -711,7 +725,7 @@ html.intro-on #intro{display:block}
   <div class="onb-h">ตั้งค่า 3 อย่าง ให้น้องมายด์เฝ้าได้แม่นขึ้น ✨</div>
   <div class="onb-step" id="onbInstall"><b>📲 ติดตั้งแอป</b><small id="onbInstallS">เปิดได้เหมือนแอปทั่วไป โหลดเร็ว ใช้ได้แม้เน็ตช้า</small><button type="button" id="onbInstallB">ติดตั้ง</button></div>
   <div class="onb-step" id="onbPush"><b>🔔 รับการแจ้งเตือน</b><small id="onbPushS">เตือนฝนกำลังจะตกและฝุ่น PM2.5 เกินเกณฑ์ ถึงมือถือทันที</small><button type="button" id="onbPushB">เปิดแจ้งเตือน</button></div>
-  <div class="onb-step" id="onbGps"><b>📍 ระบุพิกัด GPS</b><small id="onbGpsS">เตือนตามพื้นที่ของคุณให้แม่นยำ (เก็บไว้ในเครื่องนี้เท่านั้น)</small><button type="button" id="onbGpsB">ใช้ตำแหน่งฉัน</button><select id="onbManual" aria-label="เลือกอำเภอเอง"></select></div>
+  <div class="onb-step" id="onbGps"><b>📍 ระบุพิกัด GPS</b><small id="onbGpsS">เตือนตามพื้นที่ของคุณให้แม่นยำ (เก็บไว้ในเครื่องนี้เท่านั้น)</small><button type="button" id="onbGpsB">ใช้ตำแหน่งฉัน</button><button type="button" id="onbMapB">🗺️ เลือกบนแผนที่</button><select id="onbManual" aria-label="เลือกอำเภอเอง"></select></div>
   <span class="onb-note">ข้ามไปก่อนได้ — ตั้งภายหลังได้จากปุ่มในหน้าหลัก</span>
 </div>
 <button type="button" id="introSkip" class="intro-btn skip">ข้าม ›</button>
@@ -730,12 +744,30 @@ html.intro-on #intro{display:block}
     <button type="button" role="tab" data-page="pm" aria-selected="false">😷 ฝุ่น PM2.5</button>
   </nav>
   <div class="gps-bar" id="gpsBar">
-    <div class="gps-row"><button type="button" id="gpsBtn">📍 ใช้ตำแหน่งของฉัน</button><select id="gpsManual" aria-label="เลือกอำเภอเอง"></select><button type="button" id="gpsClear">ล้าง</button></div>
+    <div class="gps-row"><button type="button" id="gpsBtn">📍 ใช้ตำแหน่งของฉัน</button><button type="button" id="gpsMap">🗺️ เลือกบนแผนที่</button><select id="gpsManual" aria-label="เลือกอำเภอเอง"></select><button type="button" id="gpsClear">ล้าง</button></div>
     <div class="gps-msg" id="gpsMsg" style="margin-top:6px"></div>
   </div>
+<div id="mapPicker" hidden role="dialog" aria-modal="true" aria-label="เลือกตำแหน่งบนแผนที่">
+  <div class="mp-box">
+    <div class="mp-h">🗺️ แตะแผนที่เพื่อปักหมุดตำแหน่งของคุณ</div>
+    <div id="pickMap"></div>
+    <div class="mp-msg" id="pickMsg">แตะบนแผนที่ หรือลากหมุดไปยังจุดที่ต้องการ</div>
+    <div class="mp-act"><button type="button" id="pickGps">📍 ตำแหน่งปัจจุบัน</button><button type="button" id="pickOk" disabled>✅ ใช้จุดนี้</button><button type="button" id="pickCancel">ยกเลิก</button></div>
+  </div>
+</div>
 
   <div id="pageRain" class="page">
   <div class="card"><div class="districts" id="districtTabs"></div></div>
+  <div class="card summary mypt-card" id="myPtCard" hidden>
+    <div class="province-title">📍 ฝนที่จุดของคุณ</div>
+    <div class="province-note" id="myPtNote">—</div>
+    <div class="mp-grid">
+      <div class="metric"><div>⏰ ตอนนี้</div><div id="myPtTemp" class="bigtemp">—</div><div id="myPtRain">—</div></div>
+      <div class="metric"><div>☔ โอกาสฝน (1 ชม.)</div><b id="myPtProb">—</b><div>ฝนสะสม 2 ชม. <span id="myPtSum">—</span></div></div>
+    </div>
+    <div id="myPtRows" class="forecast"></div>
+    <div class="province-note" id="myPtFoot" style="margin-top:6px"></div>
+  </div>
 
   <div class="card summary">
     <div class="nowbox">
@@ -1575,7 +1607,7 @@ function onbRefresh(){
  else if(perm==='unsupported')$('onbPushS').textContent='เครื่อง/เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน'+(onbIsIOS()?' — iPhone ต้องติดตั้งแอปลงหน้าจอโฮมก่อน':'');
  const L=window.nfLoc&&nfLoc();
  mark('onbGps',!!L,'✅ ได้ตำแหน่งแล้ว');
- if(L)$('onbGpsS').textContent=`พื้นที่ของคุณ: อ.${DISTRICTS[L.di].name}${L.mode==='manual'?' (เลือกเอง)':''}`;
+ if(L)$('onbGpsS').textContent=`พื้นที่ของคุณ: อ.${DISTRICTS[L.di].name} (${({gps:'GPS',network:'Wi-Fi/เครือข่าย',map:'ปักหมุดเอง',manual:'เลือกเอง'})[L.mode]||'GPS'})`;
  else{const g=document.getElementById('gpsMsg'),t=g&&g.textContent||'';if(/^(⏳|❌)/.test(t))$('onbGpsS').textContent=t.split('\n')[0].slice(0,120)}
 }
 function onbChips(){
@@ -1602,6 +1634,7 @@ function onbStart(){
   };
   document.getElementById('onbPushB').onclick=async()=>{gaEvent('onb_push_click');try{await enableNotification()}catch(e){}setTimeout(onbRefresh,800);setTimeout(onbRefresh,3000)};
   document.getElementById('onbGpsB').onclick=()=>{gaEvent('onb_gps_click');if(window.nfAskGPS)nfAskGPS();setTimeout(onbRefresh,300)};
+  document.getElementById('onbMapB').onclick=()=>{gaEvent('onb_map_click');if(window.nfOpenPicker)nfOpenPicker()};
   if(sel)sel.onchange=()=>{if(sel.value==='')return;const d=DISTRICTS[+sel.value];if(window.nfSetLoc)nfSetLoc(d.lat,d.lon,'manual');gaEvent('onb_gps_manual');sel.value='';onbRefresh()};
   document.addEventListener('userloc',onbRefresh);
   window.addEventListener('appinstalled',onbRefresh);
@@ -1643,17 +1676,21 @@ async function jget(url,ms){
 const LOC_KEY='nongfon_user_loc_v1';
 let userLoc=null,_pin=null;
 function nearest(lat,lon){let b=0,bd=1e9;DISTRICTS.forEach((x,i)=>{const k=km(lat,lon,x.lat,x.lon);if(k<bd){bd=k;b=i}});return{i:b,km:bd}}
+const MODE_TXT={gps:'GPS',network:'Wi-Fi/เครือข่าย',map:'ปักหมุดเอง',manual:'เลือกอำเภอเอง'};
+function modeTxt(m){return MODE_TXT[m]||'GPS'}
+function accTxt(u){if(u.acc==null||u.mode==='manual'||u.mode==='map')return'';return u.acc>=1000?` ±${(u.acc/1000).toFixed(1)} กม.`:` ±${Math.round(u.acc)} ม.`}
 function refPoint(){
- if(userLoc)return{lat:userLoc.lat,lon:userLoc.lon,di:userLoc.di,label:userLoc.mode==='manual'?`อ.${DISTRICTS[userLoc.di].name} (เลือกเอง)`:`ตำแหน่งของคุณ (ใกล้ อ.${DISTRICTS[userLoc.di].name})`,user:true};
+ if(userLoc)return{lat:userLoc.lat,lon:userLoc.lon,di:userLoc.di,label:userLoc.mode==='manual'?`อ.${DISTRICTS[userLoc.di].name} (เลือกเอง)`:`ตำแหน่งของคุณ (${modeTxt(userLoc.mode)} • ใกล้ อ.${DISTRICTS[userLoc.di].name})`,user:true};
  const d=DISTRICTS[selected]||DISTRICTS[0];return{lat:d.lat,lon:d.lon,di:selected,label:`อ.${d.name} (ยังไม่ได้ระบุตำแหน่ง)`,user:false};
 }
 function gpsRender(msg){
  const m=$('gpsMsg');if(!m)return;
  if(msg){m.innerHTML=msg;return}
- if(!userLoc){m.innerHTML='ยังไม่ได้ระบุตำแหน่ง<small>กด “ใช้ตำแหน่งของฉัน” เพื่อให้เตือนตามพื้นที่คุณ (เก็บไว้ในเครื่องนี้เท่านั้น)</small>';return}
+ if(!userLoc){m.innerHTML='ยังไม่ได้ระบุตำแหน่ง<small>กด “ใช้ตำแหน่งของฉัน” (GPS/Wi-Fi) หรือ “เลือกบนแผนที่” เพื่อให้ข้อมูลตามพื้นที่คุณ (เก็บไว้ในเครื่องนี้เท่านั้น)</small>';return}
  const d=DISTRICTS[userLoc.di];
  const out=userLoc.km>25?` • <b style="color:#c2410c">อยู่นอกพื้นที่ครอบคลุม</b> ใช้ข้อมูลอำเภอใกล้สุดเป็นค่าอ้างอิง`:'';
- m.innerHTML=`📍 พื้นที่ของคุณ: <b>อ.${esc(d.name)}</b>${userLoc.mode==='manual'?' (เลือกเอง)':` • ห่างศูนย์กลางอำเภอ ~${userLoc.km.toFixed(1)} กม.`}${out}<small>บันทึกเมื่อ ${hhmm(new Date(userLoc.ts))} น. • การเตือนและข้อมูลทุกหน้าอ้างอิงจุดนี้</small>`;
+ const poor=(userLoc.mode==='gps'||userLoc.mode==='network')&&userLoc.acc>2000?` • <b style="color:#c2410c">ความแม่นยำต่ำ</b> ลอง “เลือกบนแผนที่”`:'';
+ m.innerHTML=`📍 พื้นที่ของคุณ: <b>อ.${esc(d.name)}</b> • ${esc(modeTxt(userLoc.mode))}${esc(accTxt(userLoc))}${userLoc.mode==='manual'?'':` • ห่างศูนย์กลางอำเภอ ~${userLoc.km.toFixed(1)} กม.`}${out}${poor}<small>พิกัด ${userLoc.lat.toFixed(3)}, ${userLoc.lon.toFixed(3)} • บันทึกเมื่อ ${hhmm(new Date(userLoc.ts))} น. • ทุกเมนูอ้างอิงจุดนี้</small>`;
 }
 function drawPin(n){
  n=n||0;
@@ -1684,27 +1721,133 @@ function setLoc(lat,lon,mode,acc){
  applyLoc(true);
 }
 function clearLoc(){userLoc=null;try{localStorage.removeItem(LOC_KEY)}catch(e){}if(_pin&&typeof pmMap!=='undefined'&&pmMap){try{pmMap.removeLayer(_pin)}catch(e){}_pin=null}gpsRender();document.dispatchEvent(new CustomEvent('userloc'))}
+let _watch=null;
+function stopWatch(){if(_watch!=null){try{navigator.geolocation.clearWatch(_watch)}catch(e){}_watch=null}}
+function geoErr(e){return e&&e.code===1?'❌ ไม่ได้รับอนุญาตใช้ตำแหน่ง — เปิดสิทธิ์ตำแหน่งของเว็บไซต์ในเบราว์เซอร์ หรือกด “เลือกบนแผนที่” / เลือกอำเภอเองได้ค่ะ':'❌ หาตำแหน่งไม่สำเร็จ (สัญญาณ GPS/Wi-Fi อ่อน) ลองใหม่ หรือกด “เลือกบนแผนที่” ได้ค่ะ'}
+/* ขอพิกัดแบบแม่นยำสูง (GPS ดาวเทียม + Wi-Fi) ภายใน ~15 วินาที เก็บค่าที่แม่นที่สุด ถ้าไม่ได้จึงถอยไปใช้ Wi-Fi/เครือข่าย */
+function getFix(cb,onProg){
+ if(!navigator.geolocation){cb(null,{code:0});return}
+ stopWatch();
+ let best=null,done=false,fell=false,timer=null;
+ const end=err=>{if(done)return;done=true;clearTimeout(timer);stopWatch();cb(best,err)};
+ const fallback=()=>{if(done||fell)return;fell=true;clearTimeout(timer);stopWatch();
+  navigator.geolocation.getCurrentPosition(p=>{best=p;end()},e=>end(e),{enableHighAccuracy:false,timeout:12000,maximumAge:60000})};
+ try{
+  _watch=navigator.geolocation.watchPosition(p=>{
+   if(fell)return;
+   if(!best||p.coords.accuracy<best.coords.accuracy){best=p;if(onProg)onProg(p)}
+   if(p.coords.accuracy<=30)end();
+  },e=>{
+   if(e&&e.code===1){end(e);return}
+   if(best)end();else fallback();
+  },{enableHighAccuracy:true,timeout:20000,maximumAge:0});
+ }catch(e){fallback()}
+ timer=setTimeout(()=>{if(best)end();else fallback()},15000);
+}
 function askGPS(){
- if(!navigator.geolocation){gpsRender('เครื่องนี้ไม่รองรับ GPS — เลือกอำเภอด้วยตนเองแทนได้ค่ะ');return}
- gpsRender('⏳ กำลังหาตำแหน่ง… (กด “อนุญาต” ในเบราว์เซอร์)');
+ if(!navigator.geolocation){gpsRender('เครื่องนี้ไม่รองรับ GPS — กด “เลือกบนแผนที่” หรือเลือกอำเภอเองแทนได้ค่ะ');return}
+ gpsRender('⏳ กำลังหาตำแหน่ง… (กด “อนุญาต” ในเบราว์เซอร์)<small>เปิด GPS และ Wi-Fi ไว้จะแม่นขึ้น • ใช้เวลาไม่เกิน ~15 วินาที</small>');
  ga('gps_request',{});
- navigator.geolocation.getCurrentPosition(p=>{
-  setLoc(p.coords.latitude,p.coords.longitude,'gps',p.coords.accuracy);
-  ga('gps_enable',{mode:'gps',district:DISTRICTS[userLoc.di].short,in_province:userLoc.km<=25});
- },e=>{
-  ga('gps_denied',{code:e&&e.code});
-  gpsRender(e&&e.code===1?'❌ ไม่ได้รับอนุญาตใช้ตำแหน่ง — เปิดสิทธิ์ในเบราว์เซอร์ หรือเลือกอำเภอด้วยตนเองด้านล่างได้ค่ะ':'❌ หาตำแหน่งไม่สำเร็จ ลองใหม่หรือเลือกอำเภอด้วยตนเองค่ะ');
- },{enableHighAccuracy:false,timeout:12000,maximumAge:300000});
+ getFix((p,err)=>{
+  if(!p){ga('gps_denied',{code:err&&err.code});gpsRender(geoErr(err));return}
+  const acc=p.coords.accuracy,mode=acc<=150?'gps':'network';
+  setLoc(p.coords.latitude,p.coords.longitude,mode,acc);
+  ga('gps_enable',{mode,district:DISTRICTS[userLoc.di].short,in_province:userLoc.km<=25,acc_bucket:acc<=50?'<=50':acc<=300?'<=300':acc<=2000?'<=2000':'>2000'});
+ },p=>gpsRender(`⏳ ได้ตำแหน่งแล้ว ±${Math.round(p.coords.accuracy)} ม. กำลังปรับให้แม่นขึ้น…`));
+}
+/* ---------- เลือกตำแหน่งบนแผนที่ ---------- */
+let pkMap=null,pkMk=null,pkSel=null;
+function pkInfo(lat,lon){
+ const n=nearest(lat,lon),d=DISTRICTS[n.i];
+ pkSel={lat,lon};
+ $('pickOk').disabled=false;
+ $('pickMsg').innerHTML=`📌 ${lat.toFixed(4)}, ${lon.toFixed(4)} • ใกล้ <b>อ.${esc(d.name)}</b> ~${n.km.toFixed(1)} กม.${n.km>25?' <b style="color:#c2410c">(นอกพื้นที่ครอบคลุม)</b>':''}<small>แตะแผนที่หรือลากหมุดเพื่อปรับ แล้วกด “ใช้จุดนี้”</small>`;
+}
+function pkPlace(lat,lon,pan){
+ if(!pkMap)return;
+ if(!pkMk){pkMk=L.marker([lat,lon],{draggable:true,icon:L.divIcon({className:'',html:'<div class="user-pin">📍</div>',iconSize:[28,28],iconAnchor:[14,26]})}).addTo(pkMap);pkMk.on('dragend',()=>{const q=pkMk.getLatLng();pkInfo(q.lat,q.lng)})}
+ else pkMk.setLatLng([lat,lon]);
+ if(pan)pkMap.setView([lat,lon],Math.max(pkMap.getZoom(),15));
+ pkInfo(lat,lon);
+}
+function closePicker(){$('mapPicker').hidden=true;document.body.style.overflow=''}
+function openPicker(){
+ const m=$('mapPicker');m.hidden=false;document.body.style.overflow='hidden';
+ pkSel=null;$('pickOk').disabled=true;$('pickMsg').textContent='กำลังโหลดแผนที่…';
+ ga('map_pick_open',{});
+ loadLeaflet().then(()=>{
+  const c=userLoc?[userLoc.lat,userLoc.lon]:[13.62,100.68],z=userLoc?15:11;
+  if(!pkMap){
+   pkMap=L.map('pickMap',{zoomSnap:.5,tap:true}).setView(c,z);
+   const osm=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'});
+   let te=0,sw=false;osm.on('tileerror',()=>{if(sw||++te<4)return;sw=true;pkMap.removeLayer(osm);L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Tiles © Esri'}).addTo(pkMap)});
+   osm.addTo(pkMap);
+   pkMap.on('click',e=>pkPlace(e.latlng.lat,e.latlng.lng,false));
+  }else{pkMap.setView(c,z)}
+  setTimeout(()=>pkMap.invalidateSize(),80);
+  if(pkMk){pkMap.removeLayer(pkMk);pkMk=null}
+  if(userLoc)pkPlace(userLoc.lat,userLoc.lon,false);
+  else $('pickMsg').innerHTML='แตะบนแผนที่ หรือลากหมุดไปยังจุดที่ต้องการ<small>หรือกด “ตำแหน่งปัจจุบัน” เพื่อให้ GPS ช่วยกำหนดจุดเริ่มต้น</small>';
+ }).catch(()=>{$('pickMsg').innerHTML='❌ โหลดแผนที่ไม่สำเร็จ (ต้องเชื่อมต่ออินเทอร์เน็ต) — เลือกอำเภอเองแทนได้ค่ะ'});
+}
+function wirePicker(){
+ $('pickCancel').onclick=closePicker;
+ $('mapPicker').addEventListener('click',e=>{if(e.target===$('mapPicker'))closePicker()});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('mapPicker').hidden)closePicker()});
+ $('pickOk').onclick=()=>{if(!pkSel)return;setLoc(pkSel.lat,pkSel.lon,'map');ga('gps_enable',{mode:'map',district:DISTRICTS[userLoc.di].short,in_province:userLoc.km<=25});closePicker()};
+ $('pickGps').onclick=()=>{
+  $('pickMsg').textContent='⏳ กำลังหาตำแหน่งปัจจุบัน…';
+  getFix((p,err)=>{if(!p){$('pickMsg').innerHTML=esc(geoErr(err));return}pkPlace(p.coords.latitude,p.coords.longitude,true)});
+ };
 }
 (function gpsInit(){
  const sel=$('gpsManual');
  if(sel)sel.innerHTML='<option value="">เลือกอำเภอเอง…</option>'+DISTRICTS.map((d,i)=>`<option value="${i}">${esc(d.name)}</option>`).join('');
  if($('gpsBtn'))$('gpsBtn').onclick=askGPS;
+ wirePicker();
+ if($('gpsMap'))$('gpsMap').onclick=openPicker;
  if($('gpsClear'))$('gpsClear').onclick=()=>{clearLoc();ga('gps_clear',{})};
  if(sel)sel.onchange=()=>{if(sel.value==='')return;const d=DISTRICTS[+sel.value];setLoc(d.lat,d.lon,'manual');ga('gps_enable',{mode:'manual',district:d.short});sel.value=''};
  try{const s=JSON.parse(localStorage.getItem(LOC_KEY)||'null');if(s&&typeof s.lat==='number'&&typeof s.lon==='number'){const n=nearest(s.lat,s.lon);userLoc={...s,di:n.i,km:n.km};}}catch(e){}
  gpsRender();
  if(userLoc){try{selected=userLoc.di;tabs();renderSelected();renderIntelSelected();renderV10Trust();placeSatMarker()}catch(e){}}
+})();
+
+/* ---------- 1b) ฝน ณ จุดของผู้ใช้ + หมุดดาวเทียม ---------- */
+let myPtBusy=false;
+async function loadMyPoint(){
+ const card=$('myPtCard');if(!card)return;
+ if(!userLoc){card.hidden=true;return}
+ if(myPtBusy)return;myPtBusy=true;
+ try{
+  const r=await load({lat:userLoc.lat,lon:userLoc.lon});
+  card.hidden=false;
+  const d=DISTRICTS[userLoc.di];
+  $('myPtNote').textContent=`พิกัด ${userLoc.lat.toFixed(3)}, ${userLoc.lon.toFixed(3)} (${modeTxt(userLoc.mode)}) • พยากรณ์ Open-Meteo ณ จุดนี้`;
+  $('myPtTemp').textContent=Math.round(r.temp)+'°C';
+  $('myPtRain').textContent=r.current>=.1?`🌧️ มีฝนวัดได้ ${r.current.toFixed(1)} มม.`:'☁️ ยังไม่มีฝนวัดได้ตอนนี้';
+  $('myPtProb').textContent=(r.rows[0]?r.rows[0].p:r.maxP)+'%';
+  $('myPtSum').textContent=r.sum.toFixed(1)+' มม.';
+  $('myPtRows').innerHTML=r.rows.map(x=>`<div class="hour"><div>${String(x.t).slice(11,16)} น.</div><div style="font-size:26px">🌧️</div><div class="p">${x.p}%</div><div style="font-size:11px">${x.mm.toFixed(1)} มม.</div></div>`).join('');
+  $('myPtFoot').textContent=`คะแนนเสี่ยงจากเรดาร์/โมเดลด้านล่างคำนวณรายอำเภอ — ใช้ อ.${d.name} (ใกล้จุดคุณที่สุด) เป็นตัวแทน`;
+ }catch(e){const c=$('myPtCard');if(c){c.hidden=false;$('myPtNote').textContent='ดึงพยากรณ์ ณ จุดนี้ไม่สำเร็จ ลองกด “ตรวจใหม่” อีกครั้ง'}}
+ finally{myPtBusy=false}
+}
+document.addEventListener('userloc',loadMyPoint);
+setInterval(()=>{if(!document.hidden)loadMyPoint()},10*60*1000);
+setTimeout(loadMyPoint,600);
+(function(){
+ const orig=window.placeSatMarker;if(typeof orig!=='function')return;
+ window.placeSatMarker=function(){
+  try{
+   if(userLoc&&selected===userLoc.di&&typeof tileXY==='function'){
+    const q=tileXY(userLoc.lat,userLoc.lon,5),l=((q.x-23)/3)*100,t=((q.y-13)/3)*100;
+    const m=$('satMarker'),lb=$('satLabel');
+    if(m&&lb){m.style.left=l+'%';m.style.top=t+'%';lb.style.left=l+'%';lb.style.top=t+'%';lb.textContent='📍 คุณ';return}
+   }
+  }catch(e){}
+  return orig.apply(this,arguments);
+ };
 })();
 
 /* ---------- 2) ฝุ่นสด (แบบเดียวกับแอปปั๊ม #air) ---------- */
@@ -1778,7 +1921,7 @@ setInterval(()=>{const pg=$('pagePM');if(pg&&!pg.hidden)airTick()},1000);
 setInterval(()=>{const pg=$('pagePM');if(pg&&!pg.hidden&&!document.hidden)airFetch(false)},15*60*1000);
 if($('airUpdate'))$('airUpdate').onclick=()=>airFetch(true);
 document.addEventListener('userloc',()=>{if(airOpened)airRender()});
-window.nfAskGPS=askGPS;window.nfSetLoc=setLoc;window.nfLoc=()=>userLoc;window.nfRef=refPoint;
+window.nfAskGPS=askGPS;window.nfOpenPicker=openPicker;window.nfSetLoc=setLoc;window.nfLoc=()=>userLoc;window.nfRef=refPoint;
 window.airOpen=function(){airTick();drawPin();if(!airOpened||!air.t||Date.now()-air.t.getTime()>10*60*1000){airOpened=true;airFetch(false)}else airRender()};
 
 /* ---------- 3) ศูนย์แจ้งภัย 11 หมวด ---------- */
