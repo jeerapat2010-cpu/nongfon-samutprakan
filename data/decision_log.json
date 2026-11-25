@@ -1,13 +1,5 @@
 [
   {
-    "time": "2026-10-18T12:56:45.154495+00:00",
-    "configured": true,
-    "action": "none",
-    "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
-    "tier": null,
-    "district": null
-  },
-  {
     "time": "2026-10-18T13:58:21.856638+00:00",
     "configured": true,
     "action": "none",
@@ -2933,5 +2925,18 @@
     "reason": "ยังไม่มีพื้นที่ถึงเกณฑ์ Push",
     "tier": null,
     "district": null
+  },
+  {
+    "time": "2026-11-25T00:11:03.156955+00:00",
+    "configured": true,
+    "action": "sent",
+    "reason": "ส่ง Push ตามเกณฑ์ v10 สำเร็จ",
+    "tier": "prepare",
+    "district": "เมืองสมุทรปราการ",
+    "p15": 73,
+    "p30": 73,
+    "p60": 73,
+    "data_quality": 79,
+    "model_confidence": 85
   }
 ]

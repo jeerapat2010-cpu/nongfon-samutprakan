@@ -5608,5 +5608,23 @@
     "push_status": "sent",
     "status": "sent",
     "error": null
+  },
+  {
+    "time": "2026-11-25T00:11:03.354429+00:00",
+    "event_key": "7a32208db57c08",
+    "district": "เมืองสมุทรปราการ",
+    "tier": "prepare",
+    "risk": 60,
+    "p15": 73,
+    "p30": 73,
+    "p60": 73,
+    "confidence": 85,
+    "data_quality": 79,
+    "eta_min": 0,
+    "severity": "light",
+    "satellite_score": 59,
+    "push_status": "sent",
+    "status": "sent",
+    "error": null
   }
 ]
